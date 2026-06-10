@@ -1,0 +1,111 @@
+import { useEffect, useRef } from 'react';
+import * as echarts from 'echarts';
+
+interface ProvinceStat {
+  id: number;
+  name: string;
+  lit_count: number;
+  total_count: number;
+  region: string;
+}
+
+interface Props {
+  stats: ProvinceStat[];
+  onSelectProvince: (id: number) => void;
+}
+
+export default function ChinaMap({ stats, onSelectProvince }: Props) {
+  const chartRef = useRef<HTMLDivElement>(null);
+  const chartInstance = useRef<echarts.ECharts | null>(null);
+
+  useEffect(() => {
+    if (!chartRef.current) return;
+
+    const init = async () => {
+      const res = await fetch('/china.json');
+      const geoJson = await res.json();
+      echarts.registerMap('china', geoJson);
+
+      const instance = echarts.init(chartRef.current!);
+      chartInstance.current = instance;
+
+      instance.on('click', (params: any) => {
+        const stat = stats.find((s) => s.name === params.name);
+        if (stat) onSelectProvince(stat.id);
+      });
+
+      instance.setOption({
+        backgroundColor: 'transparent',
+        tooltip: {
+          trigger: 'item',
+          formatter: (params: any) => {
+            const stat = stats.find((s) => s.name === params.name);
+            if (!stat) return params.name;
+            const status = stat.lit_count > 0 ? `✅ 已点亮 (${stat.lit_count}/${stat.total_count})` : '⬜ 未点亮';
+            return `<div style="font-weight:600">${params.name}</div><div style="font-size:12px;margin-top:4px">${status}</div>`;
+          },
+          backgroundColor: 'rgba(255,255,255,0.95)',
+          borderColor: '#e2e8f0',
+          textStyle: { color: '#1e293b' },
+          padding: 12,
+        },
+        series: [
+          {
+            type: 'map',
+            map: 'china',
+            roam: true,
+            zoom: 1.15,
+            center: [105, 36],
+            selectedMode: false,
+            label: { show: true, fontSize: 10, color: '#64748b' },
+            itemStyle: { areaColor: '#e2e8f0', borderColor: '#cbd5e1', borderWidth: 1 },
+            emphasis: {
+              itemStyle: { areaColor: '#fde68a' },
+              label: { show: true, color: '#0f172a', fontSize: 11, fontWeight: 600 },
+            },
+            data: [],
+          },
+        ],
+      });
+
+      const handleResize = () => instance.resize();
+      window.addEventListener('resize', handleResize);
+
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        instance.dispose();
+        chartInstance.current = null;
+      };
+    };
+
+    const cleanup = init();
+    return () => { cleanup.then((fn) => fn && fn()); };
+  }, []);
+
+  useEffect(() => {
+    if (!chartInstance.current) return;
+    const seriesData = stats.map((s) => ({
+      name: s.name,
+      value: s.lit_count,
+      itemStyle: {
+        areaColor: s.lit_count > 0 ? '#22c55e' : '#e2e8f0',
+        borderColor: s.lit_count > 0 ? '#16a34a' : '#cbd5e1',
+        borderWidth: s.lit_count > 0 ? 1.5 : 1,
+      },
+      label: {
+        show: true,
+        color: s.lit_count > 0 ? '#fff' : '#64748b',
+        fontSize: 10,
+        fontWeight: s.lit_count > 0 ? 600 : 400,
+      },
+      emphasis: {
+        itemStyle: { areaColor: s.lit_count > 0 ? '#16a34a' : '#cbd5e1' },
+        label: { show: true, color: '#fff', fontSize: 11, fontWeight: 600 },
+      },
+    }));
+
+    chartInstance.current.setOption({ series: [{ type: 'map', map: 'china', data: seriesData }] });
+  }, [stats]);
+
+  return <div ref={chartRef} style={{ width: '100%', height: '100%' }} />;
+}

@@ -1,0 +1,100 @@
+import Database from 'better-sqlite3';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const dbPath = path.join(__dirname, '../data/database.sqlite');
+
+let db: Database.Database | null = null;
+
+export function getDb(): Database.Database {
+  if (!db) {
+    db = new Database(dbPath);
+    db.pragma('journal_mode = WAL');
+  }
+  return db;
+}
+
+export function initDb() {
+  const database = getDb();
+
+  database.exec(`
+    CREATE TABLE IF NOT EXISTS provinces (
+      id INTEGER PRIMARY KEY,
+      name TEXT NOT NULL UNIQUE,
+      code TEXT NOT NULL UNIQUE,
+      region TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS categories (
+      id INTEGER PRIMARY KEY,
+      name TEXT NOT NULL UNIQUE,
+      sort_order INTEGER DEFAULT 0
+    );
+
+    CREATE TABLE IF NOT EXISTS attractions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      province_id INTEGER NOT NULL,
+      level TEXT CHECK(level IN ('4A', '5A')) NOT NULL,
+      category_id INTEGER,
+      pinyin TEXT,
+      UNIQUE(name, province_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      username TEXT NOT NULL UNIQUE COLLATE NOCASE,
+      password_hash TEXT NOT NULL,
+      role TEXT DEFAULT 'user' CHECK(role IN ('admin', 'user')),
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS settings (
+      key TEXT PRIMARY KEY,
+      value TEXT NOT NULL,
+      description TEXT,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    );
+
+    CREATE TABLE IF NOT EXISTS user_attractions (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      attraction_id INTEGER NOT NULL,
+      lit_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(user_id, attraction_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS achievements (
+      id INTEGER PRIMARY KEY,
+      name TEXT NOT NULL,
+      type TEXT NOT NULL CHECK(type IN ('province', 'attraction', 'special')),
+      level INTEGER,
+      condition_value INTEGER,
+      condition_desc TEXT NOT NULL,
+      icon TEXT,
+      badge_style TEXT
+    );
+
+    CREATE TABLE IF NOT EXISTS user_achievements (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      achievement_id INTEGER NOT NULL,
+      unlocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(user_id, achievement_id)
+    );
+
+    CREATE INDEX IF NOT EXISTS idx_attractions_province ON attractions(province_id);
+    CREATE INDEX IF NOT EXISTS idx_attractions_category ON attractions(category_id);
+    CREATE INDEX IF NOT EXISTS idx_user_attractions_user ON user_attractions(user_id);
+    CREATE INDEX IF NOT EXISTS idx_user_achievements_user ON user_achievements(user_id);
+  `);
+
+  // Migration: add role column if not exists
+  const hasRole = database.prepare("SELECT name FROM pragma_table_info('users') WHERE name = 'role'").get();
+  if (!hasRole) {
+    database.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user' CHECK(role IN ('admin', 'user'))");
+  }
+
+  return database;
+}
