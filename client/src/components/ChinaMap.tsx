@@ -11,17 +11,19 @@ interface ProvinceStat {
 
 interface Props {
   stats: ProvinceStat[];
-  onSelectProvince: (id: number) => void;
+  onClickProvince: (id: number) => void;
+  onDoubleClickProvince: (id: number) => void;
+  highlightProvinceId?: number | null;
 }
 
-function buildSeriesData(stats: ProvinceStat[]) {
+function buildSeriesData(stats: ProvinceStat[], highlightId?: number | null) {
   return stats.map((s) => ({
     name: s.name,
     value: s.lit_count,
     itemStyle: {
       areaColor: s.lit_count > 0 ? '#22c55e' : '#e2e8f0',
-      borderColor: s.lit_count > 0 ? '#16a34a' : '#cbd5e1',
-      borderWidth: s.lit_count > 0 ? 1.5 : 1,
+      borderColor: s.id === highlightId ? '#f59e0b' : (s.lit_count > 0 ? '#16a34a' : '#cbd5e1'),
+      borderWidth: s.id === highlightId ? 3 : (s.lit_count > 0 ? 1.5 : 1),
     },
     label: {
       show: false,
@@ -33,11 +35,12 @@ function buildSeriesData(stats: ProvinceStat[]) {
   }));
 }
 
-export default function ChinaMap({ stats, onSelectProvince }: Props) {
+export default function ChinaMap({ stats, onClickProvince, onDoubleClickProvince, highlightProvinceId }: Props) {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<echarts.ECharts | null>(null);
   const statsRef = useRef(stats);
   statsRef.current = stats;
+  const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -56,7 +59,18 @@ export default function ChinaMap({ stats, onSelectProvince }: Props) {
 
       instance.on('click', (params: any) => {
         const stat = statsRef.current.find((s) => s.name === params.name);
-        if (stat) onSelectProvince(stat.id);
+        if (!stat) return;
+
+        if (clickTimer.current) {
+          clearTimeout(clickTimer.current);
+          clickTimer.current = null;
+          onDoubleClickProvince(stat.id);
+        } else {
+          clickTimer.current = setTimeout(() => {
+            clickTimer.current = null;
+            onClickProvince(stat.id);
+          }, 250);
+        }
       });
 
       instance.setOption({
@@ -90,7 +104,7 @@ export default function ChinaMap({ stats, onSelectProvince }: Props) {
               itemStyle: { areaColor: '#fde68a' },
               label: { show: true, color: '#0f172a', fontSize: 11, fontWeight: 600 },
             },
-            data: buildSeriesData(statsRef.current),
+            data: buildSeriesData(statsRef.current, highlightProvinceId),
           },
         ],
       });
@@ -108,6 +122,10 @@ export default function ChinaMap({ stats, onSelectProvince }: Props) {
     const cleanupPromise = init();
     return () => {
       disposed = true;
+      if (clickTimer.current) {
+        clearTimeout(clickTimer.current);
+        clickTimer.current = null;
+      }
       cleanupPromise.then((cleanup) => cleanup && cleanup());
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,9 +134,9 @@ export default function ChinaMap({ stats, onSelectProvince }: Props) {
   useEffect(() => {
     if (!chartInstance.current) return;
     chartInstance.current.setOption({
-      series: [{ type: 'map', map: 'china', data: buildSeriesData(stats) }],
+      series: [{ type: 'map', map: 'china', data: buildSeriesData(stats, highlightProvinceId) }],
     });
-  }, [stats]);
+  }, [stats, highlightProvinceId]);
 
   return <div ref={chartRef} style={{ width: '100%', height: '100%' }} />;
 }
