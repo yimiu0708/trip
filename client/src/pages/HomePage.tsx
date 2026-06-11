@@ -55,7 +55,8 @@ export default function HomePage() {
   const totalAttractions = stats.reduce((sum, s) => sum + s.total_count, 0);
 
   const top5 = useMemo(() => {
-    return [...stats]
+    return stats
+      .filter((s) => s.lit_count > 0)
       .sort((a, b) => {
         const rateA = a.total_count > 0 ? a.lit_count / a.total_count : 0;
         const rateB = b.total_count > 0 ? b.lit_count / b.total_count : 0;
