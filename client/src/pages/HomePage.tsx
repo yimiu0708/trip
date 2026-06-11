@@ -16,6 +16,7 @@ export default function HomePage() {
   const [stats, setStats] = useState<ProvinceStat[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedProvinceId, setSelectedProvinceId] = useState<number | null>(null);
+  const [sidebarOpen, setSidebarOpen] = useState(true);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -102,67 +103,86 @@ export default function HomePage() {
             />
           )}
           <div className="map-watermark">旅行足迹 🌍 light your life</div>
-        </div>
-        <div className="home-sidebar">
-          <h3 className="sidebar-title">🔥 点亮进度 TOP5</h3>
-          <div className="sidebar-list">
-            {top5.length === 0 && (
-              <div className="sidebar-empty">暂无数据</div>
-            )}
-            {top5.map((stat) => {
-              const rate = stat.total_count > 0 ? Math.round((stat.lit_count / stat.total_count) * 100) : 0;
-              const isSelected = selectedProvinceId === stat.id;
-              return (
-                <div
-                  key={stat.id}
-                  className={`sidebar-item ${isSelected ? 'selected' : ''}`}
-                  onClick={() => handleClickProvince(stat.id)}
-                  onDoubleClick={() => handleDoubleClickProvince(stat.id)}
-                >
-                  <div className="sidebar-item-header">
-                    <span className="sidebar-item-name">{stat.name}</span>
-                    <span className="sidebar-item-rate">{rate}%</span>
-                  </div>
-                  <div className="sidebar-progress-bar">
-                    <div className="sidebar-progress-fill" style={{ width: `${rate}%` }} />
-                  </div>
-                  {isSelected && (
+
+          {/* 悬浮侧边栏 */}
+          {sidebarOpen ? (
+            <div className="home-sidebar-float">
+              <button
+                className="sidebar-toggle"
+                onClick={() => setSidebarOpen(false)}
+                title="收起"
+              >
+                ✕
+              </button>
+              <h3 className="sidebar-title">🔥 点亮进度 TOP5</h3>
+              <div className="sidebar-list">
+                {top5.length === 0 && (
+                  <div className="sidebar-empty">暂无数据</div>
+                )}
+                {top5.map((stat) => {
+                  const rate = stat.total_count > 0 ? Math.round((stat.lit_count / stat.total_count) * 100) : 0;
+                  const isSelected = selectedProvinceId === stat.id;
+                  return (
+                    <div
+                      key={stat.id}
+                      className={`sidebar-item ${isSelected ? 'selected' : ''}`}
+                      onClick={() => handleClickProvince(stat.id)}
+                      onDoubleClick={() => handleDoubleClickProvince(stat.id)}
+                    >
+                      <div className="sidebar-item-header">
+                        <span className="sidebar-item-name">{stat.name}</span>
+                        <span className="sidebar-item-rate">{rate}%</span>
+                      </div>
+                      <div className="sidebar-progress-bar">
+                        <div className="sidebar-progress-fill" style={{ width: `${rate}%` }} />
+                      </div>
+                      {isSelected && (
+                        <div className="sidebar-item-detail">
+                          <div className="sidebar-detail-row">
+                            <span>已点亮</span>
+                            <span className="sidebar-detail-num">{stat.lit_count} / {stat.total_count}</span>
+                          </div>
+                          <div className="sidebar-detail-hint">💡 双击进入景区列表</div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+              {selectedStat && !top5.find((s) => s.id === selectedStat.id) && (
+                <div className="sidebar-selected-outside">
+                  <div className="sidebar-item selected">
+                    <div className="sidebar-item-header">
+                      <span className="sidebar-item-name">{selectedStat.name}</span>
+                      <span className="sidebar-item-rate">
+                        {selectedStat.total_count > 0 ? Math.round((selectedStat.lit_count / selectedStat.total_count) * 100) : 0}%
+                      </span>
+                    </div>
+                    <div className="sidebar-progress-bar">
+                      <div
+                        className="sidebar-progress-fill"
+                        style={{ width: `${selectedStat.total_count > 0 ? Math.round((selectedStat.lit_count / selectedStat.total_count) * 100) : 0}%` }}
+                      />
+                    </div>
                     <div className="sidebar-item-detail">
                       <div className="sidebar-detail-row">
                         <span>已点亮</span>
-                        <span className="sidebar-detail-num">{stat.lit_count} / {stat.total_count}</span>
+                        <span className="sidebar-detail-num">{selectedStat.lit_count} / {selectedStat.total_count}</span>
                       </div>
                       <div className="sidebar-detail-hint">💡 双击进入景区列表</div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-          {selectedStat && !top5.find((s) => s.id === selectedStat.id) && (
-            <div className="sidebar-selected-outside">
-              <div className="sidebar-item selected">
-                <div className="sidebar-item-header">
-                  <span className="sidebar-item-name">{selectedStat.name}</span>
-                  <span className="sidebar-item-rate">
-                    {selectedStat.total_count > 0 ? Math.round((selectedStat.lit_count / selectedStat.total_count) * 100) : 0}%
-                  </span>
-                </div>
-                <div className="sidebar-progress-bar">
-                  <div
-                    className="sidebar-progress-fill"
-                    style={{ width: `${selectedStat.total_count > 0 ? Math.round((selectedStat.lit_count / selectedStat.total_count) * 100) : 0}%` }}
-                  />
-                </div>
-                <div className="sidebar-item-detail">
-                  <div className="sidebar-detail-row">
-                    <span>已点亮</span>
-                    <span className="sidebar-detail-num">{selectedStat.lit_count} / {selectedStat.total_count}</span>
                   </div>
-                  <div className="sidebar-detail-hint">💡 双击进入景区列表</div>
                 </div>
-              </div>
+              )}
             </div>
+          ) : (
+            <button
+              className="sidebar-float-btn"
+              onClick={() => setSidebarOpen(true)}
+              title="展开进度"
+            >
+              🔥
+            </button>
           )}
         </div>
       </div>
