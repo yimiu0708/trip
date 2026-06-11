@@ -24,14 +24,11 @@ function buildSeriesData(stats: ProvinceStat[]) {
       borderWidth: s.lit_count > 0 ? 1.5 : 1,
     },
     label: {
-      show: true,
-      color: s.lit_count > 0 ? '#fff' : '#64748b',
-      fontSize: 10,
-      fontWeight: s.lit_count > 0 ? 600 : 400,
+      show: false,
     },
     emphasis: {
       itemStyle: { areaColor: s.lit_count > 0 ? '#16a34a' : '#cbd5e1' },
-      label: { show: true, color: '#fff', fontSize: 11, fontWeight: 600 },
+      label: { show: true, color: '#fff', fontSize: 12, fontWeight: 600 },
     },
   }));
 }
@@ -87,7 +84,7 @@ export default function ChinaMap({ stats, onSelectProvince }: Props) {
             zoom: 1.15,
             center: [105, 36],
             selectedMode: false,
-            label: { show: true, fontSize: 10, color: '#64748b' },
+            label: { show: false },
             itemStyle: { areaColor: '#e2e8f0', borderColor: '#cbd5e1', borderWidth: 1 },
             emphasis: {
               itemStyle: { areaColor: '#fde68a' },
