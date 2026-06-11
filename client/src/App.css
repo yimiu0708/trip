@@ -293,42 +293,42 @@ input, textarea, button, select { font-family: inherit; }
   position: absolute;
   top: 10px;
   right: 10px;
-  bottom: 10px;
   width: 155px;
-  background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,0.6);
+  max-height: calc(100% - 20px);
+  background: rgba(255,255,255,0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.35);
   padding: 10px;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.06);
   z-index: 10;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  animation: sidebarIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-y: auto;
+  animation: sidebarIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 @keyframes sidebarIn {
-  from { opacity: 0; transform: translateX(20px); }
+  from { opacity: 0; transform: translateX(16px); }
   to { opacity: 1; transform: translateX(0); }
 }
 .sidebar-toggle {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  width: 24px;
-  height: 24px;
-  border-radius: 8px;
+  top: 6px;
+  right: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 7px;
   border: none;
-  background: rgba(255,255,255,0.85);
-  color: #64748b;
-  font-size: 13px;
+  background: rgba(255,255,255,0.7);
+  color: #94a3b8;
+  font-size: 12px;
   cursor: pointer;
   z-index: 11;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
   transition: all 0.2s;
 }
 .sidebar-toggle:hover { background: #fff; color: #ef4444; }
@@ -336,46 +336,46 @@ input, textarea, button, select { font-family: inherit; }
   position: absolute;
   top: 10px;
   right: 10px;
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
   border: none;
-  background: rgba(255,255,255,0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  font-size: 18px;
+  background: rgba(255,255,255,0.45);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  font-size: 17px;
   cursor: pointer;
   z-index: 10;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-  border: 1px solid rgba(255,255,255,0.6);
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  border: 1px solid rgba(255,255,255,0.4);
   transition: all 0.2s;
-  animation: btnPop 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: btnPop 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 @keyframes btnPop {
   from { opacity: 0; transform: scale(0.8); }
   to { opacity: 1; transform: scale(1); }
 }
-.sidebar-float-btn:hover { background: rgba(255,255,255,0.9); transform: scale(1.05); }
+.sidebar-float-btn:hover { background: rgba(255,255,255,0.7); transform: scale(1.05); }
 .sidebar-float-btn:active { transform: scale(0.95); }
 .sidebar-title {
-  margin: 0 0 10px;
-  padding-right: 20px;
+  margin: 0 0 8px;
+  padding-right: 18px;
   font-size: 12px;
   font-weight: 700;
   color: #0f172a;
   text-align: center;
   letter-spacing: 0.3px;
 }
-.sidebar-list { display: flex; flex-direction: column; gap: 6px; overflow-y: auto; }
-.sidebar-empty { text-align: center; padding: 16px 4px; color: #94a3b8; font-size: 11px; }
+.sidebar-list { display: flex; flex-direction: column; gap: 5px; }
+.sidebar-empty { text-align: center; padding: 12px 4px; color: #94a3b8; font-size: 11px; }
 .sidebar-item {
-  padding: 8px 10px;
-  border-radius: 10px;
-  background: rgba(248,250,252,0.65);
-  border: 1px solid rgba(255,255,255,0.5);
+  padding: 7px 9px;
+  border-radius: 9px;
+  background: rgba(248,250,252,0.4);
+  border: 1px solid rgba(255,255,255,0.35);
   cursor: pointer;
   transition: all 0.2s;
   user-select: none;
@@ -383,25 +383,25 @@ input, textarea, button, select { font-family: inherit; }
   flex-shrink: 0;
 }
 .sidebar-item:hover {
-  background: rgba(239,246,255,0.85);
-  border-color: rgba(191,219,254,0.6);
+  background: rgba(239,246,255,0.6);
+  border-color: rgba(191,219,254,0.5);
 }
 .sidebar-item.selected {
-  background: rgba(239,246,255,0.9);
-  border-color: rgba(37,99,235,0.4);
-  box-shadow: 0 0 0 1px rgba(37,99,235,0.1);
+  background: rgba(239,246,255,0.7);
+  border-color: rgba(37,99,235,0.3);
+  box-shadow: 0 0 0 1px rgba(37,99,235,0.08);
 }
-.sidebar-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.sidebar-item-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
 .sidebar-item-name { font-size: 12px; font-weight: 600; color: #0f172a; }
 .sidebar-item-rate {
   font-size: 11px;
   font-weight: 700;
   color: #2563eb;
-  background: rgba(219,234,254,0.5);
+  background: rgba(219,234,254,0.4);
   padding: 1px 5px;
   border-radius: 6px;
 }
-.sidebar-progress-bar { height: 4px; background: rgba(226,232,240,0.7); border-radius: 2px; overflow: hidden; }
+.sidebar-progress-bar { height: 4px; background: rgba(226,232,240,0.5); border-radius: 2px; overflow: hidden; }
 .sidebar-progress-fill {
   height: 100%;
   background: linear-gradient(90deg, #60a5fa, #2563eb);
@@ -409,14 +409,14 @@ input, textarea, button, select { font-family: inherit; }
   transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .sidebar-item-detail {
-  margin-top: 6px;
-  padding-top: 6px;
-  border-top: 1px dashed rgba(191,219,254,0.5);
+  margin-top: 5px;
+  padding-top: 5px;
+  border-top: 1px dashed rgba(191,219,254,0.35);
 }
 .sidebar-detail-row { display: flex; justify-content: space-between; font-size: 11px; color: #475569; }
 .sidebar-detail-num { font-weight: 700; color: #2563eb; }
-.sidebar-detail-hint { margin-top: 4px; font-size: 10px; color: #94a3b8; }
-.sidebar-selected-outside { margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(226,232,240,0.5); }
+.sidebar-detail-hint { margin-top: 3px; font-size: 10px; color: #94a3b8; }
+.sidebar-selected-outside { margin-top: 6px; padding-top: 6px; border-top: 1px solid rgba(226,232,240,0.4); }
 
 /* ========== ProvincePage ========== */
 .province-page { padding: 12px 16px; max-width: 1200px; margin: 0 auto; }
