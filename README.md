@@ -85,6 +85,23 @@ cd client && npm run build    # 构建前端到 client/dist
 cd server && npx tsx src/index.ts   # 后端会自动 serve client/dist
 ```
 
+### 4. 测试规范
+
+> **硬性要求：每次代码修改或功能编码后，必须执行一轮端到端测试，确保功能无误、与需求不冲突，方可交付。**
+
+测试 checklist：
+1. 前端构建通过：`cd client && npm run build`
+2. 后端构建通过：`cd server && npm run build`
+3. 核心功能验证（根据修改范围选择）：
+   - 用户注册 / 登录 / JWT 持久化
+   - 地图省份颜色渲染（点亮后变绿）
+   - 景区批量点亮 / 取消点亮
+   - 省份 TOP5 侧边栏交互（单击显示进度、双击进入列表）
+   - 成就系统自动解锁与 Toast 提示
+   - 管理后台权限控制
+4. 移动端验证：通过局域网 IP 访问，确认触摸交互正常
+5. 服务重启验证：`node server/dist/index.js`，确认静态资源与 API 均正常响应
+
 ## 默认数据
 
 - **省份**: 34 个省级行政区（含港澳台）
@@ -95,7 +112,7 @@ cd server && npx tsx src/index.ts   # 后端会自动 serve client/dist
 ## 后续规划
 
 - [ ] 景区数据批量导入（Excel/CSV）
-- [ ] 后台管理端（分类 CRUD、景区维护）
+- [x] 后台管理端（分类 CRUD、景区维护）
 - [ ] 成就分享卡片生成
 - [ ] 排行榜（预留接口）
 - [ ] 扩展至全球地图
