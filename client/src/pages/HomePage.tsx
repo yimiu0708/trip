@@ -71,6 +71,7 @@ export default function HomePage() {
 
   const handleClickProvince = useCallback((id: number) => {
     setSelectedProvinceId((prev) => (prev === id ? null : id));
+    setSidebarOpen(false);
   }, []);
 
   const handleDoubleClickProvince = useCallback((id: number) => {
