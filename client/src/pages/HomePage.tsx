@@ -35,7 +35,7 @@ export default function HomePage() {
           };
         }));
       } else {
-        setStats(provinces.map((p: any) => ({ id: p.id, name: p.name, region: p.region, lit_count: 0, total_count: 0 })));
+        setStats(provinces.map((p: any) => ({ id: p.id, name: p.name, region: p.region, lit_count: 0, total_count: p.total_count || 0 })));
       }
     } catch {
       // ignore

@@ -134,7 +134,7 @@ export default function ProvincePage() {
   return (
     <div className="province-page">
       <div className="province-header">
-        <button className="back-btn" onClick={() => navigate('/')}>← 返回地图</button>
+        <button className="back-btn" onClick={() => navigate('/map')}>← 返回地图</button>
         <h1>{province.name}</h1>
         <div className="province-meta">
           已点亮 {litIds.size}/{attractions.length} 个景区

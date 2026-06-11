@@ -6,7 +6,11 @@ const router = Router();
 // 获取所有省份（含统计）
 router.get('/', (req, res) => {
   const db = getDb();
-  const provinces = db.prepare('SELECT * FROM provinces ORDER BY id').all();
+  const provinces = db.prepare(`
+    SELECT p.*, (SELECT COUNT(*) FROM attractions WHERE province_id = p.id) as total_count
+    FROM provinces p
+    ORDER BY p.id
+  `).all();
   res.json(provinces);
 });
 
