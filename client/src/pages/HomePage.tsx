@@ -116,7 +116,7 @@ export default function HomePage() {
               >
                 ✕
               </button>
-              <h3 className="sidebar-title">🔥 点亮进度 TOP5</h3>
+              <h3 className="sidebar-title">✨ 点亮进度 TOP5</h3>
               <div className="sidebar-list">
                 {top5.length === 0 && (
                   <div className="sidebar-empty">暂无数据</div>
@@ -183,7 +183,7 @@ export default function HomePage() {
               onClick={() => setSidebarOpen(true)}
               title="展开进度"
             >
-              🔥
+              ✨
             </button>
           )}
         </div>

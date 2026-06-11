@@ -167,8 +167,8 @@ function Badge({ a, special }: { a: Achievement; special?: boolean }) {
     mountain: '⛰️', footprint: '👣', compass: '🧭', map: '🗺️', crown: '👑',
     ticket: '🎫', camera: '📷', landscape: '🏞️', scroll: '📜', album: '📒',
     compass2: '🧭', hiking: '🥾', 'long-scroll': '🗺️', 'star-trail': '✨',
-    galaxy: '🌌', torch: '🔥', meteor: '☄️', moon: '🌙', trophy: '🏆',
-    crown2: '👑', diamond5: '💎', calendar: '📅', flame: '🔥',
+    galaxy: '🌌', torch: '✨', meteor: '☄️', moon: '🌙', trophy: '🏆',
+    crown2: '👑', diamond5: '💎', calendar: '📅', flame: '✨',
   };
   return (
     <div className={`badge ${unlocked ? 'unlocked' : 'locked'} ${a.badge_style}`} title={unlocked ? a.condition_desc : '???'}>

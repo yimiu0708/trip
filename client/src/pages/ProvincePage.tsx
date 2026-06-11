@@ -22,7 +22,7 @@ export default function ProvincePage() {
   const { user } = useAuth();
   const [province, setProvince] = useState<any>(null);
   const [attractions, setAttractions] = useState<Attraction[]>([]);
-  const [litCounts, setLitCounts] = useState<Record<number, number>>({});
+  const [litDates, setLitDates] = useState<Record<number, string[]>>({});
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [search, setSearch] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<number | ''>('');
@@ -50,13 +50,18 @@ export default function ProvincePage() {
 
       if (user) {
         const list = await api.user.litList();
-        const counts: Record<number, number> = {};
+        const dates: Record<number, string[]> = {};
         list.forEach((item: any) => {
           if (item.province_name === detail.province.name) {
-            counts[item.id] = (counts[item.id] || 0) + 1;
+            if (!dates[item.id]) dates[item.id] = [];
+            dates[item.id].push(item.lit_at);
           }
         });
-        setLitCounts(counts);
+        // sort each list desc
+        Object.keys(dates).forEach((key) => {
+          dates[Number(key)].sort((a, b) => b.localeCompare(a));
+        });
+        setLitDates(dates);
       }
     } catch {
       // ignore
@@ -102,10 +107,12 @@ export default function ProvincePage() {
       } else {
         await api.attractions.batchLit(dateModal.ids, isoDate);
       }
-      setLitCounts((prev) => {
-        const next = { ...prev };
+      setLitDates((prev) => {
+        const next: Record<number, string[]> = {};
+        Object.keys(prev).forEach((k) => { next[Number(k)] = [...prev[Number(k)]]; });
         dateModal.ids.forEach((id) => {
-          next[id] = (next[id] || 0) + 1;
+          if (!next[id]) next[id] = [];
+          next[id].unshift(isoDate);
         });
         return next;
       });
@@ -123,10 +130,13 @@ export default function ProvincePage() {
     if (!user) { setMessage('请先登录'); return; }
     try {
       await api.attractions.unlit(aid);
-      setLitCounts((prev) => {
-        const next = { ...prev };
-        if (next[aid] > 1) next[aid]--;
-        else delete next[aid];
+      setLitDates((prev) => {
+        const next: Record<number, string[]> = {};
+        Object.keys(prev).forEach((k) => { next[Number(k)] = [...prev[Number(k)]]; });
+        if (next[aid]) {
+          next[aid].shift(); // remove latest
+          if (next[aid].length === 0) delete next[aid];
+        }
         return next;
       });
     } catch (err: any) {
@@ -135,7 +145,7 @@ export default function ProvincePage() {
   };
 
   const selectAllInView = () => {
-    const unlit = filtered.filter((a) => !litCounts[a.id]).map((a) => a.id);
+    const unlit = filtered.filter((a) => !litDates[a.id] || litDates[a.id].length === 0).map((a) => a.id);
     if (unlit.length === 0) return;
     setSelectedIds((prev) => {
       const next = new Set(prev);
@@ -146,7 +156,8 @@ export default function ProvincePage() {
 
   const clearSelection = () => setSelectedIds(new Set());
 
-  const litAttractionsCount = Object.keys(litCounts).length;
+  const litAttractionsCount = Object.keys(litDates).length;
+  const totalVisits = Object.values(litDates).reduce((sum, arr) => sum + arr.length, 0);
 
   if (loading) return <div className="page-loading">加载中...</div>;
   if (!province) return <div className="page-loading">省份不存在</div>;
@@ -157,7 +168,7 @@ export default function ProvincePage() {
         <button className="back-btn" onClick={() => navigate('/map')}>← 返回地图</button>
         <h1>{province.name}</h1>
         <div className="province-meta">
-          已点亮 {litAttractionsCount}/{attractions.length} 个景区（总访问 {Object.values(litCounts).reduce((a, b) => a + b, 0)} 次）
+          已点亮 {litAttractionsCount}/{attractions.length} 个景区（总访问 {totalVisits} 次）
         </div>
       </div>
 
@@ -198,9 +209,9 @@ export default function ProvincePage() {
               <AttractionCard
                 key={a.id}
                 a={a}
-                count={litCounts[a.id] || 0}
+                dates={litDates[a.id] || []}
                 selected={selectedIds.has(a.id)}
-                onToggle={() => litCounts[a.id] ? handleUnlit(a.id) : toggleSelect(a.id)}
+                onToggle={() => litDates[a.id]?.length ? handleUnlit(a.id) : toggleSelect(a.id)}
                 onLitDate={() => openDateModal([a.id])}
               />
             ))}
@@ -216,9 +227,9 @@ export default function ProvincePage() {
               <AttractionCard
                 key={a.id}
                 a={a}
-                count={litCounts[a.id] || 0}
+                dates={litDates[a.id] || []}
                 selected={selectedIds.has(a.id)}
-                onToggle={() => litCounts[a.id] ? handleUnlit(a.id) : toggleSelect(a.id)}
+                onToggle={() => litDates[a.id]?.length ? handleUnlit(a.id) : toggleSelect(a.id)}
                 onLitDate={() => openDateModal([a.id])}
               />
             ))}
@@ -270,17 +281,18 @@ export default function ProvincePage() {
 
 function AttractionCard({
   a,
-  count,
+  dates,
   selected,
   onToggle,
   onLitDate,
 }: {
   a: Attraction;
-  count: number;
+  dates: string[];
   selected: boolean;
   onToggle: () => void;
   onLitDate: () => void;
 }) {
+  const count = dates.length;
   return (
     <div className={`attraction-card ${count > 0 ? 'lit' : ''} ${selected ? 'selected' : ''}`}>
       <div className="card-header">
@@ -289,8 +301,15 @@ function AttractionCard({
       </div>
       <div className="card-name">{a.name}</div>
       {count > 0 && (
-        <div style={{ fontSize: '11px', color: '#2563eb', fontWeight: 600, marginBottom: '8px' }}>
-          🔥 已点亮 {count} 次
+        <div style={{ fontSize: '11px', color: '#2563eb', fontWeight: 600, marginBottom: '6px' }}>
+          ✨ 已点亮 {count} 次
+        </div>
+      )}
+      {count > 0 && (
+        <div className="visit-dates" style={{ marginBottom: '8px' }}>
+          {dates.map((d, i) => (
+            <span key={i} className="visit-date">{d?.slice(0, 10)}</span>
+          ))}
         </div>
       )}
       <div className="card-actions">
