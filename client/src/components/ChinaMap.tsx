@@ -35,12 +35,46 @@ function buildSeriesData(stats: ProvinceStat[], highlightId?: number | null) {
   }));
 }
 
+/** 计算 GeoJSON feature 的 bounding box 中心 */
+function getFeatureCenter(feature: any): [number, number] | null {
+  const geom = feature.geometry;
+  if (!geom) return null;
+
+  const coords: number[][][] = [];
+  if (geom.type === 'Polygon') {
+    coords.push(geom.coordinates[0]);
+  } else if (geom.type === 'MultiPolygon') {
+    geom.coordinates.forEach((poly: any) => coords.push(poly[0]));
+  } else {
+    return null;
+  }
+
+  let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
+  coords.forEach((ring: number[][]) => {
+    ring.forEach(([lng, lat]) => {
+      minLng = Math.min(minLng, lng);
+      maxLng = Math.max(maxLng, lng);
+      minLat = Math.min(minLat, lat);
+      maxLat = Math.max(maxLat, lat);
+    });
+  });
+
+  if (minLng === Infinity) return null;
+  return [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
+}
+
+const DEFAULT_CENTER: [number, number] = [105, 36];
+const DEFAULT_ZOOM = 1.15;
+const FOCUS_ZOOM = 3.5;
+
 export default function ChinaMap({ stats, onClickProvince, onDoubleClickProvince, highlightProvinceId }: Props) {
   const chartRef = useRef<HTMLDivElement>(null);
   const chartInstance = useRef<echarts.ECharts | null>(null);
   const statsRef = useRef(stats);
   statsRef.current = stats;
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const centersRef = useRef<Record<string, [number, number]>>({});
+  const prevHighlightRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (!chartRef.current) return;
@@ -51,6 +85,15 @@ export default function ChinaMap({ stats, onClickProvince, onDoubleClickProvince
       const res = await fetch('/china.json');
       const geoJson = await res.json();
       echarts.registerMap('china', geoJson);
+
+      // 预计算每个省份的中心坐标
+      const centers: Record<string, [number, number]> = {};
+      geoJson.features?.forEach((feature: any) => {
+        const name = feature.properties?.name;
+        const center = getFeatureCenter(feature);
+        if (name && center) centers[name] = center;
+      });
+      centersRef.current = centers;
 
       if (disposed) return;
 
@@ -95,8 +138,8 @@ export default function ChinaMap({ stats, onClickProvince, onDoubleClickProvince
             type: 'map',
             map: 'china',
             roam: true,
-            zoom: 1.15,
-            center: [105, 36],
+            zoom: DEFAULT_ZOOM,
+            center: DEFAULT_CENTER,
             selectedMode: false,
             label: { show: false },
             itemStyle: { areaColor: '#e2e8f0', borderColor: '#cbd5e1', borderWidth: 1 },
@@ -131,12 +174,48 @@ export default function ChinaMap({ stats, onClickProvince, onDoubleClickProvince
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  // 数据/高亮变化时更新 series
   useEffect(() => {
     if (!chartInstance.current) return;
     chartInstance.current.setOption({
       series: [{ type: 'map', map: 'china', data: buildSeriesData(stats, highlightProvinceId) }],
     });
   }, [stats, highlightProvinceId]);
+
+  // 省份聚焦/恢复：单击放大，取消选中恢复全图
+  useEffect(() => {
+    if (!chartInstance.current) return;
+    const chart = chartInstance.current;
+
+    if (highlightProvinceId) {
+      // 聚焦到选中省份
+      const stat = stats.find((s) => s.id === highlightProvinceId);
+      const center = stat ? centersRef.current[stat.name] : null;
+      if (center) {
+        chart.setOption({
+          series: [{
+            center,
+            zoom: FOCUS_ZOOM,
+            animationDurationUpdate: 700,
+            animationEasingUpdate: 'cubicOut',
+          }],
+        });
+      }
+    } else if (prevHighlightRef.current !== null) {
+      // 从有选中变为无选中，恢复全图
+      chart.setOption({
+        series: [{
+          center: DEFAULT_CENTER,
+          zoom: DEFAULT_ZOOM,
+          animationDurationUpdate: 700,
+          animationEasingUpdate: 'cubicOut',
+        }],
+      });
+    }
+
+    prevHighlightRef.current = highlightProvinceId ?? null;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [highlightProvinceId]);
 
   return <div ref={chartRef} style={{ width: '100%', height: '100%' }} />;
 }
