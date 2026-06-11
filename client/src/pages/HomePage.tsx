@@ -101,6 +101,7 @@ export default function HomePage() {
               highlightProvinceId={selectedProvinceId}
             />
           )}
+          <div className="map-watermark">旅行足迹 🌍 light your life</div>
         </div>
         <div className="home-sidebar">
           <h3 className="sidebar-title">🔥 点亮进度 TOP5</h3>
