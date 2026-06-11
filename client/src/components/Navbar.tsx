@@ -39,7 +39,7 @@ export default function Navbar() {
       <header className="app-header-bar">
         <Link to="/map" className="app-title-link">
           <div className="app-title">
-            <span className="app-title-main">旅行足迹</span>
+            <span className="app-title-main">识界</span>
             <span className="app-title-sub">light your life</span>
           </div>
         </Link>

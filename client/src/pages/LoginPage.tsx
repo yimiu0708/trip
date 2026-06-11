@@ -42,7 +42,7 @@ export default function LoginPage() {
       <div className="auth-card">
         <div className="auth-header">
           <div className="auth-logo">🌍</div>
-          <h1>旅行足迹</h1>
+          <h1>识界</h1>
           <p>用脚步丈量世界，点亮每一段旅程</p>
         </div>
 

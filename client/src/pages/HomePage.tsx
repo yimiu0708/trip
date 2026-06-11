@@ -104,7 +104,7 @@ export default function HomePage() {
               highlightProvinceId={selectedProvinceId}
             />
           )}
-          <div className="map-watermark">旅行足迹 🌍 light your life</div>
+          <div className="map-watermark">识界 🌍 light your life</div>
 
           {/* 悬浮侧边栏 */}
           {sidebarOpen ? (
