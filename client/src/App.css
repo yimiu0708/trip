@@ -448,9 +448,31 @@ input, textarea, button, select { font-family: inherit; }
 .level-tag.level-4A { background: #e0e7ff; color: #3730a3; }
 .category-tag { font-size: 11px; padding: 2px 8px; border-radius: 4px; background: #f1f5f9; color: #475569; }
 .card-name { font-size: 15px; font-weight: 600; color: #0f172a; margin-bottom: 10px; }
+.card-actions { display: flex; gap: 8px; align-items: center; }
+.btn-lit-again {
+  padding: 6px 12px; border-radius: 8px; border: 1px solid #bfdbfe;
+  background: #eff6ff; color: #2563eb; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; flex: 1; text-align: center;
+}
+.btn-lit-again:hover { background: #dbeafe; }
+.btn-unlit {
+  padding: 6px 12px; border-radius: 8px; border: 1px solid #fecaca;
+  background: #fef2f2; color: #b91c1c; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-unlit:hover { background: #fee2e2; }
 .card-check { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #64748b; cursor: pointer; min-height: 44px; padding: 8px 0; }
 .card-check input { width: 20px; height: 20px; accent-color: #2563eb; cursor: pointer; }
 .empty-state { text-align: center; padding: 40px; color: #94a3b8; font-size: 14px; }
+.visit-badge {
+  font-size: 11px; font-weight: 700; color: #fff; background: #f59e0b;
+  padding: 2px 8px; border-radius: 10px; margin-left: 4px;
+}
+.visit-dates { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.visit-date {
+  font-size: 11px; color: #475569; background: #f1f5f9;
+  padding: 3px 8px; border-radius: 6px;
+}
 .page-loading { text-align: center; padding: 60px; color: #94a3b8; }
 
 /* ========== JourneyPage ========== */

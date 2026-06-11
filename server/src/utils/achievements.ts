@@ -12,9 +12,9 @@ export function checkAchievements(userId: number): { id: number; name: string }[
     WHERE ua.user_id = ?
   `).get(userId) as { count: number };
 
-  // 景区点亮数
+  // 景区点亮数（去重：同一景区多次点亮只算一次）
   const attractionLit = db.prepare(`
-    SELECT COUNT(*) as count FROM user_attractions WHERE user_id = ?
+    SELECT COUNT(DISTINCT attraction_id) as count FROM user_attractions WHERE user_id = ?
   `).get(userId) as { count: number };
 
   // 获取所有成就配置
@@ -59,7 +59,7 @@ function checkSpecialAchievement(userId: number, achievementId: number, conditio
 
   // 旅途起点: 首次点亮
   if (achievementId === 101) {
-    const count = db.prepare('SELECT COUNT(*) as c FROM user_attractions WHERE user_id = ?').get(userId) as { c: number };
+    const count = db.prepare('SELECT COUNT(DISTINCT attraction_id) as c FROM user_attractions WHERE user_id = ?').get(userId) as { c: number };
     return count.c >= 1;
   }
 
@@ -105,11 +105,11 @@ function checkSpecialAchievement(userId: number, achievementId: number, conditio
     return rows.length > 0;
   }
 
-  // 5A征服者: 点亮所有5A级景区
+  // 5A征服者: 点亮所有5A级景区（去重）
   if (achievementId === 106) {
     const total5A = db.prepare("SELECT COUNT(*) as c FROM attractions WHERE level = '5A'").get() as { c: number };
     const lit5A = db.prepare(`
-      SELECT COUNT(*) as c FROM user_attractions ua
+      SELECT COUNT(DISTINCT ua.attraction_id) as c FROM user_attractions ua
       JOIN attractions a ON ua.attraction_id = a.id
       WHERE ua.user_id = ? AND a.level = '5A'
     `).get(userId) as { c: number };

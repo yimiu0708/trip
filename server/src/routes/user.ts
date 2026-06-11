@@ -74,7 +74,7 @@ router.get('/lit-list', authMiddleware, (req: AuthRequest, res) => {
     JOIN provinces p ON a.province_id = p.id
     LEFT JOIN categories c ON a.category_id = c.id
     WHERE ua.user_id = ?
-    ORDER BY ua.lit_at DESC
+    ORDER BY ua.lit_at DESC, ua.id DESC
   `).all(userId);
 
   res.json(list);
