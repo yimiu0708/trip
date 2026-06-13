@@ -61,8 +61,7 @@ export function initDb() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       user_id INTEGER NOT NULL,
       attraction_id INTEGER NOT NULL,
-      lit_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      UNIQUE(user_id, attraction_id)
+      lit_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
     CREATE TABLE IF NOT EXISTS achievements (

@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Map, Backpack, Medal, User, Plus } from 'lucide-react';
+import { Map, Backpack, Medal, User, Plus, Search, Bell } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 
@@ -15,6 +15,7 @@ export default function Navbar() {
   const [pwdMsg, setPwdMsg] = useState('');
 
   const isActive = (path: string) => location.pathname === path;
+  const isMapPage = location.pathname === '/map';
 
   const handleChangePassword = async () => {
     if (!oldPwd || !newPwd || newPwd.length < 6) {
@@ -45,6 +46,16 @@ export default function Navbar() {
           </div>
         </Link>
         <div className="app-header-right">
+          {isMapPage && (
+            <>
+              <button className="header-icon-btn" type="button" aria-label="搜索" onClick={() => alert('搜索功能将在后续版本开放')}>
+                <Search size={22} aria-hidden="true" />
+              </button>
+              <button className="header-icon-btn" type="button" aria-label="通知" onClick={() => alert('通知功能将在后续版本开放')}>
+                <Bell size={21} aria-hidden="true" />
+              </button>
+            </>
+          )}
           <div className="avatar-menu-wrap">
             <button className="avatar-btn" onClick={() => { setMenuOpen(!menuOpen); setShowPwdForm(false); setPwdMsg(''); }}>
               <User size={20} aria-hidden="true" />

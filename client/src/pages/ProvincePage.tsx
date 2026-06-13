@@ -1,8 +1,9 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Trophy, Star, Calendar } from 'lucide-react';
+import { Trophy, Star, Calendar, MapPin, Clock3 } from 'lucide-react';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import ProvinceOutlineMap from '../components/ProvinceOutlineMap';
 
 interface Attraction {
   id: number;
@@ -10,6 +11,7 @@ interface Attraction {
   level: string;
   category_name: string;
   province_name: string;
+  city_name?: string;
 }
 
 interface LitVisit {
@@ -81,7 +83,14 @@ export default function ProvincePage() {
   }, [fetchData]);
 
   const filtered = attractions.filter((a) => {
-    if (search && !a.name.includes(search)) return false;
+    const normalizedSearch = search.trim().toLowerCase();
+    if (normalizedSearch) {
+      const haystack = [a.name, a.category_name, a.city_name, a.level]
+        .filter(Boolean)
+        .join(' ')
+        .toLowerCase();
+      if (!haystack.includes(normalizedSearch)) return false;
+    }
     if (categoryFilter !== '' && a.category_name !== categories.find((c) => c.id === categoryFilter)?.name) return false;
     if (levelFilter && a.level !== levelFilter) return false;
     return true;
@@ -160,24 +169,58 @@ export default function ProvincePage() {
 
   const litAttractionsCount = Object.keys(litVisits).length;
   const totalVisits = Object.values(litVisits).reduce((sum, visits) => sum + visits.length, 0);
+  const progressPct = attractions.length > 0 ? Math.round((litAttractionsCount / attractions.length) * 100) : 0;
+  const firstLitDate = Object.values(litVisits)
+    .flat()
+    .map((visit) => visit.lit_at)
+    .sort((a, b) => a.localeCompare(b))[0];
+  const heroImage = getProvinceHeroImage(province?.id);
 
   if (loading) return <div className="page-loading">加载中...</div>;
   if (!province) return <div className="page-loading">省份不存在</div>;
 
   return (
     <div className="province-page">
-      <div className="province-header">
-        <button className="back-btn" onClick={() => navigate('/map')}>← 返回地图</button>
-        <h1>{province.name}</h1>
+      <section
+        className={`province-hero-detail ${heroImage ? 'has-image' : ''}`}
+        style={heroImage ? { backgroundImage: `linear-gradient(180deg, rgba(8,42,68,0.16), rgba(8,42,68,0.52)), url(${heroImage})` } : undefined}
+      >
+        <button className="province-hero-back" onClick={() => navigate('/map')} aria-label="返回地图">‹</button>
+        <ProvinceOutlineMap provinceName={province.name} />
+        <div className="province-hero-content">
+          <h1>{province.name}</h1>
+          <p><MapPin size={15} aria-hidden="true" /> 中国 · {province.region}</p>
+          <span className={litAttractionsCount > 0 ? 'province-lit-chip' : 'province-lit-chip muted'}>
+            {litAttractionsCount > 0 ? '已点亮' : '未点亮'}
+          </span>
+        </div>
+      </section>
+
+      <div className="province-summary-grid">
+        <div className="province-summary-card">
+          <span>点亮进度</span>
+          <strong>{progressPct}<small>%</small></strong>
+          <div className="province-summary-progress"><div style={{ width: `${progressPct}%` }} /></div>
+          <p>已点亮 {litAttractionsCount}/{attractions.length} 个景点</p>
+        </div>
+        <div className="province-summary-card">
+          <span>首次点亮</span>
+          <strong className="date-strong">{firstLitDate ? firstLitDate.slice(0, 10).replace(/-/g, '.') : '--'}</strong>
+          <p><Clock3 size={14} aria-hidden="true" /> {firstLitDate ? '首次点亮此地区' : '点亮后记录时间'}</p>
+        </div>
+      </div>
+
+      <div className="province-header province-record-header">
+        <h2>点亮记录</h2>
         <div className="province-meta">
-          已点亮 {litAttractionsCount}/{attractions.length} 个景区（总访问 {totalVisits} 次）
+          总访问 {totalVisits} 次
         </div>
       </div>
 
       <div className="filters">
         <input
           type="text"
-          placeholder="搜索景区名称..."
+          placeholder="搜索景点名称、类型或所在城市..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="filter-input"
@@ -342,4 +385,9 @@ function AttractionCard({
 
 function formatLitDate(value: string) {
   return value?.slice(0, 10) || '未知日期';
+}
+
+function getProvinceHeroImage(provinceId?: number) {
+  if (provinceId === 25) return '/images/province-hero-yunnan.png';
+  return '';
 }

@@ -49,7 +49,7 @@ export const api = {
       request('/attractions/batch/lit', { method: 'POST', body: JSON.stringify({ ids, lit_at }) }),
   },
   categories: {
-    list: () => request('/achievements').then(() => []),
+    list: () => request('/categories'),
   },
   achievements: {
     list: () => request('/achievements'),

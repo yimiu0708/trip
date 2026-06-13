@@ -10,6 +10,7 @@ import attractionRoutes from './routes/attractions.js';
 import achievementRoutes from './routes/achievements.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
+import categoryRoutes from './routes/categories.js';
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.json());
 app.use('/api/auth', authRoutes);
 app.use('/api/provinces', provinceRoutes);
 app.use('/api/attractions', attractionRoutes);
+app.use('/api/categories', categoryRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);

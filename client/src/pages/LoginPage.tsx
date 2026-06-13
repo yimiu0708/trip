@@ -74,8 +74,10 @@ export default function LoginPage() {
 
       <section className="auth-brand-panel">
         <BrandLogo className="auth-brand-icon" />
-        <div className="auth-brand-name">识界</div>
-        <div className="auth-brand-script">Light your life</div>
+        <div className="auth-brand-text">
+          <div className="auth-brand-name">识界</div>
+          <div className="auth-brand-script">Light your life</div>
+        </div>
       </section>
 
       <div className="auth-card">
