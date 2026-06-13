@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { X, Flame, Lightbulb } from 'lucide-react';
 import ChinaMap from '../components/ChinaMap';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
@@ -17,6 +18,7 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [selectedProvinceId, setSelectedProvinceId] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [totalVisits, setTotalVisits] = useState(0);
   const navigate = useNavigate();
   const { user } = useAuth();
 
@@ -25,6 +27,7 @@ export default function HomePage() {
       const provinces = await api.provinces.list();
       if (user) {
         const progress = await api.user.progress();
+        setTotalVisits(progress.attractionStats?.total_visits || 0);
         const map = new Map<number, any>(progress.provinceBreakdown.map((p: any) => [p.id, p]));
         setStats(provinces.map((p: any) => {
           const item = map.get(p.id);
@@ -56,6 +59,7 @@ export default function HomePage() {
 
   const top5 = useMemo(() => {
     return [...stats]
+      .filter((s) => s.lit_count > 0)
       .sort((a, b) => {
         const rateA = a.total_count > 0 ? a.lit_count / a.total_count : 0;
         const rateB = b.total_count > 0 ? b.lit_count / b.total_count : 0;
@@ -88,8 +92,8 @@ export default function HomePage() {
           <div className="stat-label">已点亮景区</div>
         </div>
         <div className="stat-card">
-          <div className="stat-value">{totalAttractions > 0 ? Math.round((litAttractions / totalAttractions) * 100) : 0}%</div>
-          <div className="stat-label">点亮率</div>
+          <div className="stat-value">{totalVisits}</div>
+          <div className="stat-label">总访问次数</div>
         </div>
       </div>
       <div className="home-main">
@@ -102,7 +106,7 @@ export default function HomePage() {
               highlightProvinceId={selectedProvinceId}
             />
           )}
-          <div className="map-watermark">旅行足迹 🌍 light your life</div>
+          <div className="map-watermark">识界 · Light your life</div>
 
           {/* 悬浮侧边栏 */}
           {sidebarOpen ? (
@@ -111,10 +115,11 @@ export default function HomePage() {
                 className="sidebar-toggle"
                 onClick={() => setSidebarOpen(false)}
                 title="收起"
+                aria-label="收起侧边栏"
               >
-                ✕
+                <X size={16} aria-hidden="true" />
               </button>
-              <h3 className="sidebar-title">🔥 点亮进度 TOP5</h3>
+              <h3 className="sidebar-title"><Flame size={16} aria-hidden="true" /> 点亮进度 Top</h3>
               <div className="sidebar-list">
                 {top5.length === 0 && (
                   <div className="sidebar-empty">暂无数据</div>
@@ -142,7 +147,7 @@ export default function HomePage() {
                             <span>已点亮</span>
                             <span className="sidebar-detail-num">{stat.lit_count} / {stat.total_count}</span>
                           </div>
-                          <div className="sidebar-detail-hint">💡 双击进入景区列表</div>
+                          <div className="sidebar-detail-hint"><Lightbulb size={14} aria-hidden="true" /> 双击进入景区列表</div>
                         </div>
                       )}
                     </div>
@@ -169,7 +174,7 @@ export default function HomePage() {
                         <span>已点亮</span>
                         <span className="sidebar-detail-num">{selectedStat.lit_count} / {selectedStat.total_count}</span>
                       </div>
-                      <div className="sidebar-detail-hint">💡 双击进入景区列表</div>
+                      <div className="sidebar-detail-hint"><Lightbulb size={14} aria-hidden="true" /> 双击进入景区列表</div>
                     </div>
                   </div>
                 </div>
@@ -181,7 +186,7 @@ export default function HomePage() {
               onClick={() => setSidebarOpen(true)}
               title="展开进度"
             >
-              🔥
+              <Flame size={20} aria-hidden="true" />
             </button>
           )}
         </div>

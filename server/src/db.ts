@@ -96,5 +96,26 @@ export function initDb() {
     database.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user' CHECK(role IN ('admin', 'user'))");
   }
 
+  // Migration: remove UNIQUE constraint on user_attractions to support multiple visits
+  const hasUniqueConstraint = database.prepare(`
+    SELECT COUNT(*) as c FROM sqlite_master
+    WHERE type = 'index' AND name = 'sqlite_autoindex_user_attractions_1'
+  `).get() as { c: number };
+  if (hasUniqueConstraint.c > 0) {
+    database.exec(`
+      CREATE TABLE user_attractions_new (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        attraction_id INTEGER NOT NULL,
+        lit_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      );
+      INSERT INTO user_attractions_new (id, user_id, attraction_id, lit_at)
+        SELECT id, user_id, attraction_id, lit_at FROM user_attractions;
+      DROP TABLE user_attractions;
+      ALTER TABLE user_attractions_new RENAME TO user_attractions;
+      CREATE INDEX idx_user_attractions_user ON user_attractions(user_id);
+    `);
+  }
+
   return database;
 }

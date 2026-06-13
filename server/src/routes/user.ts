@@ -20,11 +20,12 @@ router.get('/progress', authMiddleware, (req: AuthRequest, res) => {
 
   // 景区统计
   const attractionStats = db.prepare(`
-    SELECT COUNT(*) as lit_attractions,
+    SELECT COUNT(DISTINCT attraction_id) as lit_attractions,
+           COUNT(*) as total_visits,
            (SELECT COUNT(*) FROM attractions) as total_attractions
     FROM user_attractions
     WHERE user_id = ?
-  `).get(userId) as { lit_attractions: number; total_attractions: number };
+  `).get(userId) as { lit_attractions: number; total_visits: number; total_attractions: number };
 
   // 各省份点亮数
   const provinceBreakdown = db.prepare(`
@@ -74,7 +75,7 @@ router.get('/lit-list', authMiddleware, (req: AuthRequest, res) => {
     JOIN provinces p ON a.province_id = p.id
     LEFT JOIN categories c ON a.category_id = c.id
     WHERE ua.user_id = ?
-    ORDER BY ua.lit_at DESC
+    ORDER BY ua.lit_at DESC, ua.id DESC
   `).all(userId);
 
   res.json(list);

@@ -138,7 +138,7 @@ async function seed() {
 
   // 默认系统配置
   const defaultSettings = [
-    { key: 'site_name', value: '旅行足迹', description: '网站名称' },
+    { key: 'site_name', value: '识界', description: '网站名称' },
     { key: 'site_subtitle', value: '点亮中国，记录每一段旅程', description: '网站副标题' },
     { key: 'allow_register', value: 'true', description: '是否允许新用户注册 (true/false)' },
     { key: 'home_stats_display', value: 'card', description: '首页统计展示方式 (card/progress)' },

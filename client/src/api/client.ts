@@ -42,9 +42,11 @@ export const api = {
       if (params?.q) qs.set('q', params.q);
       return request(`/attractions?${qs.toString()}`);
     },
-    lit: (id: number) => request(`/attractions/${id}/lit`, { method: 'POST' }),
+    lit: (id: number, lit_at?: string) =>
+      request(`/attractions/${id}/lit`, { method: 'POST', body: JSON.stringify({ lit_at }) }),
     unlit: (id: number) => request(`/attractions/${id}/lit`, { method: 'DELETE' }),
-    batchLit: (ids: number[]) => request('/attractions/batch/lit', { method: 'POST', body: JSON.stringify({ ids }) }),
+    batchLit: (ids: number[], lit_at?: string) =>
+      request('/attractions/batch/lit', { method: 'POST', body: JSON.stringify({ ids, lit_at }) }),
   },
   categories: {
     list: () => request('/achievements').then(() => []),

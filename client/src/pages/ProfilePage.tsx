@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { api } from '../api/client';
 import * as echarts from 'echarts';
+import { Tag, Medal, PartyPopper } from 'lucide-react';
+import AchievementBadge from '../components/AchievementBadge';
 
 interface Achievement {
   id: number;
@@ -43,6 +45,7 @@ export default function ProfilePage() {
     });
 
     chart.setOption({
+      color: ['#1594df', '#23c2d5', '#48d596', '#a6df6a', '#ffd166', '#ff8a75', '#7aa7ff', '#8bd3ff'],
       title: { text: '省份点亮进度', left: 'center', textStyle: { fontSize: 16, color: '#0f172a' } },
       tooltip: { trigger: 'item', formatter: '{b}: {c} 省已点亮' },
       series: [
@@ -102,7 +105,7 @@ export default function ProfilePage() {
       </div>
 
       <div className="profile-section">
-        <h2>🏷️ 分类点亮进度</h2>
+        <h2><Tag size={18} /> 分类点亮进度</h2>
         <div className="category-progress-list">
           {categoryBreakdown.map((c: any) => {
             const pct = c.total_count > 0 ? Math.round((c.lit_count / c.total_count) * 100) : 0;
@@ -123,7 +126,7 @@ export default function ProfilePage() {
 
       <div className="profile-section">
         <div className="achievement-header">
-          <h2>🏅 成就墙</h2>
+          <h2><Medal size={18} /> 成就墙</h2>
           <div className="achievement-filters">
             <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>全部</button>
             <button className={filter === 'unlocked' ? 'active' : ''} onClick={() => setFilter('unlocked')}>已解锁</button>
@@ -134,35 +137,24 @@ export default function ProfilePage() {
         <div className="achievement-group">
           <h3>省份探索</h3>
           <div className="badge-grid">
-            {provinceLine.map((a) => <Badge key={a.id} a={a} />)}
+            {provinceLine.map((a) => <AchievementBadge key={a.id} a={a} />)}
           </div>
         </div>
 
         <div className="achievement-group">
           <h3>景区达人</h3>
           <div className="badge-grid">
-            {attractionLine.map((a) => <Badge key={a.id} a={a} />)}
+            {attractionLine.map((a) => <AchievementBadge key={a.id} a={a} />)}
           </div>
         </div>
 
         <div className="achievement-group">
-          <h3>🎉 彩蛋成就</h3>
+          <h3><PartyPopper size={18} /> 彩蛋成就</h3>
           <div className="badge-grid">
-            {specialLine.map((a) => <Badge key={a.id} a={a} special />)}
+            {specialLine.map((a) => <AchievementBadge key={a.id} a={a} special />)}
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-function Badge({ a, special }: { a: Achievement; special?: boolean }) {
-  const unlocked = !!a.unlocked_at;
-  return (
-    <div className={`badge ${unlocked ? 'unlocked' : 'locked'} ${a.badge_style}`} title={unlocked ? a.condition_desc : '???'}>
-      <div className="badge-icon">{unlocked ? (a.icon === 'mountain' ? '⛰️' : a.icon === 'footprint' ? '👣' : a.icon === 'compass' ? '🧭' : a.icon === 'map' ? '🗺️' : a.icon === 'crown' ? '👑' : a.icon === 'ticket' ? '🎫' : a.icon === 'camera' ? '📷' : a.icon === 'landscape' ? '🏞️' : a.icon === 'scroll' ? '📜' : a.icon === 'album' ? '📒' : a.icon === 'compass2' ? '🧭' : a.icon === 'hiking' ? '🥾' : a.icon === 'long-scroll' ? '🗺️' : a.icon === 'star-trail' ? '✨' : a.icon === 'galaxy' ? '🌌' : a.icon === 'torch' ? '🔥' : a.icon === 'meteor' ? '☄️' : a.icon === 'moon' ? '🌙' : a.icon === 'trophy' ? '🏆' : a.icon === 'crown2' ? '👑' : a.icon === 'diamond5' ? '💎' : a.icon === 'calendar' ? '📅' : a.icon === 'flame' ? '🔥' : '🏅') : '❓'}</div>
-      <div className="badge-name">{unlocked ? a.name : special ? '???' : a.name}</div>
-      {unlocked && <div className="badge-level">Lv.{a.level}</div>}
     </div>
   );
 }

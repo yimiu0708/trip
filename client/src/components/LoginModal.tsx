@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 interface Props {
@@ -58,7 +59,7 @@ export default function LoginModal({ isOpen, onClose }: Props) {
             {mode === 'login' ? '立即注册' : '去登录'}
           </button>
         </p>
-        <button className="modal-close" onClick={onClose}>✕</button>
+        <button className="modal-close" onClick={onClose} aria-label="关闭"><X size={18} aria-hidden="true" /></button>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Users, Settings } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 
@@ -107,10 +108,10 @@ export default function AdminPage() {
         <h2>后台管理</h2>
         <nav>
           <button className={tab === 'users' ? 'active' : ''} onClick={() => setTab('users')}>
-            👥 用户管理
+            <Users size={16} aria-hidden="true" /> 用户管理
           </button>
           <button className={tab === 'settings' ? 'active' : ''} onClick={() => setTab('settings')}>
-            ⚙️ 系统配置
+            <Settings size={16} aria-hidden="true" /> 系统配置
           </button>
         </nav>
       </aside>
