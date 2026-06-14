@@ -1,11 +1,15 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Eye, EyeOff, User, Lock } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import './LoginPage.css';
 
 export default function LoginPage() {
+  const [showLogin, setShowLogin] = useState(false);
   const [mode, setMode] = useState<'login' | 'register'>('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const { login, register } = useAuth();
@@ -21,6 +25,10 @@ export default function LoginPage() {
       } else {
         await register(username, password);
       }
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+      window.scrollTo({ top: 0, left: 0 });
       navigate('/map');
     } catch (err: any) {
       setError(err.message || '操作失败');
@@ -29,28 +37,45 @@ export default function LoginPage() {
     }
   };
 
-  return (
-    <div className="auth-page">
-      <div className="auth-bg">
-        <div className="auth-bg-circle circle-1">✈️</div>
-        <div className="auth-bg-circle circle-2">🌍</div>
-        <div className="auth-bg-circle circle-3">🗺️</div>
-        <div className="auth-bg-circle circle-4">⛰️</div>
-        <div className="auth-bg-circle circle-5">📷</div>
-      </div>
-
-      <div className="auth-card">
-        <div className="auth-header">
-          <div className="auth-logo">🌍</div>
-          <h1>识界</h1>
-          <p>用脚步丈量世界，点亮每一段旅程</p>
+  if (!showLogin) {
+    return (
+      <div className="login-splash-page">
+        <div className="login-splash-overlay" />
+        <div className="login-splash-content">
+          <div className="login-splash-brand">
+            <img
+              className="login-splash-logo"
+              src="/images/shijie-logo-transparent.png"
+              alt="识界 Light your life"
+            />
+          </div>
+          <div className="login-splash-action">
+            <button className="login-splash-button" onClick={() => setShowLogin(true)}>
+              <span>即刻点亮</span>
+              <span className="login-splash-star" aria-hidden="true">✦</span>
+            </button>
+          </div>
         </div>
+      </div>
+    );
+  }
 
-        {error && <div className="auth-error">{error}</div>}
+  return (
+    <div className="login-auth-page">
+      <section className="login-auth-brand">
+        <BrandLogo className="login-auth-logo" />
+        <div className="login-auth-brand-text">
+          <div className="login-auth-brand-name">识界</div>
+          <div className="login-auth-brand-tagline">Light your life</div>
+        </div>
+      </section>
 
-        <form onSubmit={handleSubmit} className="auth-form">
-          <div className="auth-field">
-            <label>用户名</label>
+      <div className="login-auth-card">
+        {error && <div className="login-auth-error">{error}</div>}
+
+        <form onSubmit={handleSubmit} className="login-auth-form">
+          <div className="login-auth-field">
+            <User className="login-auth-field-icon" size={18} aria-hidden="true" />
             <input
               type="text"
               value={username}
@@ -61,10 +86,10 @@ export default function LoginPage() {
               maxLength={20}
             />
           </div>
-          <div className="auth-field">
-            <label>密码</label>
+          <div className="login-auth-field">
+            <Lock className="login-auth-field-icon" size={18} aria-hidden="true" />
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder={mode === 'login' ? '请输入密码' : '设置6-20位密码'}
@@ -72,37 +97,49 @@ export default function LoginPage() {
               minLength={6}
               maxLength={20}
             />
+            <button
+              type="button"
+              className="login-auth-field-eye"
+              onClick={() => setShowPassword((v) => !v)}
+              aria-label={showPassword ? '隐藏密码' : '显示密码'}
+            >
+              {showPassword ? <EyeOff size={18} aria-hidden="true" /> : <Eye size={18} aria-hidden="true" />}
+            </button>
           </div>
 
-          <button type="submit" className="auth-submit" disabled={loading}>
+          <button type="submit" className="login-auth-submit" disabled={loading}>
             {loading ? '请稍候...' : mode === 'login' ? '登 录' : '注 册'}
           </button>
-        </form>
 
-        <div className="auth-footer">
-          {mode === 'login' ? (
-            <>
-              <span>还没有账号？</span>
-              <button className="auth-link" onClick={() => { setMode('register'); setError(''); }}>
+          {mode === 'login' && (
+            <div className="login-auth-actions">
+              <button type="button" className="login-auth-link" onClick={() => { setMode('register'); setError(''); }}>
                 立即注册
               </button>
-            </>
-          ) : (
+              <button type="button" className="login-auth-link" onClick={() => setError('敬请期待')}>
+                忘记密码？
+              </button>
+            </div>
+          )}
+        </form>
+
+        <div className="login-auth-footer">
+          {mode === 'register' && (
             <>
               <span>已有账号？</span>
-              <button className="auth-link" onClick={() => { setMode('login'); setError(''); }}>
+              <button className="login-auth-link" onClick={() => { setMode('login'); setError(''); }}>
                 去登录
               </button>
             </>
           )}
         </div>
-
-        {mode === 'login' && (
-          <div className="auth-guest">
-            <Link to="/map" className="auth-guest-link">👀 暂不登录，先逛逛</Link>
-          </div>
-        )}
       </div>
     </div>
+  );
+}
+
+function BrandLogo({ className = '' }: { className?: string }) {
+  return (
+    <img className={className} src="/images/shijie-logo-mark.png" alt="识界" />
   );
 }

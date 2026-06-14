@@ -1,23 +1,25 @@
+import { lazy, Suspense, type ReactNode } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
-import LoginPage from './pages/LoginPage';
-import HomePage from './pages/HomePage';
-import ProvincePage from './pages/ProvincePage';
-import ProfilePage from './pages/ProfilePage';
-import JourneyPage from './pages/JourneyPage';
-import AchievementPage from './pages/AchievementPage';
-import AdminPage from './pages/AdminPage';
 import './App.css';
 
-function RequireAuth({ children }: { children: React.ReactNode }) {
+const LoginPage = lazy(() => import('./pages/LoginPage'));
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ProvincePage = lazy(() => import('./pages/ProvincePage'));
+const ProfilePage = lazy(() => import('./pages/ProfilePage'));
+const JourneyPage = lazy(() => import('./pages/JourneyPage'));
+const AchievementPage = lazy(() => import('./pages/AchievementPage'));
+const AdminPage = lazy(() => import('./pages/AdminPage'));
+
+function RequireAuth({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return <div className="page-loading">加载中...</div>;
   if (!user) return <Navigate to="/login" replace />;
   return <>{children}</>;
 }
 
-function RedirectIfAuth({ children }: { children: React.ReactNode }) {
+function RedirectIfAuth({ children }: { children: ReactNode }) {
   const { user, loading } = useAuth();
   if (loading) return <div className="page-loading">加载中...</div>;
   if (user) return <Navigate to="/map" replace />;
@@ -46,7 +48,9 @@ function App() {
         <div className="app">
           <Navbar />
           <main className="app-main">
-            <AppRoutes />
+            <Suspense fallback={<div className="page-loading">加载中...</div>}>
+              <AppRoutes />
+            </Suspense>
           </main>
         </div>
       </BrowserRouter>

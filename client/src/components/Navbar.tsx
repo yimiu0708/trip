@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { Map, Backpack, Medal, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 
@@ -39,19 +40,21 @@ export default function Navbar() {
       <header className="app-header-bar">
         <Link to="/map" className="app-title-link">
           <div className="app-title">
-            <span className="app-title-main">识界</span>
-            <span className="app-title-sub">light your life</span>
+            <img className="app-title-logo" src="/images/shijie-logo-mark.png" alt="" aria-hidden="true" />
+            <span className="app-title-copy">
+              <span className="app-title-main">识界</span>
+              <span className="app-title-sub brand-script">Light your life</span>
+            </span>
           </div>
         </Link>
         <div className="app-header-right">
           <div className="avatar-menu-wrap">
             <button className="avatar-btn" onClick={() => { setMenuOpen(!menuOpen); setShowPwdForm(false); setPwdMsg(''); }}>
-              <span className="avatar-icon">👤</span>
+              <User size={20} aria-hidden="true" />
             </button>
             {menuOpen && (
               <div className="avatar-dropdown">
                 <div className="dropdown-user">{user.username}</div>
-                <button onClick={() => { setMenuOpen(false); navigate('/profile'); }}>个人资料</button>
                 <button onClick={() => setShowPwdForm(!showPwdForm)}>修改密码</button>
                 {showPwdForm && (
                   <div className="dropdown-pwd-form">
@@ -72,16 +75,20 @@ export default function Navbar() {
       {/* 底部 Tab 栏 */}
       <nav className="bottom-tab-bar">
         <Link to="/map" className={`bottom-tab ${isActive('/map') ? 'active' : ''}`}>
-          <span className="bottom-tab-icon">🗺️</span>
+          <Map size={22} aria-hidden="true" />
           <span className="bottom-tab-label">地图</span>
         </Link>
         <Link to="/journeys" className={`bottom-tab ${isActive('/journeys') ? 'active' : ''}`}>
-          <span className="bottom-tab-icon">🎒</span>
-          <span className="bottom-tab-label">旅程</span>
+          <Backpack size={22} aria-hidden="true" />
+          <span className="bottom-tab-label">行程</span>
         </Link>
         <Link to="/achievements" className={`bottom-tab ${isActive('/achievements') ? 'active' : ''}`}>
-          <span className="bottom-tab-icon">🏅</span>
+          <Medal size={22} aria-hidden="true" />
           <span className="bottom-tab-label">成就</span>
+        </Link>
+        <Link to="/profile" className={`bottom-tab ${isActive('/profile') ? 'active' : ''}`}>
+          <User size={22} aria-hidden="true" />
+          <span className="bottom-tab-label">我的</span>
         </Link>
       </nav>
     </>

@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react';
-import * as echarts from 'echarts';
+import { useEffect, useMemo, useRef } from 'react';
+import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type MapLayerMouseEvent } from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 interface ProvinceStat {
   id: number;
@@ -12,210 +13,455 @@ interface ProvinceStat {
 interface Props {
   stats: ProvinceStat[];
   onClickProvince: (id: number) => void;
-  onDoubleClickProvince: (id: number) => void;
+  onClickEmpty?: () => void;
   highlightProvinceId?: number | null;
 }
 
-function buildSeriesData(stats: ProvinceStat[], highlightId?: number | null) {
-  return stats.map((s) => ({
-    name: s.name,
-    value: s.lit_count,
-    itemStyle: {
-      areaColor: s.lit_count > 0 ? '#22c55e' : '#e2e8f0',
-      borderColor: s.id === highlightId ? '#f59e0b' : (s.lit_count > 0 ? '#16a34a' : '#cbd5e1'),
-      borderWidth: s.id === highlightId ? 3 : (s.lit_count > 0 ? 1.5 : 1),
-    },
-    label: {
-      show: false,
-    },
-    emphasis: {
-      itemStyle: { areaColor: s.lit_count > 0 ? '#16a34a' : '#cbd5e1' },
-      label: { show: true, color: '#fff', fontSize: 12, fontWeight: 600 },
-    },
-  }));
+const CHINA_BOUNDS: [[number, number], [number, number]] = [[72, 17], [136, 55]];
+
+function enrichProvinceGeoJson(geoJson: any, stats: ProvinceStat[]) {
+  const statMap = new Map(stats.map((stat) => [stat.name, stat]));
+  return {
+    ...geoJson,
+    features: (geoJson.features || []).map((feature: any) => {
+      const name = feature.properties?.name;
+      const stat = statMap.get(name);
+      const total = stat?.total_count || 0;
+      const lit = stat?.lit_count || 0;
+      return {
+        ...feature,
+        properties: {
+          ...feature.properties,
+          stat_id: stat?.id || 0,
+          lit_count: lit,
+          total_count: total,
+          lit_rate: total > 0 ? lit / total : 0,
+        },
+      };
+    }),
+  };
 }
 
-/** 计算 GeoJSON feature 的 bounding box 中心 */
-function getFeatureCenter(feature: any): [number, number] | null {
-  const geom = feature.geometry;
-  if (!geom) return null;
+function buildPointGeoJson(geoJson: any, stats: ProvinceStat[]) {
+  const statMap = new Map(stats.map((stat) => [stat.name, stat]));
+  return {
+    type: 'FeatureCollection',
+    features: (geoJson?.features || [])
+      .map((feature: any) => {
+        const name = feature.properties?.name;
+        const center = feature.properties?.center;
+        const stat = statMap.get(name);
+        if (!center || !stat) return null;
+        return {
+          type: 'Feature',
+          geometry: { type: 'Point', coordinates: center },
+          properties: {
+            name,
+            stat_id: stat.id,
+            lit_count: stat.lit_count,
+            total_count: stat.total_count,
+            lit_rate: stat.total_count > 0 ? stat.lit_count / stat.total_count : 0,
+          },
+        };
+      })
+      .filter(Boolean),
+  };
+}
 
-  const coords: number[][][] = [];
-  if (geom.type === 'Polygon') {
-    coords.push(geom.coordinates[0]);
-  } else if (geom.type === 'MultiPolygon') {
-    geom.coordinates.forEach((poly: any) => coords.push(poly[0]));
-  } else {
-    return null;
-  }
-
-  let minLng = Infinity, maxLng = -Infinity, minLat = Infinity, maxLat = -Infinity;
-  coords.forEach((ring: number[][]) => {
-    ring.forEach(([lng, lat]) => {
-      minLng = Math.min(minLng, lng);
-      maxLng = Math.max(maxLng, lng);
-      minLat = Math.min(minLat, lat);
-      maxLat = Math.max(maxLat, lat);
-    });
+function fitChina(map: MapLibreMap, animate = false) {
+  const narrow = window.innerWidth <= 520;
+  map.fitBounds(CHINA_BOUNDS, {
+    padding: narrow
+      ? { top: 134, right: 18, bottom: 274, left: 18 }
+      : { top: 118, right: 100, bottom: 292, left: 42 },
+    duration: animate ? 650 : 0,
   });
-
-  if (minLng === Infinity) return null;
-  return [(minLng + maxLng) / 2, (minLat + maxLat) / 2];
 }
 
-const DEFAULT_CENTER: [number, number] = [105, 36];
-const DEFAULT_ZOOM = 1.15;
-const FOCUS_ZOOM = 3.5;
-
-export default function ChinaMap({ stats, onClickProvince, onDoubleClickProvince, highlightProvinceId }: Props) {
-  const chartRef = useRef<HTMLDivElement>(null);
-  const chartInstance = useRef<echarts.ECharts | null>(null);
+export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlightProvinceId }: Props) {
+  const mapNodeRef = useRef<HTMLDivElement>(null);
+  const mapRef = useRef<MapLibreMap | null>(null);
+  const geoJsonRef = useRef<any>(null);
   const statsRef = useRef(stats);
-  statsRef.current = stats;
+  const highlightIdRef = useRef(highlightProvinceId);
   const clickTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const centersRef = useRef<Record<string, [number, number]>>({});
-  const prevHighlightRef = useRef<number | null>(null);
+  const pulseFrameRef = useRef<number | null>(null);
+  const callbacksRef = useRef({ onClickProvince, onClickEmpty });
+
+  statsRef.current = stats;
+  highlightIdRef.current = highlightProvinceId;
+  callbacksRef.current = { onClickProvince, onClickEmpty };
+
+  const highlightedStat = useMemo(
+    () => stats.find((stat) => stat.id === highlightProvinceId) || null,
+    [highlightProvinceId, stats],
+  );
 
   useEffect(() => {
-    if (!chartRef.current) return;
+    if (!mapNodeRef.current || mapRef.current) return;
 
     let disposed = false;
 
     const init = async () => {
       const res = await fetch('/china.json');
       const geoJson = await res.json();
-      echarts.registerMap('china', geoJson);
+      geoJsonRef.current = geoJson;
+      if (disposed || !mapNodeRef.current) return;
 
-      // 预计算每个省份的中心坐标
-      const centers: Record<string, [number, number]> = {};
-      geoJson.features?.forEach((feature: any) => {
-        const name = feature.properties?.name;
-        const center = getFeatureCenter(feature);
-        if (name && center) centers[name] = center;
+      const map = new maplibregl.Map({
+        container: mapNodeRef.current,
+        attributionControl: false,
+        // 该页面地图只做单击放大交互，禁用自由拖拽/缩放
+        dragPan: false,
+        scrollZoom: false,
+        doubleClickZoom: false,
+        boxZoom: false,
+        keyboard: false,
+        touchZoomRotate: false,
+        center: [105, 36],
+        zoom: 3.05,
+        minZoom: 2.2,
+        maxZoom: 6,
+        pitch: 0,
+        style: {
+          version: 8,
+          sources: {},
+          layers: [
+            {
+              id: 'shijie-map-bg',
+              type: 'background',
+              paint: {
+                'background-color': 'rgba(231, 248, 252, 0)',
+              },
+            },
+          ],
+        },
       });
-      centersRef.current = centers;
 
-      if (disposed) return;
+      mapRef.current = map;
+      // 该页面不需要缩放控件
+      // map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
-      const instance = echarts.init(chartRef.current!);
-      chartInstance.current = instance;
+      map.on('load', () => {
+        if (disposed) return;
+        const provinceData = enrichProvinceGeoJson(geoJson, statsRef.current);
+        const pointData = buildPointGeoJson(geoJson, statsRef.current);
 
-      instance.on('click', (params: any) => {
-        const stat = statsRef.current.find((s) => s.name === params.name);
+        map.addSource('china-provinces', { type: 'geojson', data: provinceData });
+        map.addSource('province-points', { type: 'geojson', data: pointData });
+
+        // 柔和的国家轮廓阴影，让地图从背景中微微浮起
+        map.addLayer({
+          id: 'china-shadow',
+          type: 'line',
+          source: 'china-provinces',
+          paint: {
+            'line-color': 'rgba(79, 154, 185, 0.18)',
+            'line-width': 5,
+            'line-blur': 7,
+            'line-opacity': 0.26,
+          },
+        });
+
+        // 极淡的省份填充：未点亮时几乎透明，仅用来统一色调
+        map.addLayer({
+          id: 'china-fill',
+          type: 'fill',
+          source: 'china-provinces',
+          paint: {
+            'fill-color': [
+              'case',
+              ['>', ['get', 'lit_count'], 0],
+              [
+                'interpolate',
+                ['linear'],
+                ['get', 'lit_rate'],
+                0,
+                'rgba(78, 204, 198, 0.56)',
+                0.45,
+                'rgba(127, 214, 211, 0.50)',
+                1,
+                'rgba(142, 242, 208, 0.44)',
+              ],
+              'rgba(247, 253, 255, 0.82)',
+            ],
+            'fill-opacity': [
+              'case',
+              ['>', ['get', 'lit_count'], 0],
+              0.48,
+              0.82,
+            ],
+          },
+        });
+
+        // 已点亮省份的柔和泛光填充
+        map.addLayer({
+          id: 'china-lit-glow-fill',
+          type: 'fill',
+          source: 'china-provinces',
+          filter: ['>', ['get', 'lit_count'], 0],
+          paint: {
+            'fill-color': '#8EF2D0',
+            'fill-opacity': [
+              'interpolate',
+              ['linear'],
+              ['get', 'lit_rate'],
+              0,
+              0.12,
+              1,
+              0.22,
+            ],
+          },
+        });
+
+        // 省份基础描边：未点亮时极淡，点亮时变白
+        map.addLayer({
+          id: 'china-outline',
+          type: 'line',
+          source: 'china-provinces',
+          paint: {
+            'line-color': [
+              'case',
+              ['>', ['get', 'lit_count'], 0],
+              'rgba(255, 255, 255, 0.82)',
+              'rgba(111, 179, 204, 0.36)',
+            ],
+            'line-width': ['case', ['>', ['get', 'lit_count'], 0], 1.05, 0.58],
+          },
+        });
+
+        // 已点亮省份的发光描边（核心设计稿效果）
+        map.addLayer({
+          id: 'china-lit-outline',
+          type: 'line',
+          source: 'china-provinces',
+          filter: ['>', ['get', 'lit_count'], 0],
+          paint: {
+            'line-color': 'rgba(18, 199, 217, 0.72)',
+            'line-width': 1.7,
+            'line-blur': 0.7,
+          },
+        });
+
+        // 已点亮省份的外层光晕
+        map.addLayer({
+          id: 'china-lit-outline-glow',
+          type: 'line',
+          source: 'china-provinces',
+          filter: ['>', ['get', 'lit_count'], 0],
+          paint: {
+            'line-color': 'rgba(142, 242, 208, 0.46)',
+            'line-width': 7,
+            'line-blur': 9,
+            'line-opacity': 0.56,
+          },
+        });
+
+        map.addLayer({
+          id: 'china-highlight-glow',
+          type: 'line',
+          source: 'china-provinces',
+          filter: ['==', ['get', 'stat_id'], highlightIdRef.current || -1],
+          paint: {
+            'line-color': 'rgba(18, 199, 217, 0.34)',
+            'line-width': 10,
+            'line-opacity': 0.46,
+            'line-blur': 11,
+          },
+        });
+
+        map.addLayer({
+          id: 'china-highlight-line',
+          type: 'line',
+          source: 'china-provinces',
+          filter: ['==', ['get', 'stat_id'], highlightIdRef.current || -1],
+          paint: {
+            'line-color': '#ffffff',
+            'line-width': 2.2,
+          },
+        });
+
+        // 省份中心点：外层柔光
+        map.addLayer({
+          id: 'province-point-glow',
+          type: 'circle',
+          source: 'province-points',
+          filter: ['>', ['get', 'lit_count'], 0],
+          paint: {
+            'circle-radius': ['interpolate', ['linear'], ['get', 'lit_rate'], 0, 17, 1, 25],
+            'circle-color': 'rgba(18, 199, 217, 0.30)',
+            'circle-blur': 0.85,
+            'circle-opacity': 0.66,
+          },
+        });
+
+        // 白色描边圆环
+        map.addLayer({
+          id: 'province-point-ring',
+          type: 'circle',
+          source: 'province-points',
+          filter: ['>', ['get', 'lit_count'], 0],
+          paint: {
+            'circle-radius': ['interpolate', ['linear'], ['get', 'lit_rate'], 0, 8, 1, 12],
+            'circle-color': 'rgba(255,255,255,0)',
+            'circle-stroke-color': 'rgba(255, 255, 255, 0.92)',
+            'circle-stroke-width': 2.4,
+            'circle-opacity': 0.88,
+          },
+        });
+
+        // 内层 aura
+        map.addLayer({
+          id: 'province-point-aura',
+          type: 'circle',
+          source: 'province-points',
+          filter: ['>', ['get', 'lit_count'], 0],
+          paint: {
+            'circle-radius': ['interpolate', ['linear'], ['get', 'lit_rate'], 0, 4.5, 1, 7],
+            'circle-color': '#8EF2D0',
+            'circle-opacity': 0.78,
+          },
+        });
+
+        // 中心实心点
+        map.addLayer({
+          id: 'province-point-core',
+          type: 'circle',
+          source: 'province-points',
+          filter: ['>', ['get', 'lit_count'], 0],
+          paint: {
+            'circle-radius': ['interpolate', ['linear'], ['get', 'lit_rate'], 0, 3, 1, 5],
+            'circle-color': '#12C7D9',
+            'circle-stroke-color': '#fff',
+            'circle-stroke-width': 1.4,
+            'circle-opacity': 0.96,
+          },
+        });
+
+        map.addLayer({
+          id: 'province-selected-pulse',
+          type: 'circle',
+          source: 'province-points',
+          filter: ['==', ['get', 'stat_id'], highlightIdRef.current || -1],
+          paint: {
+            'circle-radius': 20,
+            'circle-color': 'rgba(18, 199, 217, 0.30)',
+            'circle-blur': 0.70,
+            'circle-opacity': 0.58,
+          },
+        });
+
+        map.addLayer({
+          id: 'province-selected-ring',
+          type: 'circle',
+          source: 'province-points',
+          filter: ['==', ['get', 'stat_id'], highlightIdRef.current || -1],
+          paint: {
+            'circle-radius': 13,
+            'circle-color': 'rgba(255,255,255,0)',
+            'circle-stroke-color': '#ffffff',
+            'circle-stroke-width': 2.6,
+            'circle-opacity': 0.96,
+          },
+        });
+
+        fitChina(map);
+      });
+
+      const pickStat = (event: MapLayerMouseEvent) => {
+        const feature = event.features?.[0];
+        const id = Number(feature?.properties?.stat_id);
+        return statsRef.current.find((stat) => stat.id === id) || null;
+      };
+
+      const handleClick = (event: MapLayerMouseEvent) => {
+        const stat = pickStat(event);
         if (!stat) return;
+        callbacksRef.current.onClickProvince(stat.id);
+      };
 
-        if (clickTimer.current) {
-          clearTimeout(clickTimer.current);
-          clickTimer.current = null;
-          onDoubleClickProvince(stat.id);
-        } else {
-          clickTimer.current = setTimeout(() => {
-            clickTimer.current = null;
-            onClickProvince(stat.id);
-          }, 250);
+      ['china-fill', 'province-point-core'].forEach((layerId) => {
+        map.on('click', layerId, handleClick);
+        map.on('mouseenter', layerId, () => {
+          map.getCanvas().style.cursor = 'pointer';
+        });
+        map.on('mouseleave', layerId, () => {
+          map.getCanvas().style.cursor = '';
+        });
+      });
+
+      map.on('click', (event) => {
+        const features = map.queryRenderedFeatures(event.point, {
+          layers: ['china-fill', 'province-point-core'],
+        });
+        if (features.length === 0) {
+          callbacksRef.current.onClickEmpty?.();
         }
       });
-
-      instance.setOption({
-        backgroundColor: 'transparent',
-        tooltip: {
-          trigger: 'item',
-          formatter: (params: any) => {
-            const stat = statsRef.current.find((s) => s.name === params.name);
-            if (!stat) return params.name;
-            const status = stat.lit_count > 0
-              ? `✅ 已点亮 (${stat.lit_count}/${stat.total_count})`
-              : '⬜ 未点亮';
-            return `<div style="font-weight:600">${params.name}</div><div style="font-size:12px;margin-top:4px">${status}</div>`;
-          },
-          backgroundColor: 'rgba(255,255,255,0.95)',
-          borderColor: '#e2e8f0',
-          textStyle: { color: '#1e293b' },
-          padding: 12,
-        },
-        series: [
-          {
-            type: 'map',
-            map: 'china',
-            roam: true,
-            zoom: DEFAULT_ZOOM,
-            center: DEFAULT_CENTER,
-            selectedMode: false,
-            label: { show: false },
-            itemStyle: { areaColor: '#e2e8f0', borderColor: '#cbd5e1', borderWidth: 1 },
-            emphasis: {
-              itemStyle: { areaColor: '#fde68a' },
-              label: { show: true, color: '#0f172a', fontSize: 11, fontWeight: 600 },
-            },
-            data: buildSeriesData(statsRef.current, highlightProvinceId),
-          },
-        ],
-      });
-
-      const handleResize = () => instance.resize();
-      window.addEventListener('resize', handleResize);
-
-      return () => {
-        window.removeEventListener('resize', handleResize);
-        instance.dispose();
-        chartInstance.current = null;
-      };
     };
 
-    const cleanupPromise = init();
+    init();
+
     return () => {
       disposed = true;
-      if (clickTimer.current) {
-        clearTimeout(clickTimer.current);
-        clickTimer.current = null;
-      }
-      cleanupPromise.then((cleanup) => cleanup && cleanup());
+      if (clickTimer.current) clearTimeout(clickTimer.current);
+      if (pulseFrameRef.current) cancelAnimationFrame(pulseFrameRef.current);
+      mapRef.current?.remove();
+      mapRef.current = null;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 数据/高亮变化时更新 series
   useEffect(() => {
-    if (!chartInstance.current) return;
-    chartInstance.current.setOption({
-      series: [{ type: 'map', map: 'china', data: buildSeriesData(stats, highlightProvinceId) }],
-    });
-  }, [stats, highlightProvinceId]);
+    const map = mapRef.current;
+    const geoJson = geoJsonRef.current;
+    if (!map || !geoJson || !map.isStyleLoaded()) return;
 
-  // 省份聚焦/恢复：单击放大，取消选中恢复全图
+    const provinceSource = map.getSource('china-provinces') as GeoJSONSource | undefined;
+    const pointSource = map.getSource('province-points') as GeoJSONSource | undefined;
+    provinceSource?.setData(enrichProvinceGeoJson(geoJson, stats) as any);
+    pointSource?.setData(buildPointGeoJson(geoJson, stats) as any);
+  }, [stats]);
+
   useEffect(() => {
-    if (!chartInstance.current) return;
-    const chart = chartInstance.current;
+    const map = mapRef.current;
+    if (!map || !map.isStyleLoaded()) return;
 
-    if (highlightProvinceId) {
-      // 聚焦到选中省份
-      const stat = stats.find((s) => s.id === highlightProvinceId);
-      const center = stat ? centersRef.current[stat.name] : null;
-      if (center) {
-        chart.setOption({
-          series: [{
-            center,
-            zoom: FOCUS_ZOOM,
-            animationDurationUpdate: 700,
-            animationEasingUpdate: 'cubicOut',
-          }],
-        });
-      }
-    } else if (prevHighlightRef.current !== null) {
-      // 从有选中变为无选中，恢复全图
-      chart.setOption({
-        series: [{
-          center: DEFAULT_CENTER,
-          zoom: DEFAULT_ZOOM,
-          animationDurationUpdate: 700,
-          animationEasingUpdate: 'cubicOut',
-        }],
-      });
+    const filter = ['==', ['get', 'stat_id'], highlightProvinceId || -1] as any;
+    if (map.getLayer('china-highlight-glow')) map.setFilter('china-highlight-glow', filter);
+    if (map.getLayer('china-highlight-line')) map.setFilter('china-highlight-line', filter);
+    if (map.getLayer('province-selected-pulse')) map.setFilter('province-selected-pulse', filter);
+    if (map.getLayer('province-selected-ring')) map.setFilter('province-selected-ring', filter);
+
+    if (pulseFrameRef.current) {
+      cancelAnimationFrame(pulseFrameRef.current);
+      pulseFrameRef.current = null;
     }
 
-    prevHighlightRef.current = highlightProvinceId ?? null;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [highlightProvinceId]);
+    if (highlightProvinceId && map.getLayer('province-selected-pulse')) {
+      const startedAt = performance.now();
+      const animatePulse = (now: number) => {
+        if (!mapRef.current || !mapRef.current.getLayer('province-selected-pulse')) return;
+        const progress = ((now - startedAt) % 1600) / 1600;
+        const radius = 18 + progress * 20;
+        const opacity = 0.56 * (1 - progress);
+        mapRef.current.setPaintProperty('province-selected-pulse', 'circle-radius', radius);
+        mapRef.current.setPaintProperty('province-selected-pulse', 'circle-opacity', opacity);
+        pulseFrameRef.current = requestAnimationFrame(animatePulse);
+      };
+      pulseFrameRef.current = requestAnimationFrame(animatePulse);
+    }
 
-  return <div ref={chartRef} style={{ width: '100%', height: '100%' }} />;
+    if (highlightedStat && geoJsonRef.current) {
+      const feature = geoJsonRef.current.features?.find((item: any) => item.properties?.name === highlightedStat.name);
+      const center = feature?.properties?.center;
+      if (center) {
+        // 单击省份：缓慢放大，营造聚焦感
+        map.flyTo({ center, zoom: 4.55, duration: 1200, essential: true, curve: 1.2 });
+      }
+    } else {
+      fitChina(map, true);
+    }
+  }, [highlightProvinceId, highlightedStat]);
+
+  return <div className="china-map-canvas" ref={mapNodeRef} />;
 }
