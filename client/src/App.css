@@ -221,11 +221,14 @@ input, textarea, button, select { font-family: inherit; }
 }
 
 .map-hero-panel.guest-brand-panel {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   pointer-events: none;
+  transform: translateY(-10px);
 }
 
-.guest-brand {
+.guest-brand-header {
   display: inline-flex;
   align-items: center;
   gap: 10px;
@@ -259,6 +262,10 @@ input, textarea, button, select { font-family: inherit; }
   font-weight: 500;
   color: #0bb8a6;
   letter-spacing: 0.02em;
+}
+
+.guest-brand-stats {
+  pointer-events: auto;
 }
 
 /* HomePage 悬浮侧边栏 */

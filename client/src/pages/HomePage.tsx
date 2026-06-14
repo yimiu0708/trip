@@ -225,7 +225,7 @@ export default function HomePage() {
         </div>
       ) : (
         <div className="map-hero-panel guest-brand-panel">
-          <div className="guest-brand">
+          <div className="guest-brand-header">
             <img
               className="guest-brand-logo"
               src="/images/shijie-logo-mark.png"
@@ -235,6 +235,11 @@ export default function HomePage() {
               <div className="guest-brand-name">识界</div>
               <div className="guest-brand-tagline">Light your life</div>
             </div>
+          </div>
+          <div className="guest-brand-stats">
+            <div className="map-hero-label">点亮中国</div>
+            <div className="map-hero-percent">{litProvincePct}<span>%</span></div>
+            <div className="map-hero-copy">已点亮 {litProvinces} 个省份</div>
           </div>
         </div>
       )}
