@@ -28,3 +28,7 @@ dist-ssr
 *.sqlite3
 server/data/*.sqlite*
 
+# Virtual environments
+.venv/
+venv/
+
