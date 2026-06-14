@@ -225,7 +225,6 @@ input, textarea, button, select { font-family: inherit; }
   flex-direction: column;
   gap: 10px;
   pointer-events: none;
-  transform: translateY(-10px);
 }
 
 .guest-brand-header {
