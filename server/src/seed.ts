@@ -43,17 +43,17 @@ const PROVINCES = [
 ];
 
 const CATEGORIES = [
-  { id: 1, name: '山岳', sort_order: 1 },
-  { id: 2, name: '湖泊', sort_order: 2 },
-  { id: 3, name: '森林公园', sort_order: 3 },
-  { id: 4, name: '历史文化', sort_order: 4 },
-  { id: 5, name: '海岛', sort_order: 5 },
-  { id: 6, name: '古镇古村', sort_order: 6 },
-  { id: 7, name: '现代建筑', sort_order: 7 },
-  { id: 8, name: '动物园/植物园', sort_order: 8 },
-  { id: 9, name: '博物馆', sort_order: 9 },
-  { id: 10, name: '宗教场所', sort_order: 10 },
-  { id: 11, name: '主题乐园', sort_order: 11 },
+  { id: 1, name: '人文古迹', sort_order: 1 },
+  { id: 2, name: '水域风光', sort_order: 2 },
+  { id: 3, name: '山岳风光', sort_order: 3 },
+  { id: 4, name: '地质奇观', sort_order: 4 },
+  { id: 5, name: '森林生态', sort_order: 5 },
+  { id: 6, name: '城市休闲', sort_order: 6 },
+  { id: 7, name: '宗教文化', sort_order: 7 },
+  { id: 8, name: '主题娱乐', sort_order: 8 },
+  { id: 9, name: '古镇村落', sort_order: 9 },
+  { id: 10, name: '红色旅游', sort_order: 10 },
+  { id: 11, name: '博物展馆', sort_order: 11 },
 ];
 
 const ACHIEVEMENTS = [
@@ -146,21 +146,51 @@ async function seed() {
       name: string;
       province_id: number;
       city_id?: number | null;
-      level: string;
-      category_id: number;
-      pinyin: string;
+      is_5a?: boolean;
+      is_4a?: boolean;
+      pinyin?: string;
+      tags?: number[];
     }[];
+
+    // Sync tags
+    db.prepare('DELETE FROM attraction_tags').run();
+
     const insertAttraction = db.prepare(`
-      INSERT INTO attractions (name, province_id, city_id, level, category_id, pinyin)
-      VALUES (?, ?, ?, ?, ?, ?)
+      INSERT INTO attractions (name, province_id, city_id, is_5a, is_4a, level, category_id, pinyin, created_by, status)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       ON CONFLICT(name, province_id) DO UPDATE SET
         city_id = excluded.city_id,
+        is_5a = excluded.is_5a,
+        is_4a = excluded.is_4a,
         level = excluded.level,
         category_id = excluded.category_id,
-        pinyin = excluded.pinyin
+        pinyin = excluded.pinyin,
+        created_by = excluded.created_by,
+        status = excluded.status
     `);
+    const insertTag = db.prepare('INSERT OR IGNORE INTO attraction_tags (attraction_id, category_id) VALUES (?, ?)');
+
     for (const a of attractions) {
-      insertAttraction.run(a.name, a.province_id, a.city_id ?? null, a.level, a.category_id, a.pinyin);
+      const is5a = a.is_5a ? 1 : 0;
+      const is4a = a.is_4a ? 1 : 0;
+      const level = is5a ? '5A' : is4a ? '4A' : null;
+      const primaryCategoryId = a.tags?.[0] ?? null;
+      const result = insertAttraction.run(
+        a.name,
+        a.province_id,
+        a.city_id ?? null,
+        is5a,
+        is4a,
+        level,
+        primaryCategoryId,
+        a.pinyin ?? '',
+        null,
+        'approved'
+      );
+      const attractionId = Number(result.lastInsertRowid);
+      for (const tagId of (a.tags ?? [])) {
+        insertTag.run(attractionId, tagId);
+      }
     }
     console.log(`✅ Attractions seeded: ${attractions.length}`);
   } else {

@@ -18,13 +18,23 @@ router.get('/progress', authMiddleware, (req: AuthRequest, res) => {
     WHERE ua.user_id = ?
   `).get(userId) as { lit_provinces: number; total_provinces: number };
 
+  // 城市统计
+  const cityStats = db.prepare(`
+    SELECT COUNT(DISTINCT a.city_id) as lit_cities,
+           (SELECT COUNT(*) FROM cities) as total_cities
+    FROM user_attractions ua
+    JOIN attractions a ON ua.attraction_id = a.id
+    WHERE ua.user_id = ?
+  `).get(userId) as { lit_cities: number; total_cities: number };
+
   // 景区统计
   const attractionStats = db.prepare(`
-    SELECT COUNT(*) as lit_attractions,
+    SELECT COUNT(DISTINCT attraction_id) as lit_attractions,
+           COUNT(*) as total_visits,
            (SELECT COUNT(*) FROM attractions) as total_attractions
     FROM user_attractions
     WHERE user_id = ?
-  `).get(userId) as { lit_attractions: number; total_attractions: number };
+  `).get(userId) as { lit_attractions: number; total_visits: number; total_attractions: number };
 
   // 各省份点亮数
   const provinceBreakdown = db.prepare(`
@@ -37,12 +47,24 @@ router.get('/progress', authMiddleware, (req: AuthRequest, res) => {
     ORDER BY p.id
   `).all(userId);
 
-  // 各分类点亮数
+  // 各城市点亮数
+  const cityBreakdown = db.prepare(`
+    SELECT c.id, c.name, c.province_id, COUNT(DISTINCT ua.attraction_id) as lit_count,
+           (SELECT COUNT(*) FROM attractions WHERE city_id = c.id) as total_count
+    FROM cities c
+    LEFT JOIN attractions a ON a.city_id = c.id
+    LEFT JOIN user_attractions ua ON ua.attraction_id = a.id AND ua.user_id = ?
+    GROUP BY c.id
+    ORDER BY c.id
+  `).all(userId);
+
+  // 各分类点亮数（基于标签多对多统计）
   const categoryBreakdown = db.prepare(`
     SELECT c.id, c.name, COUNT(DISTINCT ua.attraction_id) as lit_count,
-           (SELECT COUNT(*) FROM attractions WHERE category_id = c.id) as total_count
+           (SELECT COUNT(DISTINCT at2.attraction_id) FROM attraction_tags at2 WHERE at2.category_id = c.id) as total_count
     FROM categories c
-    LEFT JOIN attractions a ON a.category_id = c.id
+    LEFT JOIN attraction_tags at ON at.category_id = c.id
+    LEFT JOIN attractions a ON a.id = at.attraction_id
     LEFT JOIN user_attractions ua ON ua.attraction_id = a.id AND ua.user_id = ?
     GROUP BY c.id
     ORDER BY lit_count DESC, c.sort_order
@@ -55,8 +77,10 @@ router.get('/progress', authMiddleware, (req: AuthRequest, res) => {
 
   res.json({
     provinceStats,
+    cityStats,
     attractionStats,
     provinceBreakdown,
+    cityBreakdown,
     categoryBreakdown,
     achievementCount: achievementCount.count,
   });
@@ -68,14 +92,27 @@ router.get('/lit-list', authMiddleware, (req: AuthRequest, res) => {
   const userId = req.user!.id;
 
   const list = db.prepare(`
-    SELECT a.id, a.name, a.level, p.name as province_name, c.name as category_name, ua.lit_at
+    SELECT a.id, a.name, a.is_5a, a.is_4a, p.name as province_name, ci.name as city_name, ua.lit_at
     FROM user_attractions ua
     JOIN attractions a ON ua.attraction_id = a.id
     JOIN provinces p ON a.province_id = p.id
-    LEFT JOIN categories c ON a.category_id = c.id
+    LEFT JOIN cities ci ON a.city_id = ci.id
     WHERE ua.user_id = ?
     ORDER BY ua.lit_at DESC, ua.id DESC
-  `).all(userId);
+  `).all(userId) as any[];
+
+  const tagStmt = db.prepare(`
+    SELECT c.id, c.name
+    FROM attraction_tags at
+    JOIN categories c ON at.category_id = c.id
+    WHERE at.attraction_id = ?
+    ORDER BY c.sort_order
+  `);
+  for (const item of list) {
+    item.tags = tagStmt.all(item.id);
+    item.category_name = item.tags.map((t: any) => t.name).join(', ');
+    item.level = item.is_5a ? '5A' : item.is_4a ? '4A' : '';
+  }
 
   res.json(list);
 });

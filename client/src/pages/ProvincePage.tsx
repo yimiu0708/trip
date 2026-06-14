@@ -9,9 +9,10 @@ interface Attraction {
   id: number;
   name: string;
   level: string;
-  category_name: string;
+  category_name?: string;
   province_name: string;
   city_name?: string;
+  tags?: { id: number; name: string }[];
 }
 
 interface LitVisit {
@@ -60,7 +61,9 @@ export default function ProvincePage() {
 
       const catMap = new Map<number, string>();
       detail.attractions.forEach((a: any) => {
-        if (a.category_id && a.category_name) catMap.set(a.category_id, a.category_name);
+        (a.tags || []).forEach((t: any) => {
+          if (t.id && t.name) catMap.set(t.id, t.name);
+        });
       });
       setCategories(Array.from(catMap.entries()).map(([id, name]) => ({ id, name })).sort((a, b) => a.id - b.id));
 
@@ -93,17 +96,21 @@ export default function ProvincePage() {
 
   const [cityFilter, setCityFilter] = useState<number | ''>('');
 
-  const filtered = attractions.filter((a) => {
+  const filtered = attractions.filter((a: any) => {
     const normalizedSearch = search.trim().toLowerCase();
     if (normalizedSearch) {
-      const haystack = [a.name, a.category_name, a.city_name, a.level]
+      const tagNames = (a.tags || []).map((t: any) => t.name).join(' ');
+      const haystack = [a.name, tagNames, a.city_name, a.level]
         .filter(Boolean)
         .join(' ')
         .toLowerCase();
       if (!haystack.includes(normalizedSearch)) return false;
     }
     if (cityFilter !== '' && a.city_name !== cities.find((c) => c.id === cityFilter)?.name) return false;
-    if (categoryFilter !== '' && a.category_name !== categories.find((c) => c.id === categoryFilter)?.name) return false;
+    if (categoryFilter !== '') {
+      const hasTag = (a.tags || []).some((t: any) => t.id === categoryFilter);
+      if (!hasTag) return false;
+    }
     if (levelFilter && a.level !== levelFilter) return false;
     return true;
   });
@@ -358,8 +365,10 @@ function AttractionCard({
   return (
     <div className={`attraction-card ${count > 0 ? 'lit' : ''} ${selected ? 'selected' : ''}`}>
       <div className="card-header">
-        <span className={`level-tag level-${a.level}`}>{a.level}</span>
-        {a.category_name && <span className="category-tag">{a.category_name}</span>}
+        {a.level && <span className={`level-tag level-${a.level}`}>{a.level}</span>}
+        {(a.tags || []).map((t) => (
+          <span key={t.id} className="category-tag">{t.name}</span>
+        ))}
       </div>
       <div className="card-name">{a.name}</div>
       {count > 0 && (

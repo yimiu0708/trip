@@ -8,12 +8,14 @@ const router = Router();
 // 获取所有景区（支持搜索、筛选）
 router.get('/', (req, res) => {
   const db = getDb();
-  const { provinceId, categoryId, level, q } = req.query;
+  const { provinceId, cityId, categoryId, level, q } = req.query;
 
-  let sql = `SELECT a.*, p.name as province_name, c.name as category_name
+  let sql = `SELECT a.id, a.name, a.province_id, a.city_id, a.is_5a, a.is_4a,
+                    CASE WHEN a.is_5a THEN '5A' WHEN a.is_4a THEN '4A' ELSE '' END as level,
+                    a.pinyin, p.name as province_name, ci.name as city_name
              FROM attractions a
              JOIN provinces p ON a.province_id = p.id
-             LEFT JOIN categories c ON a.category_id = c.id
+             LEFT JOIN cities ci ON a.city_id = ci.id
              WHERE 1=1`;
   const params: (string | number)[] = [];
 
@@ -21,22 +23,41 @@ router.get('/', (req, res) => {
     sql += ' AND a.province_id = ?';
     params.push(Number(provinceId));
   }
+  if (cityId) {
+    sql += ' AND a.city_id = ?';
+    params.push(Number(cityId));
+  }
   if (categoryId) {
-    sql += ' AND a.category_id = ?';
+    sql += ' AND a.id IN (SELECT attraction_id FROM attraction_tags WHERE category_id = ?)';
     params.push(Number(categoryId));
   }
-  if (level) {
-    sql += ' AND a.level = ?';
-    params.push(String(level));
+  if (level === '5A') {
+    sql += ' AND a.is_5a = 1';
+  } else if (level === '4A') {
+    sql += ' AND a.is_4a = 1';
   }
   if (q) {
     sql += ' AND a.name LIKE ?';
     params.push(`%${String(q)}%`);
   }
 
-  sql += ' ORDER BY a.level DESC, a.pinyin ASC';
+  sql += ' ORDER BY a.province_id, a.city_id, a.is_5a DESC, a.is_4a DESC, a.pinyin ASC';
 
-  const attractions = db.prepare(sql).all(...params);
+  const attractions = db.prepare(sql).all(...params) as any[];
+
+  // Attach tags
+  const tagStmt = db.prepare(`
+    SELECT c.id, c.name
+    FROM attraction_tags at
+    JOIN categories c ON at.category_id = c.id
+    WHERE at.attraction_id = ?
+    ORDER BY c.sort_order
+  `);
+  for (const a of attractions) {
+    a.tags = tagStmt.all(a.id);
+    a.category_name = a.tags.map((t: any) => t.name).join(', ');
+  }
+
   res.json(attractions);
 });
 
