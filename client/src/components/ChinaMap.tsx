@@ -72,8 +72,8 @@ function fitChina(map: MapLibreMap, animate = false) {
   const narrow = window.innerWidth <= 520;
   map.fitBounds(CHINA_BOUNDS, {
     padding: narrow
-      ? { top: 134, right: 18, bottom: 274, left: 18 }
-      : { top: 118, right: 100, bottom: 292, left: 42 },
+      ? { top: 174, right: 18, bottom: 234, left: 18 }
+      : { top: 158, right: 100, bottom: 252, left: 42 },
     duration: animate ? 650 : 0,
   });
 }
