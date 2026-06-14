@@ -176,6 +176,18 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
+      {!user && (
+        <div className="guest-header-bar">
+          <div className="guest-header-brand">
+            <img src="/images/shijie-logo-mark.png" alt="识界" />
+            <div className="guest-header-text">
+              <span className="guest-header-name">识界</span>
+              <span className="guest-header-tagline brand-script">Light your life</span>
+            </div>
+          </div>
+        </div>
+      )}
+
       {user ? (
         <div className="map-hero-panel">
           <div>
@@ -224,19 +236,8 @@ export default function HomePage() {
           </div>
         </div>
       ) : (
-        <div className="map-hero-panel guest-brand-panel">
-          <div className="guest-brand-header">
-            <img
-              className="guest-brand-logo"
-              src="/images/shijie-logo-mark.png"
-              alt="识界"
-            />
-            <div className="guest-brand-text">
-              <div className="guest-brand-name">识界</div>
-              <div className="guest-brand-tagline">Light your life</div>
-            </div>
-          </div>
-          <div className="guest-brand-stats">
+        <div className="map-hero-panel guest-stats-panel">
+          <div>
             <div className="map-hero-label">点亮中国</div>
             <div className="map-hero-percent">{litProvincePct}<span>%</span></div>
             <div className="map-hero-copy">已点亮 {litProvinces} 个省份</div>

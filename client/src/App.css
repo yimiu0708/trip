@@ -220,51 +220,53 @@ input, textarea, button, select { font-family: inherit; }
   box-shadow: 0 8px 20px rgba(24, 177, 196, 0.26);
 }
 
-.map-hero-panel.guest-brand-panel {
+.guest-header-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  height: 62px;
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  align-items: center;
+  padding: 0 18px;
+  background: rgba(248, 253, 255, 0.78);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.78);
+  box-shadow: 0 12px 28px rgba(32, 118, 158, 0.08);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
   pointer-events: none;
 }
 
-.guest-brand-header {
+.guest-header-brand {
   display: inline-flex;
   align-items: center;
   gap: 10px;
   pointer-events: auto;
 }
 
-.guest-brand-logo {
-  width: 40px;
-  height: 40px;
+.guest-header-brand img {
+  width: 32px;
+  height: 32px;
   object-fit: contain;
 }
 
-.guest-brand-text {
+.guest-header-text {
   display: flex;
-  flex-direction: column;
+  align-items: baseline;
+  gap: 6px;
 }
 
-.guest-brand-name {
-  font-family: "STSong", "Songti SC", "Noto Serif CJK SC", serif;
-  font-size: 26px;
-  font-weight: 700;
+.guest-header-name {
+  font-size: 22px;
+  font-weight: 900;
   color: #12223a;
-  letter-spacing: 0.08em;
-  line-height: 1;
+  letter-spacing: 0;
 }
 
-.guest-brand-tagline {
-  margin-top: 3px;
-  font-family: "SF Pro Display", "Inter", "Segoe UI", Arial, sans-serif;
-  font-size: 13px;
-  font-weight: 500;
+.guest-header-tagline {
   color: #0bb8a6;
-  letter-spacing: 0.02em;
-}
-
-.guest-brand-stats {
-  pointer-events: auto;
+  font-size: 13px;
 }
 
 /* HomePage 悬浮侧边栏 */
