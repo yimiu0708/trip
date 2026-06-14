@@ -80,7 +80,7 @@ export default function Navbar() {
         </Link>
         <Link to="/journeys" className={`bottom-tab ${isActive('/journeys') ? 'active' : ''}`}>
           <Backpack size={22} aria-hidden="true" />
-          <span className="bottom-tab-label">行程</span>
+          <span className="bottom-tab-label">旅程</span>
         </Link>
         <Link to="/achievements" className={`bottom-tab ${isActive('/achievements') ? 'active' : ''}`}>
           <Medal size={22} aria-hidden="true" />
