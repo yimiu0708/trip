@@ -174,13 +174,50 @@ input, textarea, button, select { font-family: inherit; }
 .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; color: #94a3b8; }
 .guest-tip {
   flex-shrink: 0;
-  text-align: center;
-  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 14px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.88), rgba(234,255,249,0.82));
+  border-top: 1px solid rgba(255,255,255,0.78);
+  color: #12324a;
+}
+
+.guest-tip svg {
+  color: #12c7d9;
+  flex-shrink: 0;
+}
+
+.guest-tip-text {
+  flex: 1;
+  text-align: left;
+}
+
+.guest-tip-text strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 760;
+  margin-bottom: 2px;
+}
+
+.guest-tip-text span {
+  display: block;
   font-size: 12px;
-  color: #64748b;
-  background: rgba(239,246,255,0.7);
-  backdrop-filter: blur(8px);
-  border-top: 1px solid rgba(219,234,254,0.5);
+  color: #6a7c8f;
+}
+
+.guest-tip-btn {
+  flex-shrink: 0;
+  padding: 9px 16px;
+  border: none;
+  border-radius: 14px;
+  background: var(--sj-gradient);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(24, 177, 196, 0.26);
 }
 
 /* HomePage 悬浮侧边栏 */
@@ -2819,8 +2856,9 @@ body {
   right: 16px;
   bottom: 92px;
   z-index: 19;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.72);
+  border-radius: 22px;
+  border: 1px solid rgba(255,255,255,0.78);
+  box-shadow: 0 14px 32px rgba(22, 135, 232, 0.12);
 }
 
 .app:has(.province-page) .app-header-bar,

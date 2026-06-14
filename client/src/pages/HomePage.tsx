@@ -378,7 +378,7 @@ export default function HomePage() {
           </div>
         </div>
       )}
-      {selectedProvinceId === null && (
+      {selectedProvinceId === null && user && (
         goal && goalStat ? (
         <button className="home-goal-strip" type="button" onClick={openGoalModal} aria-label="修改目标">
           <span>
@@ -397,7 +397,16 @@ export default function HomePage() {
         )
       )}
       {!user && (
-        <div className="guest-tip">登录后可点亮景区、解锁成就</div>
+        <div className="guest-tip">
+          <Sparkles size={18} aria-hidden="true" />
+          <div className="guest-tip-text">
+            <strong>登录开启你的旅行印记</strong>
+            <span>点亮省份、记录足迹、解锁成就</span>
+          </div>
+          <button className="guest-tip-btn" onClick={() => navigate('/login')}>
+            去登录
+          </button>
+        </div>
       )}
       {targetOpen && (
         <div className="modal-overlay" onClick={() => setTargetOpen(false)}>
