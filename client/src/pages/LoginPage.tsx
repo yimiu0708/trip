@@ -29,6 +29,10 @@ export default function LoginPage() {
       } else {
         await register(username, password);
       }
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur();
+      }
+      window.scrollTo({ top: 0, left: 0 });
       navigate('/map');
     } catch (err: any) {
       setError(err.message || '操作失败');

@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Trophy, Star, Calendar, MapPin, Clock3 } from 'lucide-react';
+import { Calendar, MapPin, Clock3 } from 'lucide-react';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import ProvinceOutlineMap from '../components/ProvinceOutlineMap';
@@ -23,11 +23,19 @@ interface Category {
   name: string;
 }
 
+interface City {
+  id: number;
+  name: string;
+  total_count: number;
+  lit_count: number;
+}
+
 export default function ProvincePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
   const [province, setProvince] = useState<any>(null);
+  const [cities, setCities] = useState<City[]>([]);
   const [attractions, setAttractions] = useState<Attraction[]>([]);
   const [litVisits, setLitVisits] = useState<Record<number, LitVisit[]>>({});
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
@@ -47,6 +55,7 @@ export default function ProvincePage() {
     try {
       const detail = await api.provinces.detail(provinceId);
       setProvince(detail.province);
+      setCities(detail.cities || []);
       setAttractions(detail.attractions);
 
       const catMap = new Map<number, string>();
@@ -82,6 +91,8 @@ export default function ProvincePage() {
     fetchData();
   }, [fetchData]);
 
+  const [cityFilter, setCityFilter] = useState<number | ''>('');
+
   const filtered = attractions.filter((a) => {
     const normalizedSearch = search.trim().toLowerCase();
     if (normalizedSearch) {
@@ -91,13 +102,24 @@ export default function ProvincePage() {
         .toLowerCase();
       if (!haystack.includes(normalizedSearch)) return false;
     }
+    if (cityFilter !== '' && a.city_name !== cities.find((c) => c.id === cityFilter)?.name) return false;
     if (categoryFilter !== '' && a.category_name !== categories.find((c) => c.id === categoryFilter)?.name) return false;
     if (levelFilter && a.level !== levelFilter) return false;
     return true;
   });
 
-  const grouped5A = filtered.filter((a) => a.level === '5A');
-  const grouped4A = filtered.filter((a) => a.level === '4A');
+  // 按城市分组展示
+  const groupedByCity = filtered.reduce<Record<string, Attraction[]>>((acc, a) => {
+    const key = a.city_name || province?.name || '其他地区';
+    acc[key] = acc[key] || [];
+    acc[key].push(a);
+    return acc;
+  }, {});
+  // 保持城市顺序：按 cities 列表顺序，然后是未匹配的城市
+  const cityOrder = cities
+    .filter((c) => groupedByCity[c.name])
+    .map((c) => c.name)
+    .concat(Object.keys(groupedByCity).filter((name) => !cities.some((c) => c.name === name)));
 
   const toggleSelect = (aid: number) => {
     setSelectedIds((prev) => {
@@ -225,6 +247,10 @@ export default function ProvincePage() {
           onChange={(e) => setSearch(e.target.value)}
           className="filter-input"
         />
+        <select value={cityFilter} onChange={(e) => setCityFilter(e.target.value === '' ? '' : Number(e.target.value))} className="filter-select">
+          <option value="">全部城市</option>
+          {cities.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </select>
         <select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value === '' ? '' : Number(e.target.value))} className="filter-select">
           <option value="">全部分类</option>
           {categories.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
@@ -246,41 +272,29 @@ export default function ProvincePage() {
         </button>
       </div>
 
-      {grouped5A.length > 0 && (
-        <section className="attraction-section">
-          <h2><Trophy size={18} aria-hidden="true" /> 5A级景区 ({grouped5A.length})</h2>
-          <div className="attraction-grid">
-            {grouped5A.map((a) => (
-              <AttractionCard
-                key={a.id}
-                a={a}
-                visits={litVisits[a.id] || []}
-                selected={selectedIds.has(a.id)}
-                onToggle={() => litVisits[a.id]?.length ? handleUnlit(a.id) : toggleSelect(a.id)}
-                onLitDate={() => openDateModal([a.id])}
-              />
-            ))}
-          </div>
-        </section>
-      )}
-
-      {grouped4A.length > 0 && (
-        <section className="attraction-section">
-          <h2><Star size={18} aria-hidden="true" /> 4A级景区 ({grouped4A.length})</h2>
-          <div className="attraction-grid">
-            {grouped4A.map((a) => (
-              <AttractionCard
-                key={a.id}
-                a={a}
-                visits={litVisits[a.id] || []}
-                selected={selectedIds.has(a.id)}
-                onToggle={() => litVisits[a.id]?.length ? handleUnlit(a.id) : toggleSelect(a.id)}
-                onLitDate={() => openDateModal([a.id])}
-              />
-            ))}
-          </div>
-        </section>
-      )}
+      {cityOrder.map((cityName) => {
+        const cityAttractions = groupedByCity[cityName];
+        return (
+          <section key={cityName} className="attraction-section">
+            <h2>
+              <MapPin size={16} aria-hidden="true" /> {cityName}
+              <span className="city-count">{cityAttractions.length}</span>
+            </h2>
+            <div className="attraction-grid">
+              {cityAttractions.map((a) => (
+                <AttractionCard
+                  key={a.id}
+                  a={a}
+                  visits={litVisits[a.id] || []}
+                  selected={selectedIds.has(a.id)}
+                  onToggle={() => litVisits[a.id]?.length ? handleUnlit(a.id) : toggleSelect(a.id)}
+                  onLitDate={() => openDateModal([a.id])}
+                />
+              ))}
+            </div>
+          </section>
+        );
+      })}
 
       {filtered.length === 0 && <div className="empty-state">未找到匹配的景区</div>}
 

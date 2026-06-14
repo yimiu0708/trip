@@ -26,6 +26,14 @@ export function initDb() {
       region TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS cities (
+      id INTEGER PRIMARY KEY,
+      name TEXT NOT NULL,
+      province_id INTEGER NOT NULL,
+      type TEXT NOT NULL,
+      UNIQUE(name, province_id)
+    );
+
     CREATE TABLE IF NOT EXISTS categories (
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL UNIQUE,
@@ -36,6 +44,7 @@ export function initDb() {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       province_id INTEGER NOT NULL,
+      city_id INTEGER,
       level TEXT CHECK(level IN ('4A', '5A')) NOT NULL,
       category_id INTEGER,
       pinyin TEXT,
@@ -84,7 +93,9 @@ export function initDb() {
     );
 
     CREATE INDEX IF NOT EXISTS idx_attractions_province ON attractions(province_id);
+    CREATE INDEX IF NOT EXISTS idx_attractions_city ON attractions(city_id);
     CREATE INDEX IF NOT EXISTS idx_attractions_category ON attractions(category_id);
+    CREATE INDEX IF NOT EXISTS idx_cities_province ON cities(province_id);
     CREATE INDEX IF NOT EXISTS idx_user_attractions_user ON user_attractions(user_id);
     CREATE INDEX IF NOT EXISTS idx_user_achievements_user ON user_achievements(user_id);
   `);
@@ -93,6 +104,30 @@ export function initDb() {
   const hasRole = database.prepare("SELECT name FROM pragma_table_info('users') WHERE name = 'role'").get();
   if (!hasRole) {
     database.exec("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user' CHECK(role IN ('admin', 'user'))");
+  }
+
+  // Migration: add cities table if not exists (for existing databases)
+  const hasCities = database.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name='cities'").get();
+  if (!hasCities) {
+    database.exec(`
+      CREATE TABLE cities (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        province_id INTEGER NOT NULL,
+        type TEXT NOT NULL,
+        UNIQUE(name, province_id)
+      );
+      CREATE INDEX idx_cities_province ON cities(province_id);
+    `);
+  }
+
+  // Migration: add city_id column to attractions if not exists
+  const hasCityId = database.prepare("SELECT name FROM pragma_table_info('attractions') WHERE name = 'city_id'").get();
+  if (!hasCityId) {
+    database.exec(`
+      ALTER TABLE attractions ADD COLUMN city_id INTEGER;
+      CREATE INDEX idx_attractions_city ON attractions(city_id);
+    `);
   }
 
   // Migration: remove UNIQUE constraint on user_attractions to support multiple visits

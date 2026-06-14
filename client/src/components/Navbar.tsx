@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Map, Backpack, Medal, User, Plus, Search, Bell } from 'lucide-react';
+import { Map, Backpack, Medal, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 
@@ -15,7 +15,6 @@ export default function Navbar() {
   const [pwdMsg, setPwdMsg] = useState('');
 
   const isActive = (path: string) => location.pathname === path;
-  const isMapPage = location.pathname === '/map';
 
   const handleChangePassword = async () => {
     if (!oldPwd || !newPwd || newPwd.length < 6) {
@@ -46,16 +45,6 @@ export default function Navbar() {
           </div>
         </Link>
         <div className="app-header-right">
-          {isMapPage && (
-            <>
-              <button className="header-icon-btn" type="button" aria-label="搜索" onClick={() => alert('搜索功能将在后续版本开放')}>
-                <Search size={22} aria-hidden="true" />
-              </button>
-              <button className="header-icon-btn" type="button" aria-label="通知" onClick={() => alert('通知功能将在后续版本开放')}>
-                <Bell size={21} aria-hidden="true" />
-              </button>
-            </>
-          )}
           <div className="avatar-menu-wrap">
             <button className="avatar-btn" onClick={() => { setMenuOpen(!menuOpen); setShowPwdForm(false); setPwdMsg(''); }}>
               <User size={20} aria-hidden="true" />
@@ -63,7 +52,6 @@ export default function Navbar() {
             {menuOpen && (
               <div className="avatar-dropdown">
                 <div className="dropdown-user">{user.username}</div>
-                <button onClick={() => { setMenuOpen(false); navigate('/profile'); }}>个人资料</button>
                 <button onClick={() => setShowPwdForm(!showPwdForm)}>修改密码</button>
                 {showPwdForm && (
                   <div className="dropdown-pwd-form">
@@ -87,18 +75,13 @@ export default function Navbar() {
           <Map size={22} aria-hidden="true" />
           <span className="bottom-tab-label">地图</span>
         </Link>
-        <Link to="/achievements" className={`bottom-tab ${isActive('/achievements') ? 'active' : ''}`}>
-          <Medal size={22} aria-hidden="true" />
-          <span className="bottom-tab-label">成就</span>
-        </Link>
-        <Link to="/map" className="bottom-tab bottom-tab-primary" aria-label="点亮景区">
-          <span className="bottom-tab-plus">
-            <Plus size={26} aria-hidden="true" />
-          </span>
-        </Link>
         <Link to="/journeys" className={`bottom-tab ${isActive('/journeys') ? 'active' : ''}`}>
           <Backpack size={22} aria-hidden="true" />
           <span className="bottom-tab-label">行程</span>
+        </Link>
+        <Link to="/achievements" className={`bottom-tab ${isActive('/achievements') ? 'active' : ''}`}>
+          <Medal size={22} aria-hidden="true" />
+          <span className="bottom-tab-label">成就</span>
         </Link>
         <Link to="/profile" className={`bottom-tab ${isActive('/profile') ? 'active' : ''}`}>
           <User size={22} aria-hidden="true" />
