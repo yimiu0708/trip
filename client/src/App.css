@@ -5473,3 +5473,196 @@ textarea::placeholder {
     font-size: 9px;
   }
 }
+
+/* Selected province guidance: make the next action unmistakable on the map. */
+.province-guide-float {
+  box-sizing: border-box;
+  width: min(520px, calc(100vw - 96px));
+  min-width: 0;
+  max-width: none;
+  padding: 16px 56px 16px 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas:
+    "title action"
+    "meta action";
+  column-gap: 14px;
+  row-gap: 8px;
+  align-items: center;
+  border-color: rgba(32, 200, 207, 0.42);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(243, 254, 255, 0.97) 62%, rgba(224, 251, 247, 0.95) 100%);
+  box-shadow:
+    0 18px 44px rgba(15, 83, 118, 0.18),
+    0 0 0 1px rgba(255, 255, 255, 0.86),
+    0 0 18px rgba(32, 200, 207, 0.14);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.province-guide-float::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 58px;
+  top: 0;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0b9faa 0%, #12c7d9 54%, #8ef2d0 100%);
+}
+
+.province-guide-title {
+  grid-area: title;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #083047;
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 900;
+}
+
+.province-guide-title svg {
+  flex: 0 0 auto;
+  color: #0b9faa;
+  stroke-width: 2.7;
+}
+
+.province-guide-title span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.province-guide-content {
+  grid-area: action;
+  justify-content: center;
+  width: 112px;
+  min-width: 112px;
+  min-height: 42px;
+  margin-top: 0;
+  padding: 0 12px;
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, #0599aa 0%, #12c7d9 55%, #4ee6d4 100%);
+  color: #ffffff;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.28),
+    0 10px 20px rgba(18, 151, 171, 0.22);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.province-guide-content svg {
+  flex: 0 0 auto;
+  color: #ffffff;
+  stroke-width: 2.6;
+}
+
+.province-guide-content span:not(.province-guide-arrow) {
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.province-guide-content:hover {
+  color: #ffffff;
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.40),
+    0 16px 28px rgba(18, 151, 171, 0.30);
+}
+
+.province-guide-arrow {
+  flex: 0 0 auto;
+  margin-left: 2px;
+  font-size: 21px;
+  line-height: 0.8;
+  font-weight: 900;
+}
+
+.province-guide-meta {
+  grid-area: meta;
+  min-width: 0;
+  margin-top: 0;
+  color: #335b70;
+  font-size: 12px;
+  font-weight: 850;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.province-guide-close {
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.84);
+  color: #6c8797;
+}
+
+.province-selected-map-label {
+  padding: 6px 12px 7px;
+  border: 1px solid rgba(32, 200, 207, 0.30);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.88);
+  color: #2f6471;
+  box-shadow:
+    0 10px 24px rgba(31, 151, 170, 0.16),
+    0 0 0 3px rgba(255, 255, 255, 0.54),
+    0 0 22px rgba(32, 200, 207, 0.18);
+  font-size: 13px;
+  line-height: 1;
+  font-weight: 900;
+  white-space: nowrap;
+  pointer-events: none;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+@media (max-width: 520px) {
+  .province-guide-float {
+    bottom: calc(env(safe-area-inset-bottom) + 94px);
+    width: min(420px, calc(100vw - 48px));
+    padding: 15px 50px 15px 16px;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 10px;
+    border-radius: 18px;
+  }
+
+  .province-guide-float::before {
+    left: 16px;
+    right: 52px;
+  }
+
+  .province-guide-title {
+    font-size: 15px;
+  }
+
+  .province-guide-content {
+    width: 96px;
+    min-width: 96px;
+    min-height: 40px;
+    padding: 0 9px;
+    gap: 6px;
+    font-size: 13px;
+  }
+
+  .province-guide-content svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .province-guide-arrow {
+    font-size: 19px;
+  }
+
+  .province-guide-meta {
+    font-size: 11px;
+  }
+
+  .province-selected-map-label {
+    padding: 5px 10px 6px;
+    font-size: 12px;
+  }
+}

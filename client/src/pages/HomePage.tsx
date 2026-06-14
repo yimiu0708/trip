@@ -260,6 +260,10 @@ export default function HomePage() {
           {/* 选中省份的引导浮层 */}
           {selectedStat && (
             <div className="province-guide-float" onClick={(event) => event.stopPropagation()}>
+              <div className="province-guide-title">
+                <MapPin size={14} aria-hidden="true" />
+                <span>{selectedStat.name}</span>
+              </div>
               <button
                 type="button"
                 className="province-guide-content"
@@ -268,9 +272,10 @@ export default function HomePage() {
                 <Sparkles size={16} aria-hidden="true" />
                 <span>
                   {selectedStat.lit_count >= selectedStat.total_count && selectedStat.total_count > 0
-                    ? '已全部点亮'
+                    ? '查看'
                     : '去点亮'}
                 </span>
+                <span className="province-guide-arrow" aria-hidden="true">›</span>
               </button>
               <div className="province-guide-meta">
                 已点亮 {selectedStat.lit_count}/{selectedStat.total_count} 个景点
