@@ -176,52 +176,68 @@ export default function HomePage() {
 
   return (
     <div className="home-page">
-      <div className="map-hero-panel">
-        <div>
-          <div className="map-hero-label">点亮中国</div>
-          <div className="map-hero-percent">{litProvincePct}<span>%</span></div>
-          <div className="map-hero-copy">已点亮 {litProvinces} 个省份</div>
+      {user ? (
+        <div className="map-hero-panel">
+          <div>
+            <div className="map-hero-label">点亮中国</div>
+            <div className="map-hero-percent">{litProvincePct}<span>%</span></div>
+            <div className="map-hero-copy">已点亮 {litProvinces} 个省份</div>
+          </div>
+          <div className="map-action-stack" aria-label="地图操作">
+            <button
+              type="button"
+              className="map-action-pill"
+              onClick={(event) => {
+                event.stopPropagation();
+                setWorldNoticeOpen(true);
+                setSidebarOpen(false);
+              }}
+            >
+              <Globe2 size={18} aria-hidden="true" />
+              <span>世界地图</span>
+            </button>
+            <button
+              type="button"
+              className={`map-action-pill ${sidebarOpen ? 'active' : ''}`}
+              onClick={(event) => {
+                event.stopPropagation();
+                setSidebarOpen((open) => !open);
+                setWorldNoticeOpen(false);
+              }}
+            >
+              <Footprints size={18} aria-hidden="true" />
+              <span>足迹</span>
+            </button>
+            <button
+              type="button"
+              className="map-action-pill"
+              onClick={(event) => {
+                event.stopPropagation();
+                setSidebarOpen(false);
+                setWorldNoticeOpen(false);
+                openGoalModal();
+              }}
+            >
+              <Target size={18} aria-hidden="true" />
+              <span>目标</span>
+            </button>
+          </div>
         </div>
-        <div className="map-action-stack" aria-label="地图操作">
-          <button
-            type="button"
-            className="map-action-pill"
-            onClick={(event) => {
-              event.stopPropagation();
-              setWorldNoticeOpen(true);
-              setSidebarOpen(false);
-            }}
-          >
-            <Globe2 size={18} aria-hidden="true" />
-            <span>世界地图</span>
-          </button>
-          <button
-            type="button"
-            className={`map-action-pill ${sidebarOpen ? 'active' : ''}`}
-            onClick={(event) => {
-              event.stopPropagation();
-              setSidebarOpen((open) => !open);
-              setWorldNoticeOpen(false);
-            }}
-          >
-            <Footprints size={18} aria-hidden="true" />
-            <span>足迹</span>
-          </button>
-          <button
-            type="button"
-            className="map-action-pill"
-            onClick={(event) => {
-              event.stopPropagation();
-              setSidebarOpen(false);
-              setWorldNoticeOpen(false);
-              openGoalModal();
-            }}
-          >
-            <Target size={18} aria-hidden="true" />
-            <span>目标</span>
-          </button>
+      ) : (
+        <div className="map-hero-panel guest-brand-panel">
+          <div className="guest-brand">
+            <img
+              className="guest-brand-logo"
+              src="/images/shijie-logo-mark.png"
+              alt="识界"
+            />
+            <div className="guest-brand-text">
+              <div className="guest-brand-name">识界</div>
+              <div className="guest-brand-tagline">Light your life</div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
       <div className="home-main">
         <div className="map-wrapper">
           {loading ? <div className="loading">地图加载中...</div> : (
@@ -354,7 +370,7 @@ export default function HomePage() {
           <span>世界地图正在积极探索中<br />请玩家耐心等待……</span>
         </div>
       )}
-      {selectedProvinceId === null && (
+      {selectedProvinceId === null && user && (
         <div className="home-insight-dock">
           <div className="home-insight-card">
             <MapPin size={18} aria-hidden="true" />
