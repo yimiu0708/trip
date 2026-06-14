@@ -53,6 +53,7 @@ const CATEGORIES = [
   { id: 8, name: '动物园/植物园', sort_order: 8 },
   { id: 9, name: '博物馆', sort_order: 9 },
   { id: 10, name: '宗教场所', sort_order: 10 },
+  { id: 11, name: '主题乐园', sort_order: 11 },
 ];
 
 const ACHIEVEMENTS = [
@@ -111,16 +112,55 @@ async function seed() {
   }
   console.log('✅ Achievements seeded');
 
+  // 城市（地级市/地区/自治州/盟）
+  const citiesPath = path.join(__dirname, '../data/cities.json');
+  if (fs.existsSync(citiesPath)) {
+    const raw = fs.readFileSync(citiesPath, 'utf-8');
+    const cities = JSON.parse(raw) as { id: number; name: string; province_id: number; type: string }[];
+    const insertCity = db.prepare(`
+      INSERT INTO cities (id, name, province_id, type)
+      VALUES (?, ?, ?, ?)
+      ON CONFLICT(id) DO UPDATE SET
+        name = excluded.name,
+        province_id = excluded.province_id,
+        type = excluded.type
+    `);
+    for (const c of cities) {
+      insertCity.run(c.id, c.name, c.province_id, c.type);
+    }
+    const cityIds = cities.map((c) => c.id);
+    if (cityIds.length > 0) {
+      const placeholders = cityIds.map(() => '?').join(',');
+      db.prepare(`DELETE FROM cities WHERE id NOT IN (${placeholders})`).run(...cityIds);
+    }
+    console.log(`✅ Cities seeded: ${cities.length}`);
+  } else {
+    console.log('⚠️ cities.json not found, skipping cities seed');
+  }
+
   // 景区
   const attractionsPath = path.join(__dirname, '../data/attractions.json');
   if (fs.existsSync(attractionsPath)) {
     const raw = fs.readFileSync(attractionsPath, 'utf-8');
-    const attractions = JSON.parse(raw) as { name: string; province_id: number; level: string; category_id: number; pinyin: string }[];
-    const insertAttraction = db.prepare(
-      'INSERT OR IGNORE INTO attractions (name, province_id, level, category_id, pinyin) VALUES (?, ?, ?, ?, ?)'
-    );
+    const attractions = JSON.parse(raw) as {
+      name: string;
+      province_id: number;
+      city_id?: number | null;
+      level: string;
+      category_id: number;
+      pinyin: string;
+    }[];
+    const insertAttraction = db.prepare(`
+      INSERT INTO attractions (name, province_id, city_id, level, category_id, pinyin)
+      VALUES (?, ?, ?, ?, ?, ?)
+      ON CONFLICT(name, province_id) DO UPDATE SET
+        city_id = excluded.city_id,
+        level = excluded.level,
+        category_id = excluded.category_id,
+        pinyin = excluded.pinyin
+    `);
     for (const a of attractions) {
-      insertAttraction.run(a.name, a.province_id, a.level, a.category_id, a.pinyin);
+      insertAttraction.run(a.name, a.province_id, a.city_id ?? null, a.level, a.category_id, a.pinyin);
     }
     console.log(`✅ Attractions seeded: ${attractions.length}`);
   } else {
