@@ -16,7 +16,7 @@ router.get('/', (req, res) => {
              FROM attractions a
              JOIN provinces p ON a.province_id = p.id
              LEFT JOIN cities ci ON a.city_id = ci.id
-             WHERE 1=1`;
+             WHERE a.status = 'approved'`;
   const params: (string | number)[] = [];
 
   if (provinceId) {
@@ -73,16 +73,29 @@ router.post('/batch/lit', authMiddleware, (req: AuthRequest, res) => {
   }
 
   const litAtValue = lit_at && !isNaN(Date.parse(lit_at)) ? lit_at : new Date().toISOString();
+  const approvedIds = db.prepare(`
+    SELECT id FROM attractions
+    WHERE status = 'approved' AND id IN (${ids.map(() => '?').join(',')})
+  `).all(...ids) as { id: number }[];
+  const approvedIdSet = new Set(approvedIds.map((item) => item.id));
+  const litIds: number[] = [];
   const insert = db.prepare('INSERT INTO user_attractions (user_id, attraction_id, lit_at) VALUES (?, ?, ?)');
   const transaction = db.transaction((idsArr: number[]) => {
     for (const id of idsArr) {
+      if (!approvedIdSet.has(id)) continue;
       insert.run(userId, id, litAtValue);
+      litIds.push(id);
     }
   });
   transaction(ids);
 
   const newAchievements = checkAchievements(userId);
-  res.json({ success: true, newAchievements });
+  res.json({
+    success: true,
+    litIds,
+    skippedIds: ids.filter((id) => !approvedIdSet.has(id)),
+    newAchievements,
+  });
 });
 
 // 点亮景区（需登录），支持自定义时间
@@ -91,6 +104,12 @@ router.post('/:id/lit', authMiddleware, (req: AuthRequest, res) => {
   const userId = req.user!.id;
   const attractionId = Number(req.params.id);
   const { lit_at } = req.body as { lit_at?: string };
+
+  const approved = db.prepare("SELECT id FROM attractions WHERE id = ? AND status = 'approved'").get(attractionId);
+  if (!approved) {
+    res.status(404).json({ error: '景点不存在或未审核通过' });
+    return;
+  }
 
   const litAtValue = lit_at && !isNaN(Date.parse(lit_at)) ? lit_at : new Date().toISOString();
   db.prepare('INSERT INTO user_attractions (user_id, attraction_id, lit_at) VALUES (?, ?, ?)').run(userId, attractionId, litAtValue);

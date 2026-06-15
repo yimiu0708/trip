@@ -61,14 +61,22 @@ export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlig
   const selectedLabelRef = useRef<Marker | null>(null);
   const callbacksRef = useRef({ onClickProvince, onClickEmpty });
 
-  statsRef.current = stats;
-  highlightIdRef.current = highlightProvinceId;
-  callbacksRef.current = { onClickProvince, onClickEmpty };
-
   const highlightedStat = useMemo(
     () => stats.find((stat) => stat.id === highlightProvinceId) || null,
     [highlightProvinceId, stats],
   );
+
+  useEffect(() => {
+    statsRef.current = stats;
+  }, [stats]);
+
+  useEffect(() => {
+    highlightIdRef.current = highlightProvinceId;
+  }, [highlightProvinceId]);
+
+  useEffect(() => {
+    callbacksRef.current = { onClickProvince, onClickEmpty };
+  }, [onClickEmpty, onClickProvince]);
 
   useEffect(() => {
     if (!mapNodeRef.current || mapRef.current) return;

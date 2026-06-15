@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag, Sparkles, Trophy } from 'lucide-react';
+import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag, Sparkles, Trophy, Maximize2 } from 'lucide-react';
 import ChinaMap from '../components/ChinaMap';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
@@ -46,6 +46,7 @@ export default function HomePage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [targetOpen, setTargetOpen] = useState(false);
   const [worldNoticeOpen, setWorldNoticeOpen] = useState(false);
+  const [mapCleanMode, setMapCleanMode] = useState(false);
   const [goal, setGoal] = useState<TravelGoal | null>(() => {
     const raw = localStorage.getItem(GOAL_KEY);
     if (!raw) return null;
@@ -145,6 +146,7 @@ export default function HomePage() {
   }, [goal]);
 
   const handleClickProvince = useCallback((id: number) => {
+    setMapCleanMode(false);
     setSelectedProvinceId((prev) => (prev === id ? null : id));
     setSidebarOpen(false);
     setWorldNoticeOpen(false);
@@ -175,7 +177,7 @@ export default function HomePage() {
   };
 
   return (
-    <div className="home-page">
+    <div className={`home-page ${mapCleanMode ? 'map-clean' : ''}`}>
       {!user && (
         <div className="guest-header-bar">
           <div className="guest-header-brand">
@@ -251,6 +253,8 @@ export default function HomePage() {
               stats={stats}
               onClickProvince={handleClickProvince}
               onClickEmpty={() => {
+                setMapCleanMode((prev) => !prev);
+                setSelectedProvinceId(null);
                 setSidebarOpen(false);
                 setWorldNoticeOpen(false);
               }}
@@ -381,7 +385,7 @@ export default function HomePage() {
           <span>世界地图正在积极探索中<br />请玩家耐心等待……</span>
         </div>
       )}
-      {selectedProvinceId === null && user && (
+      {!mapCleanMode && selectedProvinceId === null && user && (
         <div className="home-insight-dock">
           <div className="home-insight-card">
             <MapPin size={18} aria-hidden="true" />
@@ -405,7 +409,7 @@ export default function HomePage() {
           </div>
         </div>
       )}
-      {selectedProvinceId === null && user && (
+      {!mapCleanMode && selectedProvinceId === null && user && (
         goal && goalStat ? (
         <button className="home-goal-strip" type="button" onClick={openGoalModal} aria-label="修改目标">
           <span>
@@ -434,6 +438,17 @@ export default function HomePage() {
             去登录
           </button>
         </div>
+      )}
+      {mapCleanMode && (
+        <button
+          type="button"
+          className="map-restore-ui"
+          onClick={() => setMapCleanMode(false)}
+          aria-label="显示操作栏"
+        >
+          <Maximize2 size={18} aria-hidden="true" />
+          <span>显示面板</span>
+        </button>
       )}
       {targetOpen && (
         <div className="modal-overlay" onClick={() => setTargetOpen(false)}>

@@ -1,165 +1,205 @@
 import { useEffect, useState } from 'react';
+import type { ReactNode } from 'react';
 import { api } from '../api/client';
-import { echarts } from '../lib/echarts';
-import { Tag, Medal, PartyPopper } from 'lucide-react';
+import { Building2, GitBranch, Map as MapIcon, Medal, PartyPopper, Search, Sparkles, Tag, Trophy } from 'lucide-react';
 import AchievementBadge from '../components/AchievementBadge';
 
 interface Achievement {
   id: number;
   name: string;
+  display_name?: string;
+  display_desc?: string;
   type: string;
   level: number | null;
+  condition_value?: number | null;
   condition_desc: string;
   icon: string;
   badge_style: string;
   unlocked_at: string | null;
+  unlock_count?: number;
+  snapshot_lit?: number | null;
+  snapshot_total?: number | null;
+  snapshot_percent?: number | null;
+  is_current_max?: number | null;
 }
 
+const TYPE_LABELS: Record<string, string> = {
+  province: '省份探索',
+  city: '城市漫游',
+  attraction: '景区集邮',
+  collector: '收藏家',
+  special: '彩蛋成就',
+};
+
+type AchievementTabKey = 'footprint' | 'skill' | 'easterEgg';
+
+const ACHIEVEMENT_TABS: {
+  key: AchievementTabKey;
+  label: string;
+  icon: ReactNode;
+}[] = [
+  { key: 'footprint', label: '足迹版图', icon: <MapIcon size={16} aria-hidden="true" /> },
+  { key: 'skill', label: '技能树', icon: <GitBranch size={16} aria-hidden="true" /> },
+  { key: 'easterEgg', label: '彩蛋猎人', icon: <Search size={16} aria-hidden="true" /> },
+];
+
 export default function AchievementPage() {
-  const [progress, setProgress] = useState<any>(null);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'unlocked' | 'locked'>('all');
+  const [activeTab, setActiveTab] = useState<AchievementTabKey>('footprint');
 
   useEffect(() => {
-    Promise.all([api.user.progress(), api.achievements.mine()])
-      .then(([p, a]) => {
-        setProgress(p);
+    api.achievements.mine()
+      .then((a) => {
         setAchievements(a);
         setLoading(false);
       })
       .catch(() => setLoading(false));
   }, []);
 
-  useEffect(() => {
-    if (!progress) return;
-    const el = document.getElementById('province-chart');
-    if (!el) return;
-    const chart = echarts.init(el);
-
-    const regions = ['华东', '华南', '华北', '华中', '西南', '西北', '东北', '港澳台'];
-    const regionData = regions.map((r) => {
-      const items = progress.provinceBreakdown.filter((p: any) => p.region === r);
-      const lit = items.filter((p: any) => p.lit_count > 0).length;
-      return { name: r, value: lit };
-    });
-
-    chart.setOption({
-      color: ['#2F9EAA', '#7FD6D3', '#8CCFE8', '#D8B76A', '#35A77D', '#FF8A6B', '#9FC9D8', '#BEE9E7'],
-      tooltip: { trigger: 'item', formatter: '{b}: {c} 省已点亮' },
-      series: [
-        {
-          type: 'pie',
-          radius: ['45%', '70%'],
-          center: ['50%', '55%'],
-          avoidLabelOverlap: false,
-          itemStyle: { borderRadius: 8, borderColor: '#fff', borderWidth: 2 },
-          label: { show: false },
-          emphasis: { label: { show: true, fontSize: 14, fontWeight: 'bold' } },
-          data: regionData.map((d) => ({ name: d.name, value: d.value })),
-        },
-      ],
-    });
-
-    return () => chart.dispose();
-  }, [progress]);
-
   if (loading) return <div className="page-loading">加载中...</div>;
-  if (!progress) return <div className="page-loading">加载失败</div>;
 
-  const { provinceStats, attractionStats, categoryBreakdown } = progress;
+  const unlockedAchievements = achievements.filter((a) => a.unlocked_at);
+  const gloryTop3 = [...unlockedAchievements]
+    .sort((a, b) => {
+      const levelDiff = (b.level || 0) - (a.level || 0);
+      if (levelDiff !== 0) return levelDiff;
+      return String(b.unlocked_at).localeCompare(String(a.unlocked_at));
+    })
+    .slice(0, 3);
 
-  const filtered = achievements.filter((a) => {
-    if (filter === 'unlocked') return !!a.unlocked_at;
-    if (filter === 'locked') return !a.unlocked_at;
-    return true;
-  });
-
-  const provinceLine = filtered.filter((a) => a.type === 'province');
-  const attractionLine = filtered.filter((a) => a.type === 'attraction');
-  const specialLine = filtered.filter((a) => a.type === 'special');
+  const grouped = buildAchievementGroups(achievements, activeTab);
+  const unlockedCount = unlockedAchievements.length;
 
   return (
-    <div className="achievement-page">
-      <div className="achievement-header-top">
-        <h1>我的成就</h1>
-        <div className="achievement-summary">
-          <div className="a-stat">
-            <div className="a-stat-num">{provinceStats.lit_provinces}/{provinceStats.total_provinces}</div>
-            <div className="a-stat-label">省份</div>
-          </div>
-          <div className="a-stat">
-            <div className="a-stat-num">{attractionStats.lit_attractions}/{attractionStats.total_attractions}</div>
-            <div className="a-stat-label">景区</div>
-          </div>
-          <div className="a-stat">
-            <div className="a-stat-num">{achievements.filter((a) => a.unlocked_at).length}/{achievements.length}</div>
-            <div className="a-stat-label">成就</div>
-          </div>
+    <div className="achievement-page achievement-vault-page">
+      <header className="achievement-vault-titlebar floating-page-titlebar">
+        <div>
+          <h1 className="achievement-vault-heading floating-page-heading">
+            <Medal className="achievement-title-icon floating-page-icon" size={22} aria-hidden="true" />
+            <span>成就</span>
+          </h1>
+          <p>已获得 {unlockedCount} 枚成就徽章</p>
         </div>
-      </div>
+      </header>
 
-      <div className="profile-section">
-        <div className="chart-box">
-          <div id="province-chart" style={{ width: '100%', height: 280 }} />
-          <div className="chart-center-text">
-            <div className="cct-num">{provinceStats.lit_provinces}/{provinceStats.total_provinces}</div>
-            <div className="cct-label">省份</div>
+      <section className="achievement-vault-section">
+        <div className="achievement-glory">
+          <div className="achievement-glory-title">
+            <Trophy size={18} aria-hidden="true" />
+            <span>荣耀区 TOP3</span>
           </div>
+          {gloryTop3.length > 0 ? (
+            <div className="achievement-glory-grid">
+              {gloryTop3.map((a) => (
+                <AchievementBadge key={`glory-${a.id}`} a={a} special={a.type === 'special'} variant="glory" />
+              ))}
+            </div>
+          ) : (
+            <div className="achievement-glory-empty">点亮景点后，这里会展示等级最高的三枚徽章</div>
+          )}
         </div>
-      </div>
 
-      <div className="profile-section">
-        <h2><Tag size={18} /> 分类点亮进度</h2>
-        <div className="category-progress-list">
-          {categoryBreakdown.map((c: any) => {
-            const pct = c.total_count > 0 ? Math.round((c.lit_count / c.total_count) * 100) : 0;
-            return (
-              <div key={c.id} className="category-progress-item">
-                <div className="cpi-header">
-                  <span className="cpi-name">{c.name}</span>
-                  <span className="cpi-num">{c.lit_count}/{c.total_count} ({pct}%)</span>
-                </div>
-                <div className="cpi-bar">
-                  <div className="cpi-bar-fill" style={{ width: `${pct}%` }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="profile-section">
-        <div className="achievement-header">
-          <h2><Medal size={18} /> 成就墙</h2>
-          <div className="achievement-filters">
-            <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>全部</button>
-            <button className={filter === 'unlocked' ? 'active' : ''} onClick={() => setFilter('unlocked')}>已解锁</button>
-            <button className={filter === 'locked' ? 'active' : ''} onClick={() => setFilter('locked')}>未解锁</button>
+        <div className="achievement-tabbar-shell">
+          <div className="achievement-tabbar" role="tablist" aria-label="成就分类">
+            {ACHIEVEMENT_TABS.map((tab) => (
+              <button
+                key={tab.key}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === tab.key}
+                className={activeTab === tab.key ? 'active' : ''}
+                onClick={() => setActiveTab(tab.key)}
+              >
+                {tab.icon}
+                <span>{tab.label}</span>
+              </button>
+            ))}
           </div>
         </div>
 
-        <div className="achievement-group">
-          <h3>省份探索</h3>
-          <div className="badge-grid">
-            {provinceLine.map((a) => <AchievementBadge key={a.id} a={a} />)}
-          </div>
-        </div>
-
-        <div className="achievement-group">
-          <h3>景区达人</h3>
-          <div className="badge-grid">
-            {attractionLine.map((a) => <AchievementBadge key={a.id} a={a} />)}
-          </div>
-        </div>
-
-        <div className="achievement-group">
-          <h3><PartyPopper size={18} /> 彩蛋成就</h3>
-          <div className="badge-grid">
-            {specialLine.map((a) => <AchievementBadge key={a.id} a={a} special />)}
-          </div>
-        </div>
-      </div>
+        {grouped.map((group, index) => (
+          <details className="achievement-group" key={group.key} open={index < 4}>
+            <summary>
+              <span>{group.icon}{group.title}</span>
+              <em>{group.unlocked}/{group.items.length}</em>
+            </summary>
+            <div className="badge-grid">
+              {group.items.map((a) => <AchievementBadge key={a.id} a={a} special={a.type === 'special'} variant="compact" />)}
+            </div>
+          </details>
+        ))}
+      </section>
     </div>
   );
+}
+
+function buildAchievementGroups(achievements: Achievement[], activeTab: AchievementTabKey) {
+  const fixedTypesByTab: Record<AchievementTabKey, string[]> = {
+    footprint: ['province', 'city', 'attraction'],
+    skill: [],
+    easterEgg: ['collector', 'special'],
+  };
+  const fixedTypes = fixedTypesByTab[activeTab];
+  const groups: { key: string; title: string; icon: ReactNode; items: Achievement[]; unlocked: number }[] = [];
+
+  const iconMap: Record<string, ReactNode> = {
+    province: <Sparkles size={16} aria-hidden="true" />,
+    city: <Building2 size={16} aria-hidden="true" />,
+    attraction: <Medal size={16} aria-hidden="true" />,
+    collector: <Trophy size={16} aria-hidden="true" />,
+    special: <PartyPopper size={16} aria-hidden="true" />,
+  };
+
+  for (const type of fixedTypes) {
+    const items = sortAchievementsForDisplay(achievements.filter((a) => a.type === type));
+    if (!items.length) continue;
+    groups.push({
+      key: type,
+      title: TYPE_LABELS[type] || type,
+      icon: iconMap[type],
+      items,
+      unlocked: items.filter((a) => a.unlocked_at).length,
+    });
+  }
+
+  if (activeTab !== 'skill') return groups;
+
+  const categoryMap = new Map<number, Achievement[]>();
+  achievements
+    .filter((a) => a.type === 'category')
+    .forEach((achievement) => {
+      const key = achievement.condition_value || 0;
+      categoryMap.set(key, [...(categoryMap.get(key) || []), achievement]);
+    });
+
+  for (const [categoryId, items] of categoryMap) {
+    const sortedItems = sortAchievementsForDisplay(items);
+    const lineName = items[0]?.condition_desc?.replace(/\s+Lv\.\d+$/, '') || `分类 ${categoryId}`;
+    groups.push({
+      key: `category-${categoryId}`,
+      title: lineName,
+      icon: <Tag size={16} aria-hidden="true" />,
+      items: sortedItems,
+      unlocked: sortedItems.filter((a) => a.unlocked_at).length,
+    });
+  }
+
+  return groups;
+}
+
+function sortAchievementsForDisplay(items: Achievement[]) {
+  return [...items].sort((a, b) => {
+    const unlockDiff = Number(!!b.unlocked_at) - Number(!!a.unlocked_at);
+    if (unlockDiff !== 0) return unlockDiff;
+
+    const levelDiff = getAchievementLevel(a) - getAchievementLevel(b);
+    if (levelDiff !== 0) return levelDiff;
+
+    return a.id - b.id;
+  });
+}
+
+function getAchievementLevel(achievement: Achievement) {
+  return achievement.level ?? Number.MAX_SAFE_INTEGER;
 }

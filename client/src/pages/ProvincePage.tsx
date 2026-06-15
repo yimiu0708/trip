@@ -146,20 +146,26 @@ export default function ProvincePage() {
     if (!user || dateModal.ids.length === 0) return;
     const isoDate = new Date(litDate).toISOString();
     try {
+      let confirmedIds = dateModal.ids;
+      let skippedCount = 0;
       if (dateModal.ids.length === 1) {
         await api.attractions.lit(dateModal.ids[0], isoDate);
       } else {
-        await api.attractions.batchLit(dateModal.ids, isoDate);
+        const result = await api.attractions.batchLit(dateModal.ids, isoDate);
+        confirmedIds = Array.isArray(result.litIds) ? result.litIds : dateModal.ids;
+        skippedCount = Array.isArray(result.skippedIds) ? result.skippedIds.length : 0;
       }
       setLitVisits((prev) => {
         const next = { ...prev };
-        dateModal.ids.forEach((id) => {
+        confirmedIds.forEach((id) => {
           next[id] = [{ lit_at: isoDate }, ...(next[id] || [])];
         });
         return next;
       });
       setSelectedIds(new Set());
-      setMessage(`成功记录 ${dateModal.ids.length} 个景区`);
+      setMessage(skippedCount > 0
+        ? `成功记录 ${confirmedIds.length} 个景区，跳过 ${skippedCount} 个不可点亮景区`
+        : `成功记录 ${confirmedIds.length} 个景区`);
       setDateModal({ open: false, ids: [] });
       setTimeout(() => setMessage(''), 2000);
     } catch (err: any) {

@@ -2,6 +2,7 @@ import { getDb, initDb } from './db.js';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getAchievementCatalog } from './utils/achievementCatalog.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -56,34 +57,7 @@ const CATEGORIES = [
   { id: 11, name: '博物展馆', sort_order: 11 },
 ];
 
-const ACHIEVEMENTS = [
-  // 省份探索线
-  { id: 1, name: '初见山河', type: 'province', level: 1, condition_value: 1, condition_desc: '点亮1个省份', icon: 'mountain', badge_style: 'bronze' },
-  { id: 2, name: '足迹初绽', type: 'province', level: 2, condition_value: 5, condition_desc: '点亮5个省份', icon: 'footprint', badge_style: 'silver' },
-  { id: 3, name: '行者无疆', type: 'province', level: 3, condition_value: 10, condition_desc: '点亮10个省份', icon: 'compass', badge_style: 'gold' },
-  { id: 4, name: '华夏行者', type: 'province', level: 4, condition_value: 20, condition_desc: '点亮20个省份', icon: 'map', badge_style: 'platinum' },
-  { id: 5, name: '九州征服者', type: 'province', level: 5, condition_value: 34, condition_desc: '点亮全部34个省级行政区', icon: 'crown', badge_style: 'diamond' },
-  // 景区达人线
-  { id: 10, name: '景区访客', type: 'attraction', level: 1, condition_value: 1, condition_desc: '点亮1个景区', icon: 'ticket', badge_style: 'bronze' },
-  { id: 11, name: '赏景新手', type: 'attraction', level: 2, condition_value: 5, condition_desc: '点亮5个景区', icon: 'camera', badge_style: 'bronze' },
-  { id: 12, name: '赏景达人', type: 'attraction', level: 3, condition_value: 15, condition_desc: '点亮15个景区', icon: 'landscape', badge_style: 'silver' },
-  { id: 13, name: '风景爱好者', type: 'attraction', level: 4, condition_value: 30, condition_desc: '点亮30个景区', icon: 'scroll', badge_style: 'silver' },
-  { id: 14, name: '风景收藏家', type: 'attraction', level: 5, condition_value: 60, condition_desc: '点亮60个景区', icon: 'album', badge_style: 'gold' },
-  { id: 15, name: '旅途行者', type: 'attraction', level: 6, condition_value: 100, condition_desc: '点亮100个景区', icon: 'compass2', badge_style: 'gold' },
-  { id: 16, name: '跋山涉水', type: 'attraction', level: 7, condition_value: 160, condition_desc: '点亮160个景区', icon: 'hiking', badge_style: 'platinum' },
-  { id: 17, name: '万里行者', type: 'attraction', level: 8, condition_value: 250, condition_desc: '点亮250个景区', icon: 'long-scroll', badge_style: 'platinum' },
-  { id: 18, name: '旅途传奇', type: 'attraction', level: 9, condition_value: 400, condition_desc: '点亮400个景区', icon: 'star-trail', badge_style: 'diamond' },
-  { id: 19, name: '山河百科', type: 'attraction', level: 10, condition_value: 600, condition_desc: '点亮600个景区', icon: 'galaxy', badge_style: 'diamond' },
-  // 特殊成就
-  { id: 101, name: '旅途起点', type: 'special', level: null, condition_value: null, condition_desc: 'first_lit', icon: 'torch', badge_style: 'special' },
-  { id: 102, name: '七日新星', type: 'special', level: null, condition_value: null, condition_desc: '7days_10lit', icon: 'meteor', badge_style: 'special' },
-  { id: 103, name: '夜游神', type: 'special', level: null, condition_value: null, condition_desc: 'same_day_5_provinces', icon: 'moon', badge_style: 'special' },
-  { id: 104, name: '分类大师', type: 'special', level: null, condition_value: null, condition_desc: 'full_category', icon: 'trophy', badge_style: 'special' },
-  { id: 105, name: '完美省份', type: 'special', level: null, condition_value: null, condition_desc: 'full_province', icon: 'crown2', badge_style: 'special' },
-  { id: 106, name: '5A征服者', type: 'special', level: null, condition_value: null, condition_desc: 'all_5a', icon: 'diamond5', badge_style: 'special' },
-  { id: 107, name: '年度旅人', type: 'special', level: null, condition_value: null, condition_desc: '1year_10lit', icon: 'calendar', badge_style: 'special' },
-  { id: 108, name: '坚持旅者', type: 'special', level: null, condition_value: null, condition_desc: '30days_streak', icon: 'flame', badge_style: 'special' },
-];
+const ACHIEVEMENTS = getAchievementCatalog();
 
 async function seed() {
   initDb();
@@ -105,12 +79,26 @@ async function seed() {
 
   // 成就
   const insertAchievement = db.prepare(
-    'INSERT OR IGNORE INTO achievements (id, name, type, level, condition_value, condition_desc, icon, badge_style) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    `INSERT INTO achievements (id, name, type, level, condition_value, condition_desc, icon, badge_style)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+     ON CONFLICT(id) DO UPDATE SET
+       name = excluded.name,
+       type = excluded.type,
+       level = excluded.level,
+       condition_value = excluded.condition_value,
+       condition_desc = excluded.condition_desc,
+       icon = excluded.icon,
+       badge_style = excluded.badge_style`
   );
   for (const a of ACHIEVEMENTS) {
     insertAchievement.run(a.id, a.name, a.type, a.level, a.condition_value, a.condition_desc, a.icon, a.badge_style);
   }
-  console.log('✅ Achievements seeded');
+  const achievementIds = ACHIEVEMENTS.map((a) => a.id);
+  if (achievementIds.length > 0) {
+    const placeholders = achievementIds.map(() => '?').join(',');
+    db.prepare(`DELETE FROM achievements WHERE id NOT IN (${placeholders})`).run(...achievementIds);
+  }
+  console.log(`✅ Achievements seeded: ${ACHIEVEMENTS.length}`);
 
   // 城市（地级市/地区/自治州/盟）
   const citiesPath = path.join(__dirname, '../data/cities.json');
@@ -175,7 +163,7 @@ async function seed() {
       const is4a = a.is_4a ? 1 : 0;
       const level = is5a ? '5A' : is4a ? '4A' : null;
       const primaryCategoryId = a.tags?.[0] ?? null;
-      const result = insertAttraction.run(
+      insertAttraction.run(
         a.name,
         a.province_id,
         a.city_id ?? null,
@@ -187,7 +175,8 @@ async function seed() {
         null,
         'approved'
       );
-      const attractionId = Number(result.lastInsertRowid);
+      const row = db.prepare('SELECT id FROM attractions WHERE name = ? AND province_id = ?').get(a.name, a.province_id) as { id: number };
+      const attractionId = row.id;
       for (const tagId of (a.tags ?? [])) {
         insertTag.run(attractionId, tagId);
       }

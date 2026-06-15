@@ -4,10 +4,10 @@ import { getDb } from '../db.js';
 const router = Router();
 
 // 获取所有省份（含统计）
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   const db = getDb();
   const provinces = db.prepare(`
-    SELECT p.*, (SELECT COUNT(*) FROM attractions WHERE province_id = p.id) as total_count
+    SELECT p.*, (SELECT COUNT(*) FROM attractions WHERE province_id = p.id AND status = 'approved') as total_count
     FROM provinces p
     ORDER BY p.id
   `).all();
@@ -27,11 +27,11 @@ router.get('/:id', (req, res) => {
   const cities = db
     .prepare(
       `SELECT c.*,
-        (SELECT COUNT(*) FROM attractions WHERE city_id = c.id) as total_count,
+        (SELECT COUNT(*) FROM attractions WHERE city_id = c.id AND status = 'approved') as total_count,
         COALESCE((SELECT COUNT(DISTINCT ua.attraction_id)
                   FROM user_attractions ua
                   JOIN attractions a ON ua.attraction_id = a.id
-                  WHERE a.city_id = c.id), 0) as lit_count
+                  WHERE a.city_id = c.id AND a.status = 'approved'), 0) as lit_count
        FROM cities c
        WHERE c.province_id = ?
        ORDER BY c.id`
@@ -45,7 +45,7 @@ router.get('/:id', (req, res) => {
               a.pinyin, ci.name as city_name
        FROM attractions a
        LEFT JOIN cities ci ON a.city_id = ci.id
-       WHERE a.province_id = ?
+       WHERE a.province_id = ? AND a.status = 'approved'
        ORDER BY a.city_id, a.is_5a DESC, a.is_4a DESC, a.pinyin ASC`
     )
     .all(provinceId) as any[];

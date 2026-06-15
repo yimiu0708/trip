@@ -1,20 +1,17 @@
 import { useEffect, useState } from 'react';
-import { api } from '../api/client';
-import { echarts } from '../lib/echarts';
-import { Camera, Edit3, MapPin, Medal, PartyPopper, Save, Tag, UserRound } from 'lucide-react';
-import AchievementBadge from '../components/AchievementBadge';
+import { useNavigate } from 'react-router-dom';
+import {
+  Camera,
+  Edit3,
+  Save,
+  Footprints,
+  ChevronRight,
+  HelpCircle,
+  Settings,
+  Star,
+  Map,
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-
-interface Achievement {
-  id: number;
-  name: string;
-  type: string;
-  level: number | null;
-  condition_desc: string;
-  icon: string;
-  badge_style: string;
-  unlocked_at: string | null;
-}
 
 interface CommunityProfile {
   displayName: string;
@@ -28,11 +25,8 @@ const DEFAULT_SIGNATURE = '记录走过的地方，也记录想去的远方。';
 const PROFILE_STORAGE_PREFIX = 'trip_community_profile_';
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
-  const [progress, setProgress] = useState<any>(null);
-  const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<'all' | 'unlocked' | 'locked'>('all');
   const [editingProfile, setEditingProfile] = useState(false);
   const [profileMessage, setProfileMessage] = useState('');
   const [communityProfile, setCommunityProfile] = useState<CommunityProfile>(() => ({
@@ -45,16 +39,6 @@ export default function ProfilePage() {
   const [profileDraft, setProfileDraft] = useState<CommunityProfile>(communityProfile);
 
   const profileStorageKey = user ? `${PROFILE_STORAGE_PREFIX}${user.id}` : '';
-
-  useEffect(() => {
-    Promise.all([api.user.progress(), api.achievements.mine()])
-      .then(([p, a]) => {
-        setProgress(p);
-        setAchievements(a);
-        setLoading(false);
-      })
-      .catch(() => setLoading(false));
-  }, []);
 
   useEffect(() => {
     if (!user) return;
@@ -81,50 +65,12 @@ export default function ProfilePage() {
     }
   }, [user]);
 
-  useEffect(() => {
-    if (!progress) return;
-    const el = document.getElementById('province-chart');
-    if (!el) return;
-    const chart = echarts.init(el);
-
-    const regions = ['华东', '华南', '华北', '华中', '西南', '西北', '东北', '港澳台'];
-    const regionData = regions.map((r) => {
-      const items = progress.provinceBreakdown.filter((p: any) => p.region === r);
-      const lit = items.filter((p: any) => p.lit_count > 0).length;
-      return { name: r, value: lit };
-    });
-
-    chart.setOption({
-      color: ['#2F9EAA', '#7FD6D3', '#8CCFE8', '#D8B76A', '#35A77D', '#FF8A6B', '#9FC9D8', '#BEE9E7'],
-      title: { text: '省份点亮进度', left: 'center', textStyle: { fontSize: 16, color: '#0f172a' } },
-      tooltip: { trigger: 'item', formatter: '{b}: {c} 省已点亮' },
-      series: [
-        {
-          type: 'pie',
-          radius: ['45%', '70%'],
-          center: ['50%', '55%'],
-          avoidLabelOverlap: false,
-          itemStyle: { borderRadius: 8, borderColor: '#fff', borderWidth: 2 },
-          label: { show: false },
-          emphasis: { label: { show: true, fontSize: 14, fontWeight: 'bold' } },
-          data: regionData.map((d) => ({ name: d.name, value: d.value })),
-        },
-      ],
-    });
-
-    return () => chart.dispose();
-  }, [progress]);
-
-  if (loading) return <div className="page-loading">加载中...</div>;
-  if (!progress) return <div className="page-loading">加载失败</div>;
-
-  const { provinceStats, attractionStats, categoryBreakdown } = progress;
-  const displayName = communityProfile.displayName.trim() || user?.username || '旅行者';
+  const displayName = communityProfile.displayName.trim() || user?.username || 'Yimiu';
   const profileInitial = displayName.slice(0, 1).toUpperCase();
-
-  const provinceLine = achievements.filter((a) => a.type === 'province');
-  const attractionLine = achievements.filter((a) => a.type === 'attraction');
-  const specialLine = achievements.filter((a) => a.type === 'special');
+  const passportNo = String(user?.id || 0).padStart(4, '0');
+  const profileSignature = communityProfile.signature.trim() || DEFAULT_SIGNATURE;
+  const profileLocation = communityProfile.location.trim() || '待盖章';
+  const profileStyle = communityProfile.travelStyle.trim() || '山海探索者';
 
   const handleAvatarChange = (file?: File) => {
     if (!file) return;
@@ -167,186 +113,188 @@ export default function ProfilePage() {
     setProfileMessage('');
   };
 
+  const showComingSoon = (text: string) => {
+    setProfileMessage(text);
+    setTimeout(() => setProfileMessage(''), 1800);
+  };
+
   return (
-    <div className="profile-page">
-      <div className="profile-header">
-        <div className="profile-identity">
-          <div className="profile-avatar-wrap">
-            <div className="profile-avatar">
-              {communityProfile.avatarDataUrl ? (
-                <img src={communityProfile.avatarDataUrl} alt={displayName} />
-              ) : (
-                <span>{profileInitial}</span>
-              )}
-            </div>
+    <div className="profile-page profile-page-v2">
+      <h1 className="profile-page-title">我的</h1>
+
+      {/* 旅行护照 */}
+      <div className="profile-v2-card">
+        <div className="profile-v2-passport-mark">
+          <span>TRAVEL PASSPORT</span>
+          <strong>No.{passportNo}</strong>
+        </div>
+        <div className="profile-v2-mountain-bg" aria-hidden="true">
+          <svg viewBox="0 0 200 120" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="mtGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stopColor="rgba(224, 247, 250, 0.85)" />
+                <stop offset="100%" stopColor="rgba(178, 235, 242, 0.45)" />
+              </linearGradient>
+            </defs>
+            <path d="M40 120 L90 35 L130 90 L160 50 L200 120 Z" fill="url(#mtGrad)" />
+            <path d="M100 120 L140 55 L175 100 L200 80 L220 120 Z" fill="rgba(224, 247, 250, 0.55)" />
+          </svg>
+        </div>
+        <div className="profile-v2-passport-stamp" aria-hidden="true">
+          <span>PASSPORT</span>
+          <strong>识界</strong>
+          <em>Light your life</em>
+        </div>
+        <div className="profile-v2-header">
+          <div className="profile-v2-avatar">
+            {communityProfile.avatarDataUrl ? (
+              <img src={communityProfile.avatarDataUrl} alt={displayName} />
+            ) : (
+              <span>{profileInitial}</span>
+            )}
           </div>
-          <div className="profile-identity-main">
-            <div className="profile-title-row">
-              <h1>{displayName}</h1>
-              <button className="profile-edit-btn" type="button" onClick={() => setEditingProfile(true)}>
-                <Edit3 size={15} aria-hidden="true" />
-                <span>编辑资料</span>
+          <div className="profile-v2-info">
+            <div className="profile-v2-name-row">
+              <h2>旅行者 {displayName}</h2>
+              <button
+                type="button"
+                className="profile-v2-edit"
+                onClick={() => setEditingProfile(true)}
+                aria-label="编辑资料"
+              >
+                <Edit3 size={14} aria-hidden="true" />
               </button>
             </div>
-            <p className="profile-signature">{communityProfile.signature}</p>
-            <div className="profile-meta-row">
-              <span><UserRound size={14} aria-hidden="true" /> @{user?.username || 'guest'}</span>
-              {communityProfile.location && <span><MapPin size={14} aria-hidden="true" /> {communityProfile.location}</span>}
-              <span>{communityProfile.travelStyle}</span>
-            </div>
+            <p className="profile-v2-subtitle">{profileSignature}</p>
           </div>
         </div>
-        <div className="profile-stats">
-          <div className="p-stat">
-            <div className="p-stat-num">{provinceStats.lit_provinces}</div>
-            <div className="p-stat-label">点亮省份</div>
+        <div className="profile-v2-passport-fields">
+          <div>
+            <span>签发地</span>
+            <strong>{profileLocation}</strong>
           </div>
-          <div className="p-stat">
-            <div className="p-stat-num">{attractionStats.lit_attractions}</div>
-            <div className="p-stat-label">点亮景区</div>
+          <div>
+            <span>旅行身份</span>
+            <strong>{profileStyle}</strong>
           </div>
-          <div className="p-stat">
-            <div className="p-stat-num">{achievements.filter((a) => a.unlocked_at).length}</div>
-            <div className="p-stat-label">获得成就</div>
+          <div>
+            <span>护照状态</span>
+            <strong>持续探索</strong>
           </div>
+        </div>
+        <div className="profile-v2-passport-code" aria-hidden="true">
+          <span>P&lt;SHIJIE&lt;{displayName.replace(/\s+/g, '').toUpperCase()}</span>
+          <span>SJ{passportNo}&lt;&lt;&lt;&lt;LIGHT&lt;&lt;YOUR&lt;&lt;LIFE</span>
         </div>
       </div>
 
+      {/* 功能菜单 */}
+      <div className="profile-v2-section profile-v2-menu">
+        <button type="button" className="profile-v2-menu-item" onClick={() => showComingSoon('收藏功能开发中')}>
+          <Star size={20} aria-hidden="true" />
+          <span>我的收藏</span>
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
+        <button type="button" className="profile-v2-menu-item" onClick={() => navigate('/journeys')}>
+          <Footprints size={20} aria-hidden="true" />
+          <span>我的足迹</span>
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
+        <button type="button" className="profile-v2-menu-item" onClick={() => showComingSoon('离线地图开发中')}>
+          <Map size={20} aria-hidden="true" />
+          <span>离线地图</span>
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
+        <button type="button" className="profile-v2-menu-item" onClick={() => showComingSoon('设置功能开发中')}>
+          <Settings size={20} aria-hidden="true" />
+          <span>设置</span>
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
+        <button type="button" className="profile-v2-menu-item" onClick={() => showComingSoon('帮助与反馈开发中')}>
+          <HelpCircle size={20} aria-hidden="true" />
+          <span>帮助与反馈</span>
+          <ChevronRight size={18} aria-hidden="true" />
+        </button>
+      </div>
+
+      {!editingProfile && profileMessage && <div className="toast">{profileMessage}</div>}
+
+      {/* 编辑资料弹窗 */}
       {editingProfile && (
-        <div className="profile-section profile-editor">
-          <div className="profile-editor-head">
-            <h2><Edit3 size={18} aria-hidden="true" /> 社区资料</h2>
-            {profileMessage && <span className="profile-editor-msg">{profileMessage}</span>}
-          </div>
-          <div className="profile-editor-grid">
-            <label className="profile-avatar-uploader">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(event) => handleAvatarChange(event.target.files?.[0])}
-              />
-              <span className="profile-avatar large">
-                {profileDraft.avatarDataUrl ? (
-                  <img src={profileDraft.avatarDataUrl} alt="头像预览" />
-                ) : (
-                  <Camera size={26} aria-hidden="true" />
-                )}
-              </span>
-              <em>上传头像</em>
-            </label>
-            <div className="profile-form">
-              <label>
-                昵称
+        <div className="modal-overlay" onClick={cancelProfileEdit}>
+          <div className="modal-content profile-editor" onClick={(e) => e.stopPropagation()}>
+            <div className="profile-editor-head">
+              <h2>编辑资料</h2>
+              {profileMessage && <span className="profile-editor-msg">{profileMessage}</span>}
+            </div>
+            <div className="profile-editor-grid">
+              <label className="profile-avatar-uploader">
                 <input
-                  value={profileDraft.displayName}
-                  maxLength={20}
-                  onChange={(event) => setProfileDraft((prev) => ({ ...prev, displayName: event.target.value }))}
-                  placeholder="给社区里的自己起个名字"
+                  type="file"
+                  accept="image/*"
+                  onChange={(event) => handleAvatarChange(event.target.files?.[0])}
                 />
+                <span className="profile-avatar large">
+                  {profileDraft.avatarDataUrl ? (
+                    <img src={profileDraft.avatarDataUrl} alt="头像预览" />
+                  ) : (
+                    <Camera size={26} aria-hidden="true" />
+                  )}
+                </span>
+                <em>上传头像</em>
               </label>
-              <label>
-                签名
-                <textarea
-                  value={profileDraft.signature}
-                  maxLength={80}
-                  onChange={(event) => setProfileDraft((prev) => ({ ...prev, signature: event.target.value }))}
-                  placeholder="写一句你想被记住的话"
-                />
-              </label>
-              <div className="profile-form-row">
+              <div className="profile-form">
                 <label>
-                  所在地
+                  昵称
                   <input
-                    value={profileDraft.location}
-                    maxLength={24}
-                    onChange={(event) => setProfileDraft((prev) => ({ ...prev, location: event.target.value }))}
-                    placeholder="例如：上海"
+                    value={profileDraft.displayName}
+                    maxLength={20}
+                    onChange={(event) => setProfileDraft((prev) => ({ ...prev, displayName: event.target.value }))}
+                    placeholder="给社区里的自己起个名字"
                   />
                 </label>
                 <label>
-                  旅行标签
-                  <input
-                    value={profileDraft.travelStyle}
-                    maxLength={24}
-                    onChange={(event) => setProfileDraft((prev) => ({ ...prev, travelStyle: event.target.value }))}
-                    placeholder="例如：古镇收藏家"
+                  签名
+                  <textarea
+                    value={profileDraft.signature}
+                    maxLength={80}
+                    onChange={(event) => setProfileDraft((prev) => ({ ...prev, signature: event.target.value }))}
+                    placeholder="写一句你想被记住的话"
                   />
                 </label>
-              </div>
-              <div className="profile-editor-actions">
-                <button type="button" className="btn-small" onClick={cancelProfileEdit}>取消</button>
-                <button type="button" className="btn-primary" onClick={saveCommunityProfile}>
-                  <Save size={16} aria-hidden="true" /> 保存资料
-                </button>
+                <div className="profile-form-row">
+                  <label>
+                    所在地
+                    <input
+                      value={profileDraft.location}
+                      maxLength={24}
+                      onChange={(event) => setProfileDraft((prev) => ({ ...prev, location: event.target.value }))}
+                      placeholder="例如：上海"
+                    />
+                  </label>
+                  <label>
+                    旅行标签
+                    <input
+                      value={profileDraft.travelStyle}
+                      maxLength={24}
+                      onChange={(event) => setProfileDraft((prev) => ({ ...prev, travelStyle: event.target.value }))}
+                      placeholder="例如：古镇收藏家"
+                    />
+                  </label>
+                </div>
+                <div className="profile-editor-actions">
+                  <button type="button" className="btn-small" onClick={cancelProfileEdit}>
+                    取消
+                  </button>
+                  <button type="button" className="btn-primary" onClick={saveCommunityProfile}>
+                    <Save size={16} aria-hidden="true" /> 保存资料
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       )}
-
-      {!editingProfile && profileMessage && <div className="toast">{profileMessage}</div>}
-
-      <div className="profile-section">
-        <div className="chart-box">
-          <div id="province-chart" style={{ width: '100%', height: 320 }} />
-          <div className="chart-center-text">
-            <div className="cct-num">{provinceStats.lit_provinces}/{provinceStats.total_provinces}</div>
-            <div className="cct-label">省份</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="profile-section">
-        <h2><Tag size={18} /> 分类点亮进度</h2>
-        <div className="category-progress-list">
-          {categoryBreakdown.map((c: any) => {
-            const pct = c.total_count > 0 ? Math.round((c.lit_count / c.total_count) * 100) : 0;
-            return (
-              <div key={c.id} className="category-progress-item">
-                <div className="cpi-header">
-                  <span className="cpi-name">{c.name}</span>
-                  <span className="cpi-num">{c.lit_count}/{c.total_count} ({pct}%)</span>
-                </div>
-                <div className="cpi-bar">
-                  <div className="cpi-bar-fill" style={{ width: `${pct}%` }} />
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      <div className="profile-section">
-        <div className="achievement-header">
-          <h2><Medal size={18} /> 成就墙</h2>
-          <div className="achievement-filters">
-            <button className={filter === 'all' ? 'active' : ''} onClick={() => setFilter('all')}>全部</button>
-            <button className={filter === 'unlocked' ? 'active' : ''} onClick={() => setFilter('unlocked')}>已解锁</button>
-            <button className={filter === 'locked' ? 'active' : ''} onClick={() => setFilter('locked')}>未解锁</button>
-          </div>
-        </div>
-
-        <div className="achievement-group">
-          <h3>省份探索</h3>
-          <div className="badge-grid">
-            {provinceLine.map((a) => <AchievementBadge key={a.id} a={a} />)}
-          </div>
-        </div>
-
-        <div className="achievement-group">
-          <h3>景区达人</h3>
-          <div className="badge-grid">
-            {attractionLine.map((a) => <AchievementBadge key={a.id} a={a} />)}
-          </div>
-        </div>
-
-        <div className="achievement-group">
-          <h3><PartyPopper size={18} /> 彩蛋成就</h3>
-          <div className="badge-grid">
-            {specialLine.map((a) => <AchievementBadge key={a.id} a={a} special />)}
-          </div>
-        </div>
-      </div>
     </div>
   );
 }

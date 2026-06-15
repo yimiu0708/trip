@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { getAchievementCatalog } from './utils/achievementCatalog.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dbPath = path.join(__dirname, '../data/database.sqlite');
@@ -88,7 +89,7 @@ export function initDb() {
     CREATE TABLE IF NOT EXISTS achievements (
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
-      type TEXT NOT NULL CHECK(type IN ('province', 'attraction', 'special')),
+      type TEXT NOT NULL,
       level INTEGER,
       condition_value INTEGER,
       condition_desc TEXT NOT NULL,
@@ -101,7 +102,10 @@ export function initDb() {
       user_id INTEGER NOT NULL,
       achievement_id INTEGER NOT NULL,
       unlocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-      UNIQUE(user_id, achievement_id)
+      snapshot_lit INTEGER,
+      snapshot_total INTEGER,
+      snapshot_percent INTEGER,
+      is_current_max INTEGER DEFAULT 0
     );
 
     CREATE INDEX IF NOT EXISTS idx_attractions_province ON attractions(province_id);
@@ -113,6 +117,65 @@ export function initDb() {
     CREATE INDEX IF NOT EXISTS idx_user_attractions_user ON user_attractions(user_id);
     CREATE INDEX IF NOT EXISTS idx_user_achievements_user ON user_achievements(user_id);
   `);
+
+  // Migration: relax achievements.type CHECK constraint for V2 achievement lines.
+  const achievementsSql = database.prepare(`
+    SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'achievements'
+  `).get() as { sql?: string } | undefined;
+  if (achievementsSql?.sql?.includes("CHECK(type IN ('province', 'attraction', 'special'))")) {
+    database.exec(`
+      CREATE TABLE achievements_new (
+        id INTEGER PRIMARY KEY,
+        name TEXT NOT NULL,
+        type TEXT NOT NULL,
+        level INTEGER,
+        condition_value INTEGER,
+        condition_desc TEXT NOT NULL,
+        icon TEXT,
+        badge_style TEXT
+      );
+      INSERT INTO achievements_new (id, name, type, level, condition_value, condition_desc, icon, badge_style)
+        SELECT id, name, type, level, condition_value, condition_desc, icon, badge_style FROM achievements;
+      DROP TABLE achievements;
+      ALTER TABLE achievements_new RENAME TO achievements;
+    `);
+  }
+
+  // Migration: user_achievements supports repeatable percentage badges and unlock snapshots.
+  const userAchievementsSql = database.prepare(`
+    SELECT sql FROM sqlite_master WHERE type = 'table' AND name = 'user_achievements'
+  `).get() as { sql?: string } | undefined;
+  if (userAchievementsSql?.sql?.includes('UNIQUE(user_id, achievement_id)')) {
+    database.exec(`
+      CREATE TABLE user_achievements_new (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id INTEGER NOT NULL,
+        achievement_id INTEGER NOT NULL,
+        unlocked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        snapshot_lit INTEGER,
+        snapshot_total INTEGER,
+        snapshot_percent INTEGER,
+        is_current_max INTEGER DEFAULT 0
+      );
+      INSERT INTO user_achievements_new (id, user_id, achievement_id, unlocked_at)
+        SELECT id, user_id, achievement_id, unlocked_at FROM user_achievements;
+      DROP TABLE user_achievements;
+      ALTER TABLE user_achievements_new RENAME TO user_achievements;
+      CREATE INDEX IF NOT EXISTS idx_user_achievements_user ON user_achievements(user_id);
+      CREATE INDEX IF NOT EXISTS idx_user_achievements_achievement ON user_achievements(achievement_id);
+    `);
+  }
+
+  const userAchievementColumns = ['snapshot_lit', 'snapshot_total', 'snapshot_percent', 'is_current_max'];
+  for (const column of userAchievementColumns) {
+    const exists = database.prepare("SELECT name FROM pragma_table_info('user_achievements') WHERE name = ?").get(column);
+    if (!exists) {
+      const type = column === 'is_current_max' ? 'INTEGER DEFAULT 0' : 'INTEGER';
+      database.exec(`ALTER TABLE user_achievements ADD COLUMN ${column} ${type}`);
+    }
+  }
+  database.exec('CREATE INDEX IF NOT EXISTS idx_user_achievements_achievement ON user_achievements(achievement_id)');
+  syncAchievementCatalog(database);
 
   // Migration: add role column if not exists
   const hasRole = database.prepare("SELECT name FROM pragma_table_info('users') WHERE name = 'role'").get();
@@ -202,4 +265,42 @@ export function initDb() {
   }
 
   return database;
+}
+
+function syncAchievementCatalog(database: Database.Database) {
+  const catalog = getAchievementCatalog();
+  const upsertAchievement = database.prepare(`
+    INSERT INTO achievements (id, name, type, level, condition_value, condition_desc, icon, badge_style)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    ON CONFLICT(id) DO UPDATE SET
+      name = excluded.name,
+      type = excluded.type,
+      level = excluded.level,
+      condition_value = excluded.condition_value,
+      condition_desc = excluded.condition_desc,
+      icon = excluded.icon,
+      badge_style = excluded.badge_style
+  `);
+
+  const transaction = database.transaction(() => {
+    for (const achievement of catalog) {
+      upsertAchievement.run(
+        achievement.id,
+        achievement.name,
+        achievement.type,
+        achievement.level,
+        achievement.condition_value,
+        achievement.condition_desc,
+        achievement.icon,
+        achievement.badge_style,
+      );
+    }
+
+    if (catalog.length > 0) {
+      const placeholders = catalog.map(() => '?').join(',');
+      database.prepare(`DELETE FROM achievements WHERE id NOT IN (${placeholders})`).run(...catalog.map((item) => item.id));
+    }
+  });
+
+  transaction();
 }
