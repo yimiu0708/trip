@@ -1,9 +1,10 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { Map, Backpack, Medal, User, Share2 } from 'lucide-react';
+import { Map, Backpack, Medal, User, Share2, Search } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 import SharePosterModal from './SharePosterModal';
+import AttractionSearchModal from './AttractionSearchModal';
 
 export default function Navbar() {
   const { user, isAdmin, logout } = useAuth();
@@ -15,6 +16,7 @@ export default function Navbar() {
   const [newPwd, setNewPwd] = useState('');
   const [pwdMsg, setPwdMsg] = useState('');
   const [shareOpen, setShareOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
   const isMapPage = location.pathname === '/map';
@@ -52,14 +54,24 @@ export default function Navbar() {
         </Link>
         <div className="app-header-right">
           {isMapPage ? (
-            <button
-              className="avatar-btn header-share-btn"
-              onClick={() => setShareOpen(true)}
-              aria-label="分享我的足迹"
-              title="分享"
-            >
-              <Share2 size={20} aria-hidden="true" />
-            </button>
+            <div className="header-map-actions">
+              <button
+                className="avatar-btn header-search-btn"
+                onClick={() => setSearchOpen(true)}
+                aria-label="搜索景点"
+                title="搜索"
+              >
+                <Search size={20} aria-hidden="true" />
+              </button>
+              <button
+                className="avatar-btn header-share-btn"
+                onClick={() => setShareOpen(true)}
+                aria-label="分享我的足迹"
+                title="分享"
+              >
+                <Share2 size={20} aria-hidden="true" />
+              </button>
+            </div>
           ) : (
             <div className="avatar-menu-wrap">
               <button className="avatar-btn" onClick={() => { setMenuOpen(!menuOpen); setShowPwdForm(false); setPwdMsg(''); }}>
@@ -87,6 +99,7 @@ export default function Navbar() {
       </header>
 
       <SharePosterModal isOpen={shareOpen} onClose={() => setShareOpen(false)} />
+      <AttractionSearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
 
       {/* 底部 Tab 栏 */}
       <nav className="bottom-tab-bar">

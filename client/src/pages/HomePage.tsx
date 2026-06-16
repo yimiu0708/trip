@@ -4,6 +4,7 @@ import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag
 import ChinaMap from '../components/ChinaMap';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { archiveGoal, clearCurrentGoal, isSameGoal, readCurrentGoal, writeCurrentGoal, type TravelGoal } from '../lib/goals';
 
 interface ProvinceStat {
   id: number;
@@ -13,15 +14,9 @@ interface ProvinceStat {
   region: string;
 }
 
-interface TravelGoal {
-  provinceId: number;
-  targetProgress: number;
-  targetDate?: string;
-}
-
-const GOAL_KEY = 'trip_next_goal';
 const TOTAL_PREFECTURE_DIVISIONS = 333;
 const EMPTY_ACHIEVEMENT_STATS = { unlocked: 0, total: 0 };
+const GOAL_ACHIEVED_NOTICE_PREFIX = 'trip_goal_achieved_notice_';
 
 function formatDateInputValue(date: Date) {
   const year = date.getFullYear();
@@ -36,6 +31,15 @@ function getOneYearLaterDateValue() {
   return formatDateInputValue(target);
 }
 
+function normalizeTargetProgress(value: number) {
+  const rounded = Math.round(value / 5) * 5;
+  return Math.min(100, Math.max(0, rounded));
+}
+
+function getGoalNoticeKey(goal: TravelGoal) {
+  return `${GOAL_ACHIEVED_NOTICE_PREFIX}${goal.provinceId}-${goal.targetProgress}-${goal.targetDate || 'unlimited'}`;
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
   const [stats, setStats] = useState<ProvinceStat[]>([]);
@@ -47,15 +51,9 @@ export default function HomePage() {
   const [targetOpen, setTargetOpen] = useState(false);
   const [worldNoticeOpen, setWorldNoticeOpen] = useState(false);
   const [mapCleanMode, setMapCleanMode] = useState(false);
-  const [goal, setGoal] = useState<TravelGoal | null>(() => {
-    const raw = localStorage.getItem(GOAL_KEY);
-    if (!raw) return null;
-    try {
-      return JSON.parse(raw) as TravelGoal;
-    } catch {
-      return null;
-    }
-  });
+  const [goalMessage, setGoalMessage] = useState('');
+  const [goalError, setGoalError] = useState('');
+  const [goal, setGoal] = useState<TravelGoal | null>(() => readCurrentGoal());
   const [draftGoal, setDraftGoal] = useState<TravelGoal>(() => ({
     provinceId: 1,
     targetProgress: 80,
@@ -104,6 +102,11 @@ export default function HomePage() {
     fetchStats();
   }, [fetchStats]);
 
+  useEffect(() => {
+    window.addEventListener('trip:progress-updated', fetchStats);
+    return () => window.removeEventListener('trip:progress-updated', fetchStats);
+  }, [fetchStats]);
+
   const litProvinces = stats.filter((s) => s.lit_count > 0).length;
   const litAttractions = stats.reduce((sum, s) => sum + s.lit_count, 0);
   const totalAttractions = stats.reduce((sum, s) => sum + s.total_count, 0);
@@ -131,9 +134,19 @@ export default function HomePage() {
     return stats.find((s) => s.id === goal.provinceId) || null;
   }, [goal, stats]);
 
+  const draftGoalStat = useMemo(() => {
+    return stats.find((s) => s.id === draftGoal.provinceId) || null;
+  }, [draftGoal.provinceId, stats]);
+
   const goalProgress = goalStat && goalStat.total_count > 0
     ? Math.round((goalStat.lit_count / goalStat.total_count) * 100)
     : 0;
+
+  const draftGoalProgress = draftGoalStat && draftGoalStat.total_count > 0
+    ? Math.round((draftGoalStat.lit_count / draftGoalStat.total_count) * 100)
+    : 0;
+
+  const draftGoalGap = Math.max(0, draftGoal.targetProgress - draftGoalProgress);
 
   const goalCountdown = useMemo(() => {
     if (!goal?.targetDate) return '';
@@ -157,6 +170,7 @@ export default function HomePage() {
   }, [navigate]);
 
   const openGoalModal = () => {
+    setGoalError('');
     setDraftGoal(goal || {
       provinceId: stats[0]?.id || 1,
       targetProgress: 80,
@@ -165,14 +179,46 @@ export default function HomePage() {
     setTargetOpen(true);
   };
 
+  useEffect(() => {
+    if (!user || !goal || !goalStat || goalStat.total_count <= 0) return;
+    if (goalProgress < goal.targetProgress) return;
+    const noticeKey = getGoalNoticeKey(goal);
+    if (localStorage.getItem(noticeKey)) return;
+
+    localStorage.setItem(noticeKey, new Date().toISOString());
+    archiveGoal(goal, goalProgress);
+    clearCurrentGoal();
+    setGoal(null);
+    setTargetOpen(false);
+    setGoalMessage(`恭喜达成目标：${goalStat.name} 已点亮 ${goalProgress}%`);
+    const timer = window.setTimeout(() => setGoalMessage(''), 3600);
+    return () => window.clearTimeout(timer);
+  }, [goal, goalProgress, goalStat, user]);
+
+  const cancelCurrentGoal = () => {
+    clearCurrentGoal();
+    setGoal(null);
+    setTargetOpen(false);
+    setGoalError('');
+    setGoalMessage('已取消当前目标');
+    window.setTimeout(() => setGoalMessage(''), 2000);
+  };
+
   const saveGoal = () => {
+    if (draftGoal.targetProgress < draftGoalProgress) {
+      setGoalError(`目标不能低于当前实际进度 ${draftGoalProgress}%`);
+      return;
+    }
     const normalized = {
       ...draftGoal,
-      targetProgress: Math.min(100, Math.max(0, Math.round(draftGoal.targetProgress / 5) * 5)),
+      targetProgress: normalizeTargetProgress(draftGoal.targetProgress),
       targetDate: draftGoal.targetDate || undefined,
     };
+    if (goal && !isSameGoal(goal, normalized) && goalProgress >= goal.targetProgress) {
+      archiveGoal(goal, goalProgress);
+    }
     setGoal(normalized);
-    localStorage.setItem(GOAL_KEY, JSON.stringify(normalized));
+    writeCurrentGoal(normalized);
     setTargetOpen(false);
   };
 
@@ -385,6 +431,12 @@ export default function HomePage() {
           <span>世界地图正在积极探索中<br />请玩家耐心等待……</span>
         </div>
       )}
+      {goalMessage && (
+        <div className="home-goal-toast" role="status" aria-live="polite">
+          <Trophy size={20} aria-hidden="true" />
+          <span>{goalMessage}</span>
+        </div>
+      )}
       {!mapCleanMode && selectedProvinceId === null && user && (
         <div className="home-insight-dock">
           <div className="home-insight-card">
@@ -409,8 +461,7 @@ export default function HomePage() {
           </div>
         </div>
       )}
-      {!mapCleanMode && selectedProvinceId === null && user && (
-        goal && goalStat ? (
+      {!mapCleanMode && selectedProvinceId === null && user && goal && goalStat && (
         <button className="home-goal-strip" type="button" onClick={openGoalModal} aria-label="修改目标">
           <span>
             下一目标：点亮 {goalStat.name} 至 <mark>{goal.targetProgress}%</mark>
@@ -421,11 +472,6 @@ export default function HomePage() {
             <strong>{goalProgress}%</strong>
           </div>
         </button>
-        ) : (
-        <button className="home-goal-strip empty" type="button" onClick={openGoalModal}>
-          <span>尚未设置下一段旅程目标</span>
-        </button>
-        )
       )}
       {!user && (
         <div className="guest-tip">
@@ -451,56 +497,92 @@ export default function HomePage() {
         </button>
       )}
       {targetOpen && (
-        <div className="modal-overlay" onClick={() => setTargetOpen(false)}>
+        <div className="modal-overlay goal-modal-overlay" onClick={() => setTargetOpen(false)}>
           <div className="modal-content goal-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>设置点亮目标</h3>
-            <label>
-              省份
-              <select
-                value={draftGoal.provinceId}
-                onChange={(e) => setDraftGoal((prev) => ({ ...prev, provinceId: Number(e.target.value) }))}
-              >
-                {stats.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
-            </label>
-            <label>
-              目标进度
-              <div className="goal-range-row">
+            <div className="goal-modal-hero">
+              <div className="goal-modal-orbit" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="goal-modal-title">
+                <Target size={22} aria-hidden="true" />
+                <div>
+                  <span>下一段旅程</span>
+                  <h3>设置点亮目标</h3>
+                </div>
+              </div>
+              <div className="goal-modal-summary goal-modal-summary-control">
+                <label className="goal-province-picker">
+                  <span>目标省份</span>
+                  <select
+                    value={draftGoal.provinceId}
+                    onChange={(e) => {
+                      setGoalError('');
+                      setDraftGoal((prev) => ({ ...prev, provinceId: Number(e.target.value) }));
+                    }}
+                  >
+                    {stats.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+                  </select>
+                </label>
+                <div className="goal-modal-target-value">
+                  <span>目标</span>
+                  <strong>{draftGoal.targetProgress}%</strong>
+                </div>
+              </div>
+              <div className="goal-modal-progress">
+                <span style={{ width: `${Math.min(100, draftGoalProgress)}%` }} />
+                <span className="target" style={{ left: `${Math.min(100, draftGoal.targetProgress)}%` }} />
+              </div>
+              <label className="goal-modal-range" aria-label="目标进度">
                 <input
                   type="range"
                   min="0"
                   max="100"
                   step="5"
                   value={draftGoal.targetProgress}
-                  onChange={(e) => setDraftGoal((prev) => ({ ...prev, targetProgress: Number(e.target.value) }))}
-                />
-                <strong>{draftGoal.targetProgress}%</strong>
-              </div>
-            </label>
-            <label>
-              期望达成时间
-              <div className="goal-unlimited-row">
-                <input
-                  type="checkbox"
-                  checked={!draftGoal.targetDate}
                   onChange={(e) => {
-                    if (e.target.checked) {
-                      setDraftGoal((prev) => ({ ...prev, targetDate: '' }));
-                    } else {
-                      setDraftGoal((prev) => ({ ...prev, targetDate: prev.targetDate || getOneYearLaterDateValue() }));
-                    }
+                    setGoalError('');
+                    setDraftGoal((prev) => ({ ...prev, targetProgress: Number(e.target.value) }));
                   }}
                 />
-                <span>不限时挑战</span>
+              </label>
+              <p>
+                {goalError ||
+                (draftGoalGap > 0
+                  ? `还差 ${draftGoalGap}% 就到达这段旅程的目标。`
+                  : `当前已点亮 ${draftGoalProgress}%，目标不能低于这个进度。`)}
+              </p>
+            </div>
+
+            <div className="goal-time-panel">
+              <div className="goal-time-head">
+                <span>完成时间</span>
+                <label className="goal-unlimited-row">
+                  <input
+                    type="checkbox"
+                    checked={!draftGoal.targetDate}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setDraftGoal((prev) => ({ ...prev, targetDate: '' }));
+                      } else {
+                        setDraftGoal((prev) => ({ ...prev, targetDate: prev.targetDate || getOneYearLaterDateValue() }));
+                      }
+                    }}
+                  />
+                  <span>不限时挑战</span>
+                </label>
               </div>
               <input
                 type="date"
                 value={draftGoal.targetDate || ''}
+                disabled={!draftGoal.targetDate}
                 onChange={(e) => setDraftGoal((prev) => ({ ...prev, targetDate: e.target.value }))}
               />
-            </label>
-            <div className="goal-modal-actions">
-              <button type="button" className="btn-small" onClick={() => setTargetOpen(false)}>取消</button>
+            </div>
+            <div className={`goal-modal-actions ${goal ? 'with-danger' : ''}`}>
+              <button type="button" className="btn-small" onClick={() => setTargetOpen(false)}>关闭</button>
+              {goal && <button type="button" className="btn-danger-soft" onClick={cancelCurrentGoal}>取消目标</button>}
               <button type="button" className="btn-primary" onClick={saveGoal}>保存目标</button>
             </div>
           </div>

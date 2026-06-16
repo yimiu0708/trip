@@ -1,14 +1,16 @@
-import { useEffect, useRef, useState } from 'react';
+import { forwardRef, useEffect, useRef, useState } from 'react';
 import { toPng } from 'html-to-image';
 import { QRCodeSVG } from 'qrcode.react';
-import { X, Download, Share2, MapPin, Landmark, Building2, Award } from 'lucide-react';
+import { X, Download, Share2, MapPin, Landmark, Building2, Award, Sparkles } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { api } from '../api/client';
 
 interface ProgressData {
   provinceStats?: { lit_provinces: number; total_provinces: number };
   cityStats?: { lit_cities: number; total_cities: number };
-  attractionStats?: { lit_attractions: number; total_attractions: number };
+  attractionStats?: { lit_attractions: number; total_attractions: number; total_visits?: number };
+  provinceBreakdown?: Array<{ id: number; name: string; lit_count: number; total_count: number; region: string }>;
+  categoryBreakdown?: Array<{ id: number; name: string; lit_count: number; total_count: number }>;
 }
 
 interface SharePosterModalProps {
@@ -62,8 +64,18 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
   const totalProvinces = progress?.provinceStats?.total_provinces ?? 34;
   const litCities = progress?.cityStats?.lit_cities ?? 0;
   const litAttractions = progress?.attractionStats?.lit_attractions ?? 0;
+  const totalVisits = progress?.attractionStats?.total_visits ?? litAttractions;
   const unlockedAchievements = achievements.filter((a) => a?.unlocked_at).length;
   const provincePct = totalProvinces > 0 ? Math.round((litProvinces / totalProvinces) * 100) : 0;
+  const topProvince = progress?.provinceBreakdown
+    ?.filter((item) => item.lit_count > 0)
+    .sort((a, b) => {
+      const rateA = a.total_count > 0 ? a.lit_count / a.total_count : 0;
+      const rateB = b.total_count > 0 ? b.lit_count / b.total_count : 0;
+      return rateB - rateA || b.lit_count - a.lit_count;
+    })[0];
+  const topCategory = progress?.categoryBreakdown?.find((item) => item.lit_count > 0);
+  const posterMood = topProvince ? `${topProvince.name} 正在发光` : litProvinces > 0 ? '中国地图正在发光' : '第一束光，等你点亮';
 
   const handleDownload = () => {
     if (!posterUrl) return;
@@ -112,18 +124,38 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
         </h3>
 
         <div className="poster-preview-wrap">
-          {generating && !posterUrl && (
-            <div className="poster-generating">
-              <span className="poster-spinner" />
-              正在生成海报…
-            </div>
-          )}
-          {posterUrl && (
+          {posterUrl ? (
             <img
               className="poster-preview"
               src={posterUrl}
               alt="我的识界足迹海报"
             />
+          ) : (
+            <>
+              <div className="poster-live-preview" aria-label="我的识界足迹海报预览">
+                <PosterArtwork
+                  userName={user?.username || '旅行者'}
+                  appUrl={appUrl}
+                  litProvinces={litProvinces}
+                  totalProvinces={totalProvinces}
+                  litCities={litCities}
+                  litAttractions={litAttractions}
+                  totalVisits={totalVisits}
+                  unlockedAchievements={unlockedAchievements}
+                  provincePct={provincePct}
+                  topProvinceName={topProvince?.name || '待点亮'}
+                  topCategoryName={topCategory?.name || '探索中'}
+                  mood={posterMood}
+                  preview
+                />
+              </div>
+              {generating && (
+                <div className="poster-generating-badge">
+                  <span className="poster-spinner" />
+                  生成高清图…
+                </div>
+              )}
+            </>
           )}
         </div>
 
@@ -141,76 +173,146 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
       </div>
 
       {/* Off-screen poster source */}
-      <div
+      <PosterArtwork
         ref={posterRef}
-        className="share-poster"
-        aria-hidden="true"
-      >
-        <div className="share-poster-bg" />
-        <div className="share-poster-glow share-poster-glow-1" />
-        <div className="share-poster-glow share-poster-glow-2" />
-
-        <div className="share-poster-brand">
-          <img src="/images/shijie-logo-mark.png" alt="" />
-          <div>
-            <strong>识界</strong>
-            <span>Light your life</span>
-          </div>
-        </div>
-
-        <div className="share-poster-headline">
-          <span className="share-poster-label">点亮中国</span>
-          <div className="share-poster-percent">
-            {provincePct}<span>%</span>
-          </div>
-          <p className="share-poster-copy">
-            已点亮 <em>{litProvinces}</em> / {totalProvinces} 个省份
-          </p>
-        </div>
-
-        <div className="share-poster-stats">
-          <div className="share-poster-stat">
-            <Landmark size={18} aria-hidden="true" />
-            <strong>{litProvinces}</strong>
-            <span>省份</span>
-          </div>
-          <div className="share-poster-stat">
-            <Building2 size={18} aria-hidden="true" />
-            <strong>{litCities}</strong>
-            <span>城市</span>
-          </div>
-          <div className="share-poster-stat">
-            <MapPin size={18} aria-hidden="true" />
-            <strong>{litAttractions}</strong>
-            <span>景点</span>
-          </div>
-          <div className="share-poster-stat">
-            <Award size={18} aria-hidden="true" />
-            <strong>{unlockedAchievements}</strong>
-            <span>成就</span>
-          </div>
-        </div>
-
-        <div className="share-poster-divider" />
-
-        <p className="share-poster-slogan">
-          把每一次出发，都点亮世界的角落
-        </p>
-
-        <div className="share-poster-footer">
-          <div className="share-poster-qr">
-            <QRCodeSVG value={appUrl} size={88} level="M" includeMargin={false} />
-          </div>
-          <div className="share-poster-cta">
-            <strong>扫码下载识界 App</strong>
-            <span>记录你的每一次旅行</span>
-          </div>
-        </div>
-
-        <div className="share-poster-user">
-          @{user?.username || '旅行者'} 的足迹
-        </div>
-      </div>
+        userName={user?.username || '旅行者'}
+        appUrl={appUrl}
+        litProvinces={litProvinces}
+        totalProvinces={totalProvinces}
+        litCities={litCities}
+        litAttractions={litAttractions}
+        totalVisits={totalVisits}
+        unlockedAchievements={unlockedAchievements}
+        provincePct={provincePct}
+        topProvinceName={topProvince?.name || '待点亮'}
+        topCategoryName={topCategory?.name || '探索中'}
+        mood={posterMood}
+      />
     </div>
   );
 }
+
+interface PosterArtworkProps {
+  userName: string;
+  appUrl: string;
+  litProvinces: number;
+  totalProvinces: number;
+  litCities: number;
+  litAttractions: number;
+  totalVisits: number;
+  unlockedAchievements: number;
+  provincePct: number;
+  topProvinceName: string;
+  topCategoryName: string;
+  mood: string;
+  preview?: boolean;
+}
+
+const PosterArtwork = forwardRef<HTMLDivElement, PosterArtworkProps>(function PosterArtwork(
+  {
+    userName,
+    appUrl,
+    litProvinces,
+    totalProvinces,
+    litCities,
+    litAttractions,
+    totalVisits,
+    unlockedAchievements,
+    provincePct,
+    topProvinceName,
+    topCategoryName,
+    mood,
+    preview = false,
+  },
+  ref,
+) {
+  return (
+  <div
+    ref={ref}
+    className={`share-poster ${preview ? 'share-poster-preview' : ''}`}
+    aria-hidden={!preview}
+  >
+    <div className="share-poster-bg" />
+    <div className="share-poster-map" aria-hidden="true">
+      <img src="/images/shijie-logo-mark.png" alt="" />
+      <span className="share-poster-route route-one" />
+      <span className="share-poster-route route-two" />
+      <span className="share-poster-node node-one" />
+      <span className="share-poster-node node-two" />
+      <span className="share-poster-node node-three" />
+      <span className="share-poster-node node-four" />
+    </div>
+
+    <header className="share-poster-brand">
+      <div className="share-poster-brand-lockup">
+        <img src="/images/shijie-logo-mark.png" alt="" />
+        <div>
+          <strong>识界</strong>
+          <span>Light your life</span>
+        </div>
+      </div>
+      <span className="share-poster-badge">旅行足迹海报</span>
+    </header>
+
+    <section className="share-poster-hero">
+      <div className="share-poster-userline">
+        <Sparkles size={14} aria-hidden="true" />
+        <span>@{userName} 的中国光迹</span>
+      </div>
+      <h2>我点亮了</h2>
+      <div className="share-poster-percent">
+        {provincePct}<span>%</span>
+      </div>
+      <p className="share-poster-copy">
+        已点亮 <em>{litProvinces}</em> / {totalProvinces} 个省份
+      </p>
+    </section>
+
+    <section className="share-poster-stats" aria-label="足迹数据">
+      <div className="share-poster-stat">
+        <Landmark size={18} aria-hidden="true" />
+        <strong>{litProvinces}</strong>
+        <span>省份</span>
+      </div>
+      <div className="share-poster-stat">
+        <Building2 size={18} aria-hidden="true" />
+        <strong>{litCities}</strong>
+        <span>城市</span>
+      </div>
+      <div className="share-poster-stat">
+        <MapPin size={18} aria-hidden="true" />
+        <strong>{litAttractions}</strong>
+        <span>{totalVisits}次到访</span>
+      </div>
+      <div className="share-poster-stat">
+        <Award size={18} aria-hidden="true" />
+        <strong>{unlockedAchievements}</strong>
+        <span>成就</span>
+      </div>
+    </section>
+
+    <section className="share-poster-insights">
+      <div>
+        <span>最亮目的地</span>
+        <strong>{topProvinceName}</strong>
+      </div>
+      <div>
+        <span>探索偏好</span>
+        <strong>{topCategoryName}</strong>
+      </div>
+    </section>
+
+    <p className="share-poster-slogan">{mood}，下一站继续点亮。</p>
+
+    <footer className="share-poster-footer">
+      <div className="share-poster-qr">
+        <QRCodeSVG value={appUrl} size={82} level="M" includeMargin={false} />
+      </div>
+      <div className="share-poster-cta">
+        <strong>扫码加入识界</strong>
+        <span>生成你的旅行光迹</span>
+      </div>
+    </footer>
+  </div>
+  );
+});

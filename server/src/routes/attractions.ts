@@ -37,8 +37,8 @@ router.get('/', (req, res) => {
     sql += ' AND a.is_4a = 1';
   }
   if (q) {
-    sql += ' AND a.name LIKE ?';
-    params.push(`%${String(q)}%`);
+    sql += ' AND (a.name LIKE ? OR a.pinyin LIKE ?)';
+    params.push(`%${String(q)}%`, `%${String(q).toLowerCase()}%`);
   }
 
   sql += ' ORDER BY a.province_id, a.city_id, a.is_5a DESC, a.is_4a DESC, a.pinyin ASC';
