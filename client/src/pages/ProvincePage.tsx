@@ -4,18 +4,25 @@ import { Calendar, MapPin, Clock3 } from 'lucide-react';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import ProvinceOutlineMap from '../components/ProvinceOutlineMap';
+import { shortLocationName } from '../lib/location';
+import { formatRecallTime } from '../lib/recallTime';
 
 interface Attraction {
   id: number;
   name: string;
   level: string;
-  category_name: string;
+  category_name?: string;
   province_name: string;
   city_name?: string;
+  tags?: { id: number; name: string }[];
 }
 
 interface LitVisit {
   lit_at: string;
+  time_precision?: string | null;
+  season?: string | null;
+  display_time_text?: string | null;
+  source?: string | null;
 }
 
 interface Category {
@@ -60,7 +67,9 @@ export default function ProvincePage() {
 
       const catMap = new Map<number, string>();
       detail.attractions.forEach((a: any) => {
-        if (a.category_id && a.category_name) catMap.set(a.category_id, a.category_name);
+        (a.tags || []).forEach((t: any) => {
+          if (t.id && t.name) catMap.set(t.id, t.name);
+        });
       });
       setCategories(Array.from(catMap.entries()).map(([id, name]) => ({ id, name })).sort((a, b) => a.id - b.id));
 
@@ -70,7 +79,13 @@ export default function ProvincePage() {
         list.forEach((item: any) => {
           if (item.province_name === detail.province.name) {
             visits[item.id] = visits[item.id] || [];
-            visits[item.id].push({ lit_at: item.lit_at });
+            visits[item.id].push({
+              lit_at: item.lit_at,
+              time_precision: item.time_precision,
+              season: item.season,
+              display_time_text: item.display_time_text,
+              source: item.source,
+            });
           }
         });
         Object.values(visits).forEach((items) => {
@@ -93,24 +108,29 @@ export default function ProvincePage() {
 
   const [cityFilter, setCityFilter] = useState<number | ''>('');
 
-  const filtered = attractions.filter((a) => {
+  const filtered = attractions.filter((a: any) => {
     const normalizedSearch = search.trim().toLowerCase();
     if (normalizedSearch) {
-      const haystack = [a.name, a.category_name, a.city_name, a.level]
+      const tagNames = (a.tags || []).map((t: any) => t.name).join(' ');
+      const haystack = [a.name, tagNames, a.city_name, a.level]
         .filter(Boolean)
         .join(' ')
         .toLowerCase();
       if (!haystack.includes(normalizedSearch)) return false;
     }
     if (cityFilter !== '' && a.city_name !== cities.find((c) => c.id === cityFilter)?.name) return false;
-    if (categoryFilter !== '' && a.category_name !== categories.find((c) => c.id === categoryFilter)?.name) return false;
+    if (categoryFilter !== '') {
+      const hasTag = (a.tags || []).some((t: any) => t.id === categoryFilter);
+      if (!hasTag) return false;
+    }
     if (levelFilter && a.level !== levelFilter) return false;
     return true;
   });
 
   // 按城市分组展示
   const groupedByCity = filtered.reduce<Record<string, Attraction[]>>((acc, a) => {
-    const key = a.city_name || province?.name || '其他地区';
+    const key = a.city_name || province?.name;
+    if (!key) return acc;
     acc[key] = acc[key] || [];
     acc[key].push(a);
     return acc;
@@ -139,20 +159,26 @@ export default function ProvincePage() {
     if (!user || dateModal.ids.length === 0) return;
     const isoDate = new Date(litDate).toISOString();
     try {
+      let confirmedIds = dateModal.ids;
+      let skippedCount = 0;
       if (dateModal.ids.length === 1) {
         await api.attractions.lit(dateModal.ids[0], isoDate);
       } else {
-        await api.attractions.batchLit(dateModal.ids, isoDate);
+        const result = await api.attractions.batchLit(dateModal.ids, isoDate);
+        confirmedIds = Array.isArray(result.litIds) ? result.litIds : dateModal.ids;
+        skippedCount = Array.isArray(result.skippedIds) ? result.skippedIds.length : 0;
       }
       setLitVisits((prev) => {
         const next = { ...prev };
-        dateModal.ids.forEach((id) => {
+        confirmedIds.forEach((id) => {
           next[id] = [{ lit_at: isoDate }, ...(next[id] || [])];
         });
         return next;
       });
       setSelectedIds(new Set());
-      setMessage(`成功记录 ${dateModal.ids.length} 个景区`);
+      setMessage(skippedCount > 0
+        ? `成功记录 ${confirmedIds.length} 个景区，跳过 ${skippedCount} 个不可点亮景区`
+        : `成功记录 ${confirmedIds.length} 个景区`);
       setDateModal({ open: false, ids: [] });
       setTimeout(() => setMessage(''), 2000);
     } catch (err: any) {
@@ -277,7 +303,7 @@ export default function ProvincePage() {
         return (
           <section key={cityName} className="attraction-section">
             <h2>
-              <MapPin size={16} aria-hidden="true" /> {cityName}
+              <MapPin size={16} aria-hidden="true" /> {shortLocationName(cityName)}
               <span className="city-count">{cityAttractions.length}</span>
             </h2>
             <div className="attraction-grid">
@@ -358,19 +384,21 @@ function AttractionCard({
   return (
     <div className={`attraction-card ${count > 0 ? 'lit' : ''} ${selected ? 'selected' : ''}`}>
       <div className="card-header">
-        <span className={`level-tag level-${a.level}`}>{a.level}</span>
-        {a.category_name && <span className="category-tag">{a.category_name}</span>}
+        {a.level && <span className={`level-tag level-${a.level}`}>{a.level}</span>}
+        {(a.tags || []).map((t) => (
+          <span key={t.id} className="category-tag">{t.name}</span>
+        ))}
       </div>
       <div className="card-name">{a.name}</div>
       {count > 0 && (
         <>
-          <div style={{ fontSize: '11px', color: '#2563eb', fontWeight: 600, marginBottom: '8px' }}>
+          <div style={{ fontSize: '11px', color: '#2F9EAA', fontWeight: 600, marginBottom: '8px' }}>
             已点亮 {count} 次
           </div>
           <div className="visit-dates" aria-label={`${a.name} 点亮日期`}>
             {visits.map((visit, index) => (
               <span key={`${visit.lit_at}-${index}`} className="visit-date">
-                {formatLitDate(visit.lit_at)}
+                {formatRecallTime(visit)}
               </span>
             ))}
           </div>
@@ -395,10 +423,6 @@ function AttractionCard({
       </div>
     </div>
   );
-}
-
-function formatLitDate(value: string) {
-  return value?.slice(0, 10) || '未知日期';
 }
 
 function getProvinceHeroImage(provinceId?: number) {

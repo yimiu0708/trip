@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import * as echarts from 'echarts';
+import { echarts, type ECharts } from '../lib/echarts';
 
 interface Props {
   provinceName: string;
@@ -11,7 +11,7 @@ export default function ProvinceOutlineMap({ provinceName }: Props) {
   useEffect(() => {
     if (!chartRef.current) return;
     let disposed = false;
-    let chart: echarts.ECharts | null = null;
+    let chart: ECharts | null = null;
 
     const init = async () => {
       const res = await fetch('/china.json');

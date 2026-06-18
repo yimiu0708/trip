@@ -1,9 +1,10 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag, Sparkles } from 'lucide-react';
+import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag, Sparkles, Trophy, Maximize2, ArrowRight, MapPinned } from 'lucide-react';
 import ChinaMap from '../components/ChinaMap';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import { archiveGoal, clearCurrentGoal, isSameGoal, readCurrentGoal, writeCurrentGoal, type TravelGoal } from '../lib/goals';
 
 interface ProvinceStat {
   id: number;
@@ -13,14 +14,16 @@ interface ProvinceStat {
   region: string;
 }
 
-interface TravelGoal {
-  provinceId: number;
-  targetProgress: number;
-  targetDate?: string;
+interface RecallGuideState {
+  seen: boolean;
+  skipped: boolean;
+  completed: boolean;
+  shouldShow: boolean;
 }
 
-const GOAL_KEY = 'trip_next_goal';
-const TOTAL_PREFECTURE_DIVISIONS = 333;
+const TOTAL_CITY_NODES = 347;
+const EMPTY_ACHIEVEMENT_STATS = { unlocked: 0, total: 0 };
+const GOAL_ACHIEVED_NOTICE_PREFIX = 'trip_goal_achieved_notice_';
 
 function formatDateInputValue(date: Date) {
   const year = date.getFullYear();
@@ -35,24 +38,31 @@ function getOneYearLaterDateValue() {
   return formatDateInputValue(target);
 }
 
+function normalizeTargetProgress(value: number) {
+  const rounded = Math.round(value / 5) * 5;
+  return Math.min(100, Math.max(0, rounded));
+}
+
+function getGoalNoticeKey(goal: TravelGoal) {
+  return `${GOAL_ACHIEVED_NOTICE_PREFIX}${goal.provinceId}-${goal.targetProgress}-${goal.targetDate || 'unlimited'}`;
+}
+
 export default function HomePage() {
   const navigate = useNavigate();
   const [stats, setStats] = useState<ProvinceStat[]>([]);
-  const [cityStats, setCityStats] = useState({ lit_cities: 0, total_cities: TOTAL_PREFECTURE_DIVISIONS });
+  const [cityStats, setCityStats] = useState({ lit_cities: 0, total_cities: TOTAL_CITY_NODES });
+  const [achievementStats, setAchievementStats] = useState(EMPTY_ACHIEVEMENT_STATS);
   const [loading, setLoading] = useState(true);
   const [selectedProvinceId, setSelectedProvinceId] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [targetOpen, setTargetOpen] = useState(false);
   const [worldNoticeOpen, setWorldNoticeOpen] = useState(false);
-  const [goal, setGoal] = useState<TravelGoal | null>(() => {
-    const raw = localStorage.getItem(GOAL_KEY);
-    if (!raw) return null;
-    try {
-      return JSON.parse(raw) as TravelGoal;
-    } catch {
-      return null;
-    }
-  });
+  const [mapCleanMode, setMapCleanMode] = useState(false);
+  const [goalMessage, setGoalMessage] = useState('');
+  const [goalError, setGoalError] = useState('');
+  const [hasUserLitRecord, setHasUserLitRecord] = useState(true);
+  const [recallGuide, setRecallGuide] = useState<RecallGuideState | null>(null);
+  const [goal, setGoal] = useState<TravelGoal | null>(() => readCurrentGoal());
   const [draftGoal, setDraftGoal] = useState<TravelGoal>(() => ({
     provinceId: 1,
     targetProgress: 80,
@@ -64,8 +74,21 @@ export default function HomePage() {
     try {
       const provinces = await api.provinces.list();
       if (user) {
-        const progress = await api.user.progress();
-        setCityStats(progress.cityStats || { lit_cities: 0, total_cities: TOTAL_PREFECTURE_DIVISIONS });
+        const [progress, achievements, guide] = await Promise.all([
+          api.user.progress(),
+          api.achievements.mine().catch(() => []),
+          api.recall.guide().catch(() => null),
+        ]);
+        setCityStats(progress.cityStats || { lit_cities: 0, total_cities: TOTAL_CITY_NODES });
+        setAchievementStats({
+          unlocked: achievements.filter((item: any) => item.unlocked_at).length,
+          total: achievements.length,
+        });
+        setHasUserLitRecord(
+          (progress.attractionStats?.lit_attractions || 0) > 0
+          || (progress.attractionStats?.total_visits || 0) > 0,
+        );
+        setRecallGuide(guide);
         const map = new Map<number, any>(progress.provinceBreakdown.map((p: any) => [p.id, p]));
         setStats(provinces.map((p: any) => {
           const item = map.get(p.id);
@@ -78,7 +101,11 @@ export default function HomePage() {
           };
         }));
       } else {
-        setCityStats({ lit_cities: 0, total_cities: TOTAL_PREFECTURE_DIVISIONS });
+        const achievements = await api.achievements.list().catch(() => []);
+        setAchievementStats({ unlocked: 0, total: achievements.length });
+        setCityStats({ lit_cities: 0, total_cities: TOTAL_CITY_NODES });
+        setHasUserLitRecord(false);
+        setRecallGuide(null);
         setStats(provinces.map((p: any) => ({ id: p.id, name: p.name, region: p.region, lit_count: 0, total_count: p.total_count || 0 })));
       }
     } catch {
@@ -92,14 +119,22 @@ export default function HomePage() {
     fetchStats();
   }, [fetchStats]);
 
+  useEffect(() => {
+    window.addEventListener('trip:progress-updated', fetchStats);
+    return () => window.removeEventListener('trip:progress-updated', fetchStats);
+  }, [fetchStats]);
+
+  useEffect(() => {
+    if (loading || !user || hasUserLitRecord || !recallGuide?.shouldShow) return;
+    navigate('/recall', { replace: true });
+  }, [hasUserLitRecord, loading, navigate, recallGuide?.shouldShow, user]);
+
   const litProvinces = stats.filter((s) => s.lit_count > 0).length;
   const litAttractions = stats.reduce((sum, s) => sum + s.lit_count, 0);
   const totalAttractions = stats.reduce((sum, s) => sum + s.total_count, 0);
   const litProvincePct = Math.round((litProvinces / 34) * 100);
-  const litAttractionPct = totalAttractions > 0 ? Math.round((litAttractions / totalAttractions) * 100) : 0;
   const exploredCityCount = cityStats.lit_cities || 0;
-  const totalCities = cityStats.total_cities || TOTAL_PREFECTURE_DIVISIONS;
-  const exploredCityPct = totalCities > 0 ? Math.round((exploredCityCount / totalCities) * 100) : 0;
+  const totalCities = cityStats.total_cities || TOTAL_CITY_NODES;
 
   const top5 = useMemo(() => {
     return [...stats]
@@ -121,9 +156,19 @@ export default function HomePage() {
     return stats.find((s) => s.id === goal.provinceId) || null;
   }, [goal, stats]);
 
+  const draftGoalStat = useMemo(() => {
+    return stats.find((s) => s.id === draftGoal.provinceId) || null;
+  }, [draftGoal.provinceId, stats]);
+
   const goalProgress = goalStat && goalStat.total_count > 0
     ? Math.round((goalStat.lit_count / goalStat.total_count) * 100)
     : 0;
+
+  const draftGoalProgress = draftGoalStat && draftGoalStat.total_count > 0
+    ? Math.round((draftGoalStat.lit_count / draftGoalStat.total_count) * 100)
+    : 0;
+
+  const draftGoalGap = Math.max(0, draftGoal.targetProgress - draftGoalProgress);
 
   const goalCountdown = useMemo(() => {
     if (!goal?.targetDate) return '';
@@ -136,6 +181,7 @@ export default function HomePage() {
   }, [goal]);
 
   const handleClickProvince = useCallback((id: number) => {
+    setMapCleanMode(false);
     setSelectedProvinceId((prev) => (prev === id ? null : id));
     setSidebarOpen(false);
     setWorldNoticeOpen(false);
@@ -146,6 +192,7 @@ export default function HomePage() {
   }, [navigate]);
 
   const openGoalModal = () => {
+    setGoalError('');
     setDraftGoal(goal || {
       provinceId: stats[0]?.id || 1,
       targetProgress: 80,
@@ -154,65 +201,130 @@ export default function HomePage() {
     setTargetOpen(true);
   };
 
+  useEffect(() => {
+    if (!user || !goal || !goalStat || goalStat.total_count <= 0) return;
+    if (goalProgress < goal.targetProgress) return;
+    const noticeKey = getGoalNoticeKey(goal);
+    if (localStorage.getItem(noticeKey)) return;
+
+    localStorage.setItem(noticeKey, new Date().toISOString());
+    archiveGoal(goal, goalProgress);
+    clearCurrentGoal();
+    setGoal(null);
+    setTargetOpen(false);
+    setGoalMessage(`恭喜达成目标：${goalStat.name} 已点亮 ${goalProgress}%`);
+    const timer = window.setTimeout(() => setGoalMessage(''), 3600);
+    return () => window.clearTimeout(timer);
+  }, [goal, goalProgress, goalStat, user]);
+
+  const cancelCurrentGoal = () => {
+    clearCurrentGoal();
+    setGoal(null);
+    setTargetOpen(false);
+    setGoalError('');
+    setGoalMessage('已取消当前目标');
+    window.setTimeout(() => setGoalMessage(''), 2000);
+  };
+
   const saveGoal = () => {
+    if (draftGoal.targetProgress < draftGoalProgress) {
+      setGoalError(`目标不能低于当前实际进度 ${draftGoalProgress}%`);
+      return;
+    }
     const normalized = {
       ...draftGoal,
-      targetProgress: Math.min(100, Math.max(0, Math.round(draftGoal.targetProgress / 5) * 5)),
+      targetProgress: normalizeTargetProgress(draftGoal.targetProgress),
       targetDate: draftGoal.targetDate || undefined,
     };
+    if (goal && !isSameGoal(goal, normalized) && goalProgress >= goal.targetProgress) {
+      archiveGoal(goal, goalProgress);
+    }
     setGoal(normalized);
-    localStorage.setItem(GOAL_KEY, JSON.stringify(normalized));
+    writeCurrentGoal(normalized);
     setTargetOpen(false);
   };
 
   return (
-    <div className="home-page">
-      <div className="map-hero-panel">
-        <div>
-          <div className="map-hero-label">点亮中国</div>
-          <div className="map-hero-percent">{litProvincePct}<span>%</span></div>
-          <div className="map-hero-copy">已点亮 {litProvinces} 个省份</div>
+    <div className={`home-page ${mapCleanMode ? 'map-clean' : ''}`}>
+      {!user && (
+        <div className="guest-header-bar">
+          <div className="guest-header-brand">
+            <img src="/images/shijie-logo-mark.png" alt="识界" />
+            <div className="guest-header-text">
+              <span className="guest-header-name">识界</span>
+              <span className="guest-header-tagline brand-script">Light your life</span>
+            </div>
+          </div>
         </div>
-        <div className="map-action-stack" aria-label="地图操作">
-          <button
-            type="button"
-            className="map-action-pill"
-            onClick={(event) => {
-              event.stopPropagation();
-              setWorldNoticeOpen(true);
-              setSidebarOpen(false);
-            }}
-          >
-            <Globe2 size={18} aria-hidden="true" />
-            <span>世界地图</span>
-          </button>
-          <button
-            type="button"
-            className={`map-action-pill ${sidebarOpen ? 'active' : ''}`}
-            onClick={(event) => {
-              event.stopPropagation();
-              setSidebarOpen((open) => !open);
-              setWorldNoticeOpen(false);
-            }}
-          >
-            <Footprints size={18} aria-hidden="true" />
-            <span>足迹</span>
-          </button>
-          <button
-            type="button"
-            className="map-action-pill"
-            onClick={(event) => {
-              event.stopPropagation();
-              setSidebarOpen(false);
-              setWorldNoticeOpen(false);
-              openGoalModal();
-            }}
-          >
-            <Target size={18} aria-hidden="true" />
-            <span>目标</span>
-          </button>
+      )}
+
+      {user ? (
+        <div className="map-hero-panel">
+          <div>
+            <div className="map-hero-label">点亮中国</div>
+            <div className="map-hero-percent">{litProvincePct}<span>%</span></div>
+            <div className="map-hero-copy">已点亮 {litProvinces} 个省份</div>
+          </div>
+          <div className="map-action-stack" aria-label="地图操作">
+            <button
+              type="button"
+              className="map-action-pill"
+              onClick={(event) => {
+                event.stopPropagation();
+                setWorldNoticeOpen(true);
+                setSidebarOpen(false);
+              }}
+            >
+              <Globe2 size={18} aria-hidden="true" />
+              <span>世界地图</span>
+            </button>
+            <button
+              type="button"
+              className={`map-action-pill ${sidebarOpen ? 'active' : ''}`}
+              onClick={(event) => {
+                event.stopPropagation();
+                setSidebarOpen((open) => !open);
+                setWorldNoticeOpen(false);
+              }}
+            >
+              <Footprints size={18} aria-hidden="true" />
+              <span>足迹</span>
+            </button>
+            <button
+              type="button"
+              className="map-action-pill"
+              onClick={(event) => {
+                event.stopPropagation();
+                navigate('/recall/cities');
+              }}
+            >
+              <MapPinned size={18} aria-hidden="true" />
+              <span>找回</span>
+            </button>
+            <button
+              type="button"
+              className="map-action-pill"
+              onClick={(event) => {
+                event.stopPropagation();
+                setSidebarOpen(false);
+                setWorldNoticeOpen(false);
+                openGoalModal();
+              }}
+            >
+              <Target size={18} aria-hidden="true" />
+              <span>目标</span>
+            </button>
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="map-hero-panel guest-stats-panel">
+          <div>
+            <div className="map-hero-label">点亮中国</div>
+            <div className="map-hero-percent">{litProvincePct}<span>%</span></div>
+            <div className="map-hero-copy">已点亮 {litProvinces} 个省份</div>
+          </div>
+        </div>
+      )}
       <div className="home-main">
         <div className="map-wrapper">
           {loading ? <div className="loading">地图加载中...</div> : (
@@ -220,6 +332,8 @@ export default function HomePage() {
               stats={stats}
               onClickProvince={handleClickProvince}
               onClickEmpty={() => {
+                setMapCleanMode((prev) => !prev);
+                setSelectedProvinceId(null);
                 setSidebarOpen(false);
                 setWorldNoticeOpen(false);
               }}
@@ -229,6 +343,10 @@ export default function HomePage() {
           {/* 选中省份的引导浮层 */}
           {selectedStat && (
             <div className="province-guide-float" onClick={(event) => event.stopPropagation()}>
+              <div className="province-guide-title">
+                <MapPin size={14} aria-hidden="true" />
+                <span>{selectedStat.name}</span>
+              </div>
               <button
                 type="button"
                 className="province-guide-content"
@@ -237,9 +355,10 @@ export default function HomePage() {
                 <Sparkles size={16} aria-hidden="true" />
                 <span>
                   {selectedStat.lit_count >= selectedStat.total_count && selectedStat.total_count > 0
-                    ? '已全部点亮'
+                    ? '查看'
                     : '去点亮'}
                 </span>
+                <span className="province-guide-arrow" aria-hidden="true">›</span>
               </button>
               <div className="province-guide-meta">
                 已点亮 {selectedStat.lit_count}/{selectedStat.total_count} 个景点
@@ -345,97 +464,167 @@ export default function HomePage() {
           <span>世界地图正在积极探索中<br />请玩家耐心等待……</span>
         </div>
       )}
-      {selectedProvinceId === null && (
+      {goalMessage && (
+        <div className="home-goal-toast" role="status" aria-live="polite">
+          <Trophy size={20} aria-hidden="true" />
+          <span>{goalMessage}</span>
+        </div>
+      )}
+      {!mapCleanMode && selectedProvinceId === null && user && (
         <div className="home-insight-dock">
           <div className="home-insight-card">
             <MapPin size={18} aria-hidden="true" />
             <span>点亮省份</span>
             <strong>{litProvinces}<small>/34</small></strong>
-            <em>{litProvincePct}%</em>
           </div>
           <div className="home-insight-card">
             <Landmark size={18} aria-hidden="true" />
             <span>探索城市</span>
             <strong>{exploredCityCount}<small>/{totalCities}</small></strong>
-            <em>{exploredCityPct}%</em>
           </div>
           <div className="home-insight-card">
             <Flag size={18} aria-hidden="true" />
             <span>打卡景点</span>
             <strong>{litAttractions}<small>/{totalAttractions}</small></strong>
-            <em>{litAttractionPct}%</em>
+          </div>
+          <div className="home-insight-card">
+            <Trophy size={18} aria-hidden="true" />
+            <span>成就徽章</span>
+            <strong>{achievementStats.unlocked}<small>/{achievementStats.total}</small></strong>
           </div>
         </div>
       )}
-      {selectedProvinceId === null && (
-        goal && goalStat ? (
+      {!mapCleanMode && selectedProvinceId === null && user && goal && goalStat && (
         <button className="home-goal-strip" type="button" onClick={openGoalModal} aria-label="修改目标">
-          <span>下一目标：点亮 {goalStat.name} 至 {goal.targetProgress}%{goalCountdown ? `，倒计时 ${goalCountdown}` : ''}</span>
-          <strong>{goalProgress}%</strong>
+          <span>
+            下一目标：点亮 {goalStat.name} 至 <mark>{goal.targetProgress}%</mark>
+            {goalCountdown ? `，倒计时 ${goalCountdown}` : ''}
+          </span>
           <div className="home-goal-progress" aria-hidden="true">
             <div style={{ width: `${Math.min(goalProgress, 100)}%` }} />
+            <strong>{goalProgress}%</strong>
           </div>
         </button>
-        ) : (
-        <div className="home-goal-strip empty" role="status">
-          <span>尚未设置下一段旅程目标</span>
-        </div>
-        )
+      )}
+      {!mapCleanMode && selectedProvinceId === null && user && (
+        <button className="home-recall-strip" type="button" onClick={() => navigate('/recall/cities')} aria-label="继续补录足迹">
+          <span>
+            继续补录足迹
+            <small>从记得的城市开始，找回去过的景区</small>
+          </span>
+          <ArrowRight size={20} aria-hidden="true" />
+        </button>
       )}
       {!user && (
-        <div className="guest-tip">登录后可点亮景区、解锁成就</div>
+        <div className="guest-tip">
+          <Sparkles size={18} aria-hidden="true" />
+          <div className="guest-tip-text">
+            <strong>登录开启你的旅行印记</strong>
+            <span>点亮省份、记录足迹、解锁成就</span>
+          </div>
+          <button className="guest-tip-btn" onClick={() => navigate('/login')}>
+            去登录
+          </button>
+        </div>
+      )}
+      {mapCleanMode && (
+        <button
+          type="button"
+          className="map-restore-ui"
+          onClick={() => setMapCleanMode(false)}
+          aria-label="显示操作栏"
+        >
+          <Maximize2 size={18} aria-hidden="true" />
+          <span>显示面板</span>
+        </button>
       )}
       {targetOpen && (
-        <div className="modal-overlay" onClick={() => setTargetOpen(false)}>
+        <div className="modal-overlay goal-modal-overlay" onClick={() => setTargetOpen(false)}>
           <div className="modal-content goal-modal" onClick={(e) => e.stopPropagation()}>
-            <h3>设置点亮目标</h3>
-            <label>
-              省份
-              <select
-                value={draftGoal.provinceId}
-                onChange={(e) => setDraftGoal((prev) => ({ ...prev, provinceId: Number(e.target.value) }))}
-              >
-                {stats.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-              </select>
-            </label>
-            <label>
-              目标进度
-              <div className="goal-range-row">
+            <div className="goal-modal-hero">
+              <div className="goal-modal-orbit" aria-hidden="true">
+                <span />
+                <span />
+                <span />
+              </div>
+              <div className="goal-modal-title">
+                <Target size={22} aria-hidden="true" />
+                <div>
+                  <span>下一段旅程</span>
+                  <h3>设置点亮目标</h3>
+                </div>
+              </div>
+              <div className="goal-modal-summary goal-modal-summary-control">
+                <label className="goal-province-picker">
+                  <span>目标省份</span>
+                  <select
+                    value={draftGoal.provinceId}
+                    onChange={(e) => {
+                      setGoalError('');
+                      setDraftGoal((prev) => ({ ...prev, provinceId: Number(e.target.value) }));
+                    }}
+                  >
+                    {stats.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+                  </select>
+                </label>
+                <div className="goal-modal-target-value">
+                  <span>目标</span>
+                  <strong>{draftGoal.targetProgress}%</strong>
+                </div>
+              </div>
+              <div className="goal-modal-progress">
+                <span style={{ width: `${Math.min(100, draftGoalProgress)}%` }} />
+                <span className="target" style={{ left: `${Math.min(100, draftGoal.targetProgress)}%` }} />
+              </div>
+              <label className="goal-modal-range" aria-label="目标进度">
                 <input
                   type="range"
                   min="0"
                   max="100"
                   step="5"
                   value={draftGoal.targetProgress}
-                  onChange={(e) => setDraftGoal((prev) => ({ ...prev, targetProgress: Number(e.target.value) }))}
-                />
-                <strong>{draftGoal.targetProgress}%</strong>
-              </div>
-            </label>
-            <label>
-              期望达成时间
-              <div className="goal-unlimited-row">
-                <input
-                  type="checkbox"
-                  checked={!draftGoal.targetDate}
                   onChange={(e) => {
-                    if (e.target.checked) {
-                      setDraftGoal((prev) => ({ ...prev, targetDate: '' }));
-                    } else {
-                      setDraftGoal((prev) => ({ ...prev, targetDate: prev.targetDate || getOneYearLaterDateValue() }));
-                    }
+                    setGoalError('');
+                    setDraftGoal((prev) => ({ ...prev, targetProgress: Number(e.target.value) }));
                   }}
                 />
-                <span>不限时挑战</span>
+              </label>
+              <p>
+                {goalError ||
+                (draftGoalGap > 0
+                  ? `还差 ${draftGoalGap}% 就到达这段旅程的目标。`
+                  : `当前已点亮 ${draftGoalProgress}%，目标不能低于这个进度。`)}
+              </p>
+            </div>
+
+            <div className="goal-time-panel">
+              <div className="goal-time-head">
+                <span>完成时间</span>
+                <label className="goal-unlimited-row">
+                  <input
+                    type="checkbox"
+                    checked={!draftGoal.targetDate}
+                    onChange={(e) => {
+                      if (e.target.checked) {
+                        setDraftGoal((prev) => ({ ...prev, targetDate: '' }));
+                      } else {
+                        setDraftGoal((prev) => ({ ...prev, targetDate: prev.targetDate || getOneYearLaterDateValue() }));
+                      }
+                    }}
+                  />
+                  <span>不限时挑战</span>
+                </label>
               </div>
               <input
                 type="date"
                 value={draftGoal.targetDate || ''}
+                disabled={!draftGoal.targetDate}
                 onChange={(e) => setDraftGoal((prev) => ({ ...prev, targetDate: e.target.value }))}
               />
-            </label>
-            <div className="goal-modal-actions">
-              <button type="button" className="btn-small" onClick={() => setTargetOpen(false)}>取消</button>
+            </div>
+            <div className={`goal-modal-actions ${goal ? 'with-danger' : ''}`}>
+              <button type="button" className="btn-small" onClick={() => setTargetOpen(false)}>关闭</button>
+              {goal && <button type="button" className="btn-danger-soft" onClick={cancelCurrentGoal}>取消目标</button>}
               <button type="button" className="btn-primary" onClick={saveGoal}>保存目标</button>
             </div>
           </div>

@@ -1,6 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { Award, CalendarDays, Map as MapIcon, MapPin, Sparkles } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
+import { CalendarDays, CheckCircle2, MapPinned, MapPin, Route, Sparkles } from 'lucide-react';
+import { formatLocation } from '../lib/location';
+import { formatRecallTime } from '../lib/recallTime';
 
 interface LitItem {
   id: number;
@@ -10,183 +13,203 @@ interface LitItem {
   city_name?: string;
   category_name: string;
   lit_at: string;
+  time_precision?: string | null;
+  season?: string | null;
+  display_time_text?: string | null;
+  source?: string | null;
 }
 
-interface AchievementItem {
+interface VisitGroup {
   id: number;
   name: string;
-  type: string;
-  condition_desc: string;
-  unlocked_at: string | null;
+  level: string;
+  province_name: string;
+  city_name?: string;
+  category_name: string;
+  visits: VisitTime[];
 }
 
-interface TimelineEvent {
-  id: string;
-  type: 'visit' | 'achievement';
-  date: string;
+type VisitTime = Pick<LitItem, 'lit_at' | 'time_precision' | 'season' | 'display_time_text' | 'source'>;
+
+interface YearGroup {
   year: string;
-  title: string;
-  subtitle: string;
-  meta: string;
-  level?: string;
-}
-
-function getYear(value: string) {
-  return value?.slice(0, 4) || '未知年份';
-}
-
-function formatDate(value: string) {
-  return value?.slice(0, 10).replace(/-/g, '.') || '未知日期';
+  items: VisitGroup[];
 }
 
 export default function JourneyPage() {
-  const [litList, setLitList] = useState<LitItem[]>([]);
-  const [achievements, setAchievements] = useState<AchievementItem[]>([]);
+  const navigate = useNavigate();
+  const [list, setList] = useState<LitItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedYear, setSelectedYear] = useState('all');
 
   useEffect(() => {
-    Promise.all([api.user.litList(), api.achievements.mine()])
-      .then(([visits, achievementList]) => {
-        setLitList(visits);
-        setAchievements(achievementList);
+    api.user.litList()
+      .then((data: LitItem[]) => {
+        setList(data);
+        setLoading(false);
       })
-      .finally(() => setLoading(false));
+      .catch(() => setLoading(false));
   }, []);
-
-  const timeline = useMemo<TimelineEvent[]>(() => {
-    const visitEvents = litList.map((item, index) => ({
-      id: `visit-${item.id}-${item.lit_at}-${index}`,
-      type: 'visit' as const,
-      date: item.lit_at,
-      year: getYear(item.lit_at),
-      title: item.name,
-      subtitle: [item.city_name, item.province_name].filter(Boolean).join(' · '),
-      meta: item.category_name || '景区点亮',
-      level: item.level,
-    }));
-
-    const achievementEvents = achievements
-      .filter((item) => item.unlocked_at)
-      .map((item) => ({
-        id: `achievement-${item.id}`,
-        type: 'achievement' as const,
-        date: item.unlocked_at!,
-        year: getYear(item.unlocked_at!),
-        title: item.name,
-        subtitle: item.condition_desc,
-        meta: '成就解锁',
-      }));
-
-    return [...visitEvents, ...achievementEvents].sort((a, b) => b.date.localeCompare(a.date));
-  }, [achievements, litList]);
-
-  const years = useMemo(() => {
-    return Array.from(new Set(timeline.map((event) => event.year))).sort((a, b) => b.localeCompare(a));
-  }, [timeline]);
-
-  const visibleEvents = selectedYear === 'all'
-    ? timeline
-    : timeline.filter((event) => event.year === selectedYear);
-
-  const groupedByYear = visibleEvents.reduce<Record<string, TimelineEvent[]>>((acc, event) => {
-    acc[event.year] = acc[event.year] || [];
-    acc[event.year].push(event);
-    return acc;
-  }, {});
-
-  const distinctAttractions = new Set(litList.map((item) => item.id)).size;
-  const unlockedAchievements = achievements.filter((item) => item.unlocked_at).length;
-  const activeYears = years.length;
 
   if (loading) return <div className="page-loading">加载中...</div>;
 
+  // 按景区分组，汇总多次访问
+  const groupMap = new Map<number, VisitGroup>();
+  list.forEach((item) => {
+    const existing = groupMap.get(item.id);
+    const visit = {
+      lit_at: item.lit_at,
+      time_precision: item.time_precision,
+      season: item.season,
+      display_time_text: item.display_time_text,
+      source: item.source,
+    };
+    if (existing) {
+      existing.visits.push(visit);
+    } else {
+      groupMap.set(item.id, {
+        id: item.id,
+        name: item.name,
+        level: item.level,
+        province_name: item.province_name,
+        city_name: item.city_name,
+        category_name: item.category_name,
+        visits: [visit],
+      });
+    }
+  });
+  const groups = Array.from(groupMap.values())
+    .map((group) => ({
+      ...group,
+      visits: [...group.visits].sort((a, b) => b.lit_at.localeCompare(a.lit_at)),
+    }))
+    .sort((a, b) => b.visits[0].lit_at.localeCompare(a.visits[0].lit_at));
+
+  const distinctCount = groups.length;
+  const totalVisits = list.length;
+  const travelDays = new Set(list.map((item) => item.lit_at?.slice(0, 10)).filter(Boolean)).size;
+  const total5A = groups.filter((g) => g.level === '5A').length;
+  const yearGroups = groups.reduce<YearGroup[]>((acc, item) => {
+    const year = item.visits[0].lit_at?.slice(0, 4) || '未知';
+    const existing = acc.find((group) => group.year === year);
+    if (existing) {
+      existing.items.push(item);
+    } else {
+      acc.push({ year, items: [item] });
+    }
+    return acc;
+  }, []);
+
   return (
     <div className="journey-page">
-      <div className="journey-header journey-memory-header">
+      <header className="journey-titlebar floating-page-titlebar">
         <div>
-          <h1>旅程回忆</h1>
-          <p>按年份回看点亮过的地方，以及一路解锁的成就。</p>
+          <h1 className="journey-page-heading floating-page-heading">
+            <Route className="journey-title-icon floating-page-icon" size={22} aria-hidden="true" />
+            <span>旅程</span>
+          </h1>
+          <p>把每一次点亮串成路线，回看自己走过的城市与风景。</p>
         </div>
+      </header>
+
+      <div className="journey-header">
         <div className="journey-stats">
           <div className="j-stat">
-            <div className="j-stat-num">{distinctAttractions}</div>
-            <div className="j-stat-label">点亮景区</div>
+            <div className="j-stat-num">{distinctCount}</div>
+            <div className="j-stat-label">累计点亮</div>
           </div>
           <div className="j-stat">
-            <div className="j-stat-num">{litList.length}</div>
-            <div className="j-stat-label">旅行记录</div>
+            <div className="j-stat-num">{totalVisits}</div>
+            <div className="j-stat-label">总访问次数</div>
           </div>
           <div className="j-stat">
-            <div className="j-stat-num">{unlockedAchievements}</div>
-            <div className="j-stat-label">解锁成就</div>
+            <div className="j-stat-num">{travelDays}</div>
+            <div className="j-stat-label">旅行天数</div>
           </div>
           <div className="j-stat">
-            <div className="j-stat-num">{activeYears}</div>
-            <div className="j-stat-label">年度足迹</div>
+            <div className="j-stat-num">{total5A}</div>
+            <div className="j-stat-label">5A景区</div>
           </div>
         </div>
       </div>
 
-      {timeline.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon"><MapIcon size={48} aria-hidden="true" /></div>
-          <p>还没有旅程记录</p>
-          <p className="sub">点亮景区后，这里会生成你的年度回忆线</p>
+      <div className="journey-slogan">
+        <Sparkles size={13} aria-hidden="true" />
+        <span>每一次出发，都是世界的又一次点亮</span>
+        <Sparkles size={13} aria-hidden="true" />
+      </div>
+
+      {groups.length === 0 ? (
+        <div className="empty-state journey-empty-recall">
+          <div className="empty-icon"><MapPinned size={42} aria-hidden="true" /></div>
+          <p>还没有旅行记录？先找回你的足迹</p>
+          <p className="sub">从记得的城市开始，把去过的景区补回旅程里。</p>
+          <button type="button" onClick={() => navigate('/recall/cities')}>
+            找回我的足迹
+          </button>
         </div>
       ) : (
-        <>
-          <div className="journey-year-tabs" aria-label="按年份筛选旅程">
-            <button className={selectedYear === 'all' ? 'active' : ''} onClick={() => setSelectedYear('all')}>
-              全部
-            </button>
-            {years.map((year) => (
-              <button key={year} className={selectedYear === year ? 'active' : ''} onClick={() => setSelectedYear(year)}>
-                {year}
-              </button>
-            ))}
-          </div>
-
-          <div className="journey-timeline">
-            {Object.entries(groupedByYear)
-              .sort(([a], [b]) => b.localeCompare(a))
-              .map(([year, events]) => (
-                <section key={year} className="journey-year-section">
-                  <div className="journey-year-marker">
-                    <span>{year}</span>
-                    <em>{events.length} 条回忆</em>
-                  </div>
-                  <div className="journey-event-list">
-                    {events.map((event) => (
-                      <article key={event.id} className={`journey-event ${event.type}`}>
-                        <div className="journey-event-date">
-                          <CalendarDays size={15} aria-hidden="true" />
-                          {formatDate(event.date)}
+        <div className="journey-timeline">
+          {yearGroups.map((yearGroup) => (
+            <section className="journey-year-section" key={yearGroup.year}>
+              <div className="journey-year-marker">
+                <span>{yearGroup.year}</span>
+                <em>{yearGroup.items.length} 处记忆</em>
+              </div>
+              <div className="journey-event-list">
+                {yearGroup.items.map((g) => (
+                  <article key={g.id} className="journey-event">
+                    <div className="journey-event-date">
+                      <CalendarDays size={15} aria-hidden="true" />
+                      <span>{formatDateRange(g.visits)}</span>
+                    </div>
+                    <div className="journey-event-body">
+                      <div className="journey-event-card-main">
+                        <div className="journey-event-icon">
+                          <Route size={20} aria-hidden="true" />
                         </div>
-                        <div className="journey-event-body">
-                          <div className="journey-event-icon">
-                            {event.type === 'achievement' ? <Award size={18} aria-hidden="true" /> : <MapPin size={18} aria-hidden="true" />}
+                        <div className="journey-event-content">
+                          <div className="journey-event-title-row">
+                            <h2>{g.name}</h2>
+                            {g.level && <span className={`level-tag level-${g.level}`}>{g.level}</span>}
                           </div>
-                          <div className="journey-event-content">
-                            <div className="journey-event-title-row">
-                              {event.level && <span className={`level-tag level-${event.level}`}>{event.level}</span>}
-                              <h2>{event.title}</h2>
-                            </div>
-                            <p>{event.subtitle}</p>
-                            <span className="journey-event-meta">
-                              {event.type === 'achievement' && <Sparkles size={14} aria-hidden="true" />}
-                              {event.meta}
-                            </span>
+                          <p>{formatLocation(g.province_name, g.city_name)}</p>
+                          <div className="journey-event-meta">
+                            <MapPin size={13} aria-hidden="true" />
+                            <span>{g.category_name || '未分类景点'}</span>
                           </div>
                         </div>
-                      </article>
-                    ))}
-                  </div>
-                </section>
-              ))}
-          </div>
-        </>
+                        <span className="journey-lit-status">
+                          <CheckCircle2 size={13} aria-hidden="true" />
+                          已点亮
+                        </span>
+                      </div>
+                      <div className="journey-event-footer">
+                        <span>点亮 {g.visits.length} 次</span>
+                        <span>最近 {formatRecallTime(g.visits[0])}</span>
+                      </div>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
       )}
     </div>
   );
+}
+
+function formatDate(value?: string) {
+  if (!value) return '未知日期';
+  const [, month, day] = value.slice(0, 10).split('-');
+  return `${month}.${day}`;
+}
+
+function formatDateRange(visits: VisitTime[]) {
+  if (!visits.length) return '未知日期';
+  if (visits.length === 1) return formatRecallTime(visits[0]);
+  const dates = visits.map((visit) => visit.lit_at).sort((a, b) => a.localeCompare(b));
+  const first = formatDate(dates[0]);
+  const last = formatDate(dates[dates.length - 1]);
+  return first === last ? first : `${first}-${last}`;
 }

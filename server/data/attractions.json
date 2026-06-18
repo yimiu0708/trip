@@ -2,2937 +2,9936 @@
   {
     "name": "故宫博物院",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 9,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1,
+      11
+    ]
   },
   {
     "name": "天坛公园",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 3,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1,
+      6
+    ]
   },
   {
     "name": "颐和园",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1,
+      6
+    ]
   },
   {
     "name": "恭王府",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "八达岭-慕田峪长城",
-    "province_id": 1,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": null
+    "tags": [
+      1
+    ]
   },
   {
     "name": "明十三陵",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1
+    ]
   },
   {
     "name": "北京奥林匹克公园",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 3,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      5,
+      6
+    ]
   },
   {
     "name": "圆明园",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1,
+      6
+    ]
   },
   {
     "name": "北京(通州)大运河文化旅游",
     "province_id": 1,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      2
+    ]
   },
   {
     "name": "天津古文化街(津门故里)",
     "province_id": 2,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 2,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1
+    ]
   },
   {
     "name": "盘山风景名胜区",
     "province_id": 2,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 2,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "承德避暑山庄及周围寺庙",
-    "province_id": 3,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 10
-  },
-  {
-    "name": "安新白洋淀",
-    "province_id": 3,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 3
+    "tags": [
+      3
+    ]
   },
   {
     "name": "野三坡",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 8,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "西柏坡",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 3,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "清东陵",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 4,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1
+    ]
   },
   {
     "name": "娲皇宫",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 6,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "白石山",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 8,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      4
+    ]
   },
   {
     "name": "广府古城",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 6,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "清西陵",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 8,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1
+    ]
   },
   {
     "name": "金山岭长城",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 10,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "山海关",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 5,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 3
-  },
-  {
-    "name": "南湖·开滦",
-    "province_id": 3,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 3
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "衡水湖",
     "province_id": 3,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 13,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 13
+    "tags": [
+      2
+    ]
   },
   {
     "name": "云冈石窟",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 9,
+    "city_id": 15,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      1
+    ]
   },
   {
     "name": "五台山",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 22,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "平遥古城",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 20,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "皇城相府",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 18,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      1
+    ]
   },
   {
     "name": "介休绵山",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 20,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      3
+    ]
   },
   {
     "name": "乔家大院",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 20,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      1
+    ]
   },
   {
     "name": "雁门关",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 22,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      1
+    ]
   },
   {
     "name": "洪洞大槐树",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 23,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "壶关太行山大峡谷八泉峡",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 17,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      4
+    ]
   },
   {
     "name": "云丘山",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 23,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "晋祠天龙山",
     "province_id": 4,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 14,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 14
+    "tags": [
+      3
+    ]
   },
   {
     "name": "响沙湾",
     "province_id": 5,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 30,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 25
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "成吉思汗陵",
     "province_id": 5,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 30,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 25
-  },
-  {
-    "name": "呼伦贝尔大草原·莫尔格勒河",
-    "province_id": 5,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 31
-  },
-  {
-    "name": "阿尔山·柴河",
-    "province_id": 5,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 25
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "阿斯哈图石阵",
     "province_id": 5,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 28,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 25
+    "tags": [
+      4
+    ]
   },
   {
     "name": "满洲里中俄边境",
     "province_id": 5,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 31,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 25
+    "tags": [
+      1
+    ]
   },
   {
     "name": "胡杨林",
     "province_id": 5,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 36,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 25
+    "tags": [
+      5
+    ]
   },
   {
     "name": "老牛湾黄河大峡谷",
     "province_id": 5,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 25,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 25
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "沈阳植物园",
     "province_id": 6,
-    "level": "5A",
-    "category_id": 3,
+    "city_id": 37,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 37
+    "tags": [
+      5,
+      8
+    ]
   },
   {
     "name": "大连老虎滩海洋公园",
     "province_id": 6,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 38,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 38
+    "tags": [
+      8
+    ]
   },
   {
     "name": "大连金石滩",
     "province_id": 6,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 38,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 38
+    "tags": [
+      2
+    ]
   },
   {
     "name": "本溪水洞",
     "province_id": 6,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 41,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 41
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "千山",
     "province_id": 6,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 39,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 37
-  },
-  {
-    "name": "红海滩",
-    "province_id": 6,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 37
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "沈阳故宫",
     "province_id": 6,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 37,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 37
+    "tags": [
+      1
+    ]
   },
   {
     "name": "长白山",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 56,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 56
+    "tags": [
+      3,
+      5
+    ]
   },
   {
     "name": "伪满皇宫博物院",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 9,
+    "city_id": 51,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      1,
+      10,
+      11
+    ]
   },
   {
     "name": "净月潭",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 51,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      2,
+      3,
+      5
+    ]
   },
   {
     "name": "长影世纪城",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 51,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      1
+    ]
   },
   {
     "name": "六鼎山",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 59,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "高句丽文物古迹",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 55,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      1
+    ]
   },
   {
     "name": "向海",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 58,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      2,
+      5
+    ]
   },
   {
     "name": "防川",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 59,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      1,
+      5
+    ]
   },
   {
     "name": "松花湖",
     "province_id": 7,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 52,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 51
+    "tags": [
+      2
+    ]
   },
   {
     "name": "太阳岛",
     "province_id": 8,
-    "level": "5A",
-    "category_id": 5,
+    "city_id": 60,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 60
+    "tags": [
+      3,
+      5
+    ]
   },
   {
     "name": "五大连池",
     "province_id": 8,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 70,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 60
-  },
-  {
-    "name": "镜泊湖",
-    "province_id": 8,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 60
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "汤旺河林海奇石",
     "province_id": 8,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 66,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 60
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "漠河北极村",
     "province_id": 8,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 72,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 60
+    "tags": [
+      2
+    ]
   },
   {
     "name": "虎头",
     "province_id": 8,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 62,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 60
+    "tags": [
+      1
+    ]
   },
   {
     "name": "扎龙生态",
     "province_id": 8,
-    "level": "5A",
-    "category_id": 3,
+    "city_id": 61,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 60
+    "tags": [
+      5
+    ]
   },
   {
     "name": "东方明珠",
     "province_id": 9,
-    "level": "5A",
-    "category_id": 7,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      6
+    ]
   },
   {
     "name": "上海野生动物园",
     "province_id": 9,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      8
+    ]
   },
   {
     "name": "上海科技馆",
     "province_id": 9,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "中国共产党一大·二大·四大纪念馆",
-    "province_id": 9,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": null
+    "tags": [
+      11
+    ]
   },
   {
     "name": "西沙明珠湖",
     "province_id": 9,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "苏州园林(拙政园-留园-虎丘)",
-    "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 78
+    "tags": [
+      2
+    ]
   },
   {
     "name": "周庄古镇",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 78
-  },
-  {
-    "name": "钟山-中山陵",
-    "province_id": 10,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2,
+      9
+    ]
   },
   {
     "name": "无锡影视基地",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 75,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 75
+    "tags": [
+      1
+    ]
   },
   {
     "name": "灵山大佛",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 75,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "同里古镇",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 78
-  },
-  {
-    "name": "夫子庙-秦淮河",
-    "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2,
+      9
+    ]
   },
   {
     "name": "环球恐龙城",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 77,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      8
+    ]
   },
   {
     "name": "瘦西湖",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 83,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 83
+    "tags": [
+      1,
+      2
+    ]
   },
   {
     "name": "濠河",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 79,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2
+    ]
   },
   {
     "name": "溱湖",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 85,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2
+    ]
   },
   {
     "name": "金鸡湖",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 78
-  },
-  {
-    "name": "金山·焦山·北固山",
-    "province_id": 10,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2,
+      6
+    ]
   },
   {
     "name": "鼋头渚",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 75,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      1,
+      2
+    ]
   },
   {
     "name": "吴中太湖",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 78
-  },
-  {
-    "name": "沙家浜-虞山尚湖",
-    "province_id": 10,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 78
+    "tags": [
+      2
+    ]
   },
   {
     "name": "天目湖",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 77,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2
+    ]
   },
   {
     "name": "茅山",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 84,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "周恩来故里",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 81,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "中华麋鹿园",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 82,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      1
+    ]
   },
   {
     "name": "花果山",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 80,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      3
+    ]
   },
   {
     "name": "连岛",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 5,
+    "city_id": 80,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2
+    ]
   },
   {
     "name": "云龙湖",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 76,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2,
+      6
+    ]
   },
   {
     "name": "洪泽湖湿地",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 86,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      2,
+      5
+    ]
   },
   {
     "name": "惠山古镇",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 75,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "春秋淹城",
     "province_id": 10,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 77,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 74
+    "tags": [
+      1
+    ]
   },
   {
     "name": "杭州西湖",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 87,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
+    "tags": [
+      1,
+      2,
+      6
+    ]
   },
   {
     "name": "雁荡山",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 89,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 89
+    "tags": [
+      3
+    ]
   },
   {
     "name": "普陀山",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 95,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 95
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "千岛湖",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 87,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
+    "tags": [
+      2
+    ]
   },
   {
     "name": "乌镇",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 6,
+    "city_id": 90,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 90
-  },
-  {
-    "name": "溪口-滕头",
-    "province_id": 11,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 87
+    "tags": [
+      2,
+      9
+    ]
   },
   {
     "name": "横店影视城",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 93,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
+    "tags": [
+      1
+    ]
   },
   {
     "name": "南湖",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 90,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 87
+    "tags": [
+      2
+    ]
   },
   {
     "name": "西溪湿地",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 87,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
-  },
-  {
-    "name": "鲁迅故里-沈园",
-    "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 87
+    "tags": [
+      2,
+      5
+    ]
   },
   {
     "name": "根宫佛国",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 10,
+    "city_id": 94,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "南浔古镇",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 91,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
+    "tags": [
+      2,
+      9
+    ]
   },
   {
     "name": "天台山",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 96,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
-  },
-  {
-    "name": "神仙居",
-    "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 87
+    "tags": [
+      3
+    ]
   },
   {
     "name": "西塘",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 90,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
-  },
-  {
-    "name": "天一阁·月湖",
-    "province_id": 11,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 87
-  },
-  {
-    "name": "江郎山",
-    "province_id": 11,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 87
+    "tags": [
+      2,
+      9
+    ]
   },
   {
     "name": "缙云仙都",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 97,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
+    "tags": [
+      1
+    ]
   },
   {
     "name": "台州府城",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 96,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 96
+    "tags": [
+      1
+    ]
   },
   {
     "name": "云和梯田",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 97,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 87
-  },
-  {
-    "name": "双龙",
-    "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 87
+    "tags": [
+      1
+    ]
   },
   {
     "name": "宁波方特",
     "province_id": 11,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 88,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 88
+    "tags": [
+      8
+    ]
   },
   {
     "name": "黄山",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 106,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 106
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "九华山",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 112,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 112
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "天柱山",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 105,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 105
-  },
-  {
-    "name": "皖南古村落-西递宏村",
-    "province_id": 12,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 106
+    "tags": [
+      3
+    ]
   },
   {
     "name": "天堂寨",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 6,
+    "city_id": 110,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      3
+    ]
   },
   {
     "name": "龙川",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 113,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      1
+    ]
   },
   {
     "name": "八里河",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 108,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      2
+    ]
   },
   {
     "name": "古徽州",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 106,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "三河古镇",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 98,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "方特",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 99,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      8
+    ]
   },
   {
     "name": "万佛湖",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 110,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      2
+    ]
   },
   {
     "name": "采石矶",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 102,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "琅琊山",
     "province_id": 12,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 107,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 98
+    "tags": [
+      3
+    ]
   },
   {
     "name": "鼓浪屿",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 115,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 115
+    "tags": [
+      1
+    ]
   },
   {
     "name": "武夷山",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 120,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 120
+    "tags": [
+      1,
+      2,
+      3
+    ]
   },
   {
     "name": "泰宁",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 117,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 114
-  },
-  {
-    "name": "土楼(永定·南靖)",
-    "province_id": 13,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 121
-  },
-  {
-    "name": "白水洋-鸳鸯溪",
-    "province_id": 13,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 114
-  },
-  {
-    "name": "清源山",
-    "province_id": 13,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 114
+    "tags": [
+      1
+    ]
   },
   {
     "name": "太姥山",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 122,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 114
+    "tags": [
+      3
+    ]
   },
   {
     "name": "三坊七巷",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 114,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 114
+    "tags": [
+      1
+    ]
   },
   {
     "name": "古田",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 121,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 114
-  },
-  {
-    "name": "湄洲岛",
-    "province_id": 13,
-    "level": "5A",
-    "category_id": 5,
-    "pinyin": "",
-    "city_id": 114
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "九鲤湖",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 116,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 114
+    "tags": [
+      2
+    ]
   },
   {
     "name": "桃源洞",
     "province_id": 13,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 117,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 114
+    "tags": [
+      1
+    ]
   },
   {
     "name": "庐山",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 126,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 126
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "井冈山",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 130,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 130
+    "tags": [
+      3,
+      10
+    ]
   },
   {
     "name": "三清山",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 133,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 133
-  },
-  {
-    "name": "龙虎山",
-    "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 123
+    "tags": [
+      3
+    ]
   },
   {
     "name": "江湾",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 133,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 123
+    "tags": [
+      2
+    ]
   },
   {
     "name": "景德镇古窑民俗博览区",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 124,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 124
+    "tags": [
+      1
+    ]
   },
   {
     "name": "共和国摇篮",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 129,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 123
-  },
-  {
-    "name": "明月山",
-    "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 123
-  },
-  {
-    "name": "滕王阁",
-    "province_id": 14,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 123
-  },
-  {
-    "name": "武功山",
-    "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 123
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "龟峰",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 133,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 123
+    "tags": [
+      3
+    ]
   },
   {
     "name": "大觉山",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 132,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 123
+    "tags": [
+      3
+    ]
   },
   {
     "name": "庐山西海",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 126,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 126
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "三百山",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 129,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 123
+    "tags": [
+      3
+    ]
   },
   {
     "name": "篁岭",
     "province_id": 14,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 133,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 123
+    "tags": [
+      3,
+      9
+    ]
   },
   {
     "name": "泰山",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 142,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 142
-  },
-  {
-    "name": "蓬莱阁-三仙山-八仙过海",
-    "province_id": 15,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 139
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "曲阜明故城三孔",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 141,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 141
+    "tags": [
+      1
+    ]
   },
   {
     "name": "崂山",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 135,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 135
+    "tags": [
+      3
+    ]
   },
   {
     "name": "刘公岛",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 5,
+    "city_id": 143,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 134
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "南山",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 139,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 134
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "台儿庄古城",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 137,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 134
-  },
-  {
-    "name": "天下第一泉(趵突泉-大明湖)",
-    "province_id": 15,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 134
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "沂蒙山",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 145,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 134
+    "tags": [
+      3
+    ]
   },
   {
     "name": "青州古城",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 140,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 134
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "华夏城",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 143,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 134
+    "tags": [
+      1
+    ]
   },
   {
     "name": "黄河口",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 138,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 134
-  },
-  {
-    "name": "萤火虫水洞·地下大峡谷",
-    "province_id": 15,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 134
+    "tags": [
+      2,
+      5
+    ]
   },
   {
     "name": "微山湖",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 141,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 134
+    "tags": [
+      2
+    ]
   },
   {
     "name": "周村古商城",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 136,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 134
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "青岛奥帆海洋文化旅游区",
     "province_id": 15,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 135,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 135
+    "tags": [
+      6
+    ]
   },
   {
     "name": "嵩山少林",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 150,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "龙门石窟",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 9,
+    "city_id": 152,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
-  },
-  {
-    "name": "云台山-神农山-青天河",
-    "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 150
+    "tags": [
+      1
+    ]
   },
   {
     "name": "殷墟",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 154,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      1
+    ]
   },
   {
     "name": "白云山",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 152,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      3
+    ]
   },
   {
     "name": "清明上河园",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 151,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 150
-  },
-  {
-    "name": "尧山-中原大佛",
-    "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 150
-  },
-  {
-    "name": "老君山-鸡冠洞",
-    "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 150
+    "tags": [
+      2
+    ]
   },
   {
     "name": "龙潭大峡谷",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 152,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
-  },
-  {
-    "name": "老界岭·恐龙遗址园",
-    "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 150
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "嵖岈山",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 166,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
-  },
-  {
-    "name": "红旗渠·太行大峡谷",
-    "province_id": 16,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 150
+    "tags": [
+      3
+    ]
   },
   {
     "name": "芒砀山",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 150,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      3
+    ]
   },
   {
     "name": "八里沟",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 156,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      2
+    ]
   },
   {
     "name": "鸡公山",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 164,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      3
+    ]
   },
   {
     "name": "宝泉",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 156,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      2
+    ]
   },
   {
     "name": "伏羲山",
     "province_id": 16,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 150,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 150
+    "tags": [
+      3
+    ]
   },
   {
     "name": "黄鹤楼",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 167,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      1
+    ]
   },
   {
     "name": "三峡大坝",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 170,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      2
+    ]
   },
   {
     "name": "三峡人家",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 170,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      2
+    ]
   },
   {
     "name": "武当山",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 169,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 169
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "神龙溪纤夫文化",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 179,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      2
+    ]
   },
   {
     "name": "神农架",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 341,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      1
+    ]
   },
   {
     "name": "清江画廊",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 170,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
-  },
-  {
-    "name": "东湖",
-    "province_id": 17,
-    "level": "5A",
-    "category_id": 2,
-    "pinyin": "",
-    "city_id": 167
+    "tags": [
+      2
+    ]
   },
   {
     "name": "屈原故里",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 170,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      1
+    ]
   },
   {
     "name": "木兰文化生态",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 3,
+    "city_id": 167,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      5
+    ]
   },
   {
     "name": "恩施大峡谷",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 179,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
-  },
-  {
-    "name": "古隆中",
-    "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 167
+    "tags": [
+      4
+    ]
   },
   {
     "name": "腾龙洞",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 179,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      4
+    ]
   },
   {
     "name": "明显陵",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 173,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      1
+    ]
   },
   {
     "name": "唐城",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 171,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
+    "tags": [
+      1
+    ]
   },
   {
     "name": "大洪山",
     "province_id": 17,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 178,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 167
-  },
-  {
-    "name": "武陵源-天门山",
-    "province_id": 18,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 180
+    "tags": [
+      3
+    ]
   },
   {
     "name": "南岳衡山",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 183,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 180
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "韶山",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 182,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 180
-  },
-  {
-    "name": "岳阳楼-君山岛",
-    "province_id": 18,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 185
-  },
-  {
-    "name": "岳麓山-橘子洲",
-    "province_id": 18,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 180
+    "tags": [
+      1,
+      2,
+      3,
+      10
+    ]
   },
   {
     "name": "花明楼",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 180,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 180
+    "tags": [
+      1
+    ]
   },
   {
     "name": "东江湖",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 189,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 180
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "老司城",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 193,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 180
-  },
-  {
-    "name": "矮寨·十八洞·德夯大峡谷",
-    "province_id": 18,
-    "level": "5A",
-    "category_id": 6,
-    "pinyin": "",
-    "city_id": 180
+    "tags": [
+      1
+    ]
   },
   {
     "name": "曾国藩故居",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 192,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 180
+    "tags": [
+      1
+    ]
   },
   {
     "name": "炎帝陵",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 181,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 180
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "桃花源",
     "province_id": 18,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 186,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 180
-  },
-  {
-    "name": "长隆",
-    "province_id": 19,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 194
+    "tags": [
+      1
+    ]
   },
   {
     "name": "华侨城",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 196,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      1
+    ]
   },
   {
     "name": "白云山",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 194,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      3
+    ]
   },
   {
     "name": "雁南飞茶田",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 205,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      1
+    ]
   },
   {
     "name": "观澜湖",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 196,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      2,
+      6
+    ]
   },
   {
     "name": "连州地下河",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 209,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "丹霞山",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 195,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      4
+    ]
   },
   {
     "name": "西樵山",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 199,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      3
+    ]
   },
   {
     "name": "罗浮山",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 204,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      3
+    ]
   },
   {
     "name": "长鹿旅游休博园",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 199,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      8
+    ]
   },
   {
     "name": "海陵岛大角湾",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 208,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      2
+    ]
   },
   {
     "name": "孙中山故里",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 211,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 211
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "惠州西湖",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 204,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 204
+    "tags": [
+      2,
+      6
+    ]
   },
   {
     "name": "星湖",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 203,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      2
+    ]
   },
   {
     "name": "开平碉楼",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 200,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      1
+    ]
   },
   {
     "name": "万绿湖",
     "province_id": 19,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 207,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 194
+    "tags": [
+      2
+    ]
   },
   {
     "name": "漓江",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 217,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 215
-  },
-  {
-    "name": "乐满地",
-    "province_id": 20,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 215
-  },
-  {
-    "name": "独秀峰·靖江王城",
-    "province_id": 20,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 215
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "青秀山",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 215,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 215
+    "tags": [
+      3
+    ]
   },
   {
     "name": "德天跨国瀑布",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 228,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 215
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "黄姚古镇",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 225,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 215
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "涠洲岛南湾鳄鱼山",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 219,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 215
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "百色起义纪念园",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 224,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 224
-  },
-  {
-    "name": "两江四湖·象山",
-    "province_id": 20,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 215
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "程阳八寨",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 6,
+    "city_id": 216,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 215
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "花山岩画",
     "province_id": 20,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 228,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 228
+    "tags": [
+      4
+    ]
   },
   {
     "name": "南山文化旅游区",
     "province_id": 21,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 230,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 229
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "南山大小洞天",
     "province_id": 21,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 230,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 229
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "呀诺达雨林",
     "province_id": 21,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 342,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 229
+    "tags": [
+      5
+    ]
   },
   {
     "name": "分界洲岛",
     "province_id": 21,
-    "level": "5A",
-    "category_id": 5,
+    "city_id": 343,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 229
+    "tags": [
+      2
+    ]
   },
   {
     "name": "槟榔谷",
     "province_id": 21,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 342,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 229
+    "tags": [
+      1
+    ]
   },
   {
     "name": "天涯海角",
     "province_id": 21,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 230,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 229
+    "tags": [
+      1
+    ]
   },
   {
     "name": "亚龙湾热带天堂森林公园",
     "province_id": 21,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 230,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 229
+    "tags": [
+      5
+    ]
   },
   {
     "name": "大足石刻",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "巫山小三峡-小小三峡",
-    "province_id": 22,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": null
+    "tags": [
+      1
+    ]
   },
   {
     "name": "武隆喀斯特",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1
+    ]
   },
   {
     "name": "酉阳桃花源",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "黑山谷-龙鳞石海",
-    "province_id": 22,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "金佛山-神龙峡",
-    "province_id": 22,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": null
+    "tags": [
+      1
+    ]
   },
   {
     "name": "江津四面山",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      3
+    ]
   },
   {
     "name": "云阳龙缸",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      4
+    ]
   },
   {
     "name": "万盛奥陶纪",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "白帝城·瞿塘峡",
-    "province_id": 22,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": null
+    "tags": [
+      8
+    ]
   },
   {
     "name": "阿依河",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      2
+    ]
   },
   {
     "name": "武陵山大裂谷",
     "province_id": 22,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
-  },
-  {
-    "name": "青城山-都江堰",
-    "province_id": 23,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 234
+    "tags": [
+      4
+    ]
   },
   {
     "name": "峨眉山",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 243,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 243
+    "tags": [
+      3,
+      7
+    ]
   },
   {
     "name": "九寨沟",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 6,
+    "city_id": 252,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "乐山大佛",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 243,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 243
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "黄龙",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 252,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "北川羌城",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 239,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      1
+    ]
   },
   {
     "name": "汶川特别",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 252,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      1
+    ]
   },
   {
     "name": "阆中古城",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 244,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "邓小平故里",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 247,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "剑门关",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 240,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "朱德故里",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 244,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "泸定桥",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 253,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      1
+    ]
   },
   {
     "name": "海螺沟",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 253,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      2
+    ]
   },
   {
     "name": "稻城亚丁",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 253,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      3
+    ]
   },
   {
     "name": "四姑娘山",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 252,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      3
+    ]
   },
   {
     "name": "光雾山",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 250,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
+    "tags": [
+      3
+    ]
   },
   {
     "name": "安仁古镇",
     "province_id": 23,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 234,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 234
-  },
-  {
-    "name": "天台山",
-    "province_id": 23,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 234
+    "tags": [
+      9
+    ]
   },
   {
     "name": "黄果树瀑布",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 258,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 255
-  },
-  {
-    "name": "龙宫",
-    "province_id": 24,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 255
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "百里杜鹃",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 259,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 255
+    "tags": [
+      1,
+      4,
+      5
+    ]
   },
   {
     "name": "荔波樟江",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 263,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 255
-  },
-  {
-    "name": "梵净山",
-    "province_id": 24,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 255
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "镇远古城",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 262,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 255
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "青岩古镇",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 255,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 255
+    "tags": [
+      1,
+      9
+    ]
   },
   {
     "name": "乌蒙大草原",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 3,
+    "city_id": 256,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 255
+    "tags": [
+      5
+    ]
   },
   {
     "name": "织金洞",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 259,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 255
+    "tags": [
+      4
+    ]
   },
   {
     "name": "赤水丹霞",
     "province_id": 24,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 257,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 255
+    "tags": [
+      4
+    ]
   },
   {
     "name": "石林",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 264,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 264
+    "tags": [
+      4
+    ]
   },
   {
     "name": "玉龙雪山",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 269,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 269
+    "tags": [
+      3
+    ]
   },
   {
     "name": "丽江古城",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 269,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 269
+    "tags": [
+      9
+    ]
   },
   {
     "name": "崇圣寺三塔",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 7,
+    "city_id": 276,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 264
-  },
-  {
-    "name": "中科院西双版纳热带植物园",
-    "province_id": 25,
-    "level": "5A",
-    "category_id": 3,
-    "pinyin": "",
-    "city_id": 264
-  },
-  {
-    "name": "普达措国家公园",
-    "province_id": 25,
-    "level": "5A",
-    "category_id": 3,
-    "pinyin": "",
-    "city_id": 264
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "和顺古镇",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 267,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 264
+    "tags": [
+      9
+    ]
   },
   {
     "name": "虎跳峡",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 279,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 264
+    "tags": [
+      4
+    ]
   },
   {
     "name": "泸沽湖",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 269,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 269
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "抚仙湖",
     "province_id": 25,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 266,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 264
+    "tags": [
+      2
+    ]
   },
   {
     "name": "布达拉宫",
     "province_id": 26,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 280,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 280
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "大昭寺",
     "province_id": 26,
-    "level": "5A",
-    "category_id": 10,
+    "city_id": 280,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 280
-  },
-  {
-    "name": "巴松措",
-    "province_id": 26,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 280
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "扎什伦布寺",
     "province_id": 26,
-    "level": "5A",
-    "category_id": 10,
+    "city_id": 281,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 280
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "雅鲁藏布大峡谷",
     "province_id": 26,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 283,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 280
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "秦始皇兵马俑",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 287,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 287
+    "tags": [
+      1,
+      11
+    ]
   },
   {
     "name": "华清池",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 287,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 287
+    "tags": [
+      1
+    ]
   },
   {
     "name": "黄帝陵",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 292,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 287
-  },
-  {
-    "name": "大雁塔-大唐芙蓉园",
-    "province_id": 27,
-    "level": "5A",
-    "category_id": 7,
-    "pinyin": "",
-    "city_id": 287
-  },
-  {
-    "name": "华山",
-    "province_id": 27,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 291
-  },
-  {
-    "name": "法门寺",
-    "province_id": 27,
-    "level": "5A",
-    "category_id": 10,
-    "pinyin": "",
-    "city_id": 287
+    "tags": [
+      1,
+      10
+    ]
   },
   {
     "name": "金丝峡",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 296,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 287
+    "tags": [
+      4
+    ]
   },
   {
     "name": "太白山",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 289,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 287
+    "tags": [
+      3
+    ]
   },
   {
     "name": "延安革命纪念地",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 292,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 292
-  },
-  {
-    "name": "西安城墙-碑林",
-    "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 287
+    "tags": [
+      1,
+      10,
+      11
+    ]
   },
   {
     "name": "乾陵",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 290,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 287
+    "tags": [
+      1
+    ]
   },
   {
     "name": "黄河壶口瀑布",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 292,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 292
+    "tags": [
+      2
+    ]
   },
   {
     "name": "延川乾坤湾",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 292,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 287
+    "tags": [
+      2
+    ]
   },
   {
     "name": "长青华阳",
     "province_id": 27,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 293,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 287
+    "tags": [
+      1
+    ]
   },
   {
     "name": "嘉峪关",
     "province_id": 28,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 298,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 298
-  },
-  {
-    "name": "崆峒山",
-    "province_id": 28,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 297
+    "tags": [
+      1,
+      3
+    ]
   },
   {
     "name": "麦积山",
     "province_id": 28,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 301,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 297
-  },
-  {
-    "name": "鸣沙山月牙泉",
-    "province_id": 28,
-    "level": "5A",
-    "category_id": 1,
-    "pinyin": "",
-    "city_id": 297
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "张掖丹霞",
     "province_id": 28,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 303,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 303
+    "tags": [
+      4
+    ]
   },
   {
     "name": "炳灵寺",
     "province_id": 28,
-    "level": "5A",
-    "category_id": 10,
+    "city_id": 309,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 297
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "官鹅沟",
     "province_id": 28,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 308,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 297
+    "tags": [
+      1
+    ]
   },
   {
     "name": "天水伏羲庙",
     "province_id": 28,
-    "level": "5A",
-    "category_id": 10,
+    "city_id": 301,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 301
+    "tags": [
+      1,
+      7
+    ]
   },
   {
     "name": "青海湖",
     "province_id": 29,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 315,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 311
-  },
-  {
-    "name": "塔尔寺",
-    "province_id": 29,
-    "level": "5A",
-    "category_id": 7,
-    "pinyin": "",
-    "city_id": 311
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "茶卡盐湖",
     "province_id": 29,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 318,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 311
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "三江源",
     "province_id": 29,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 317,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 311
+    "tags": [
+      2,
+      5
+    ]
   },
   {
     "name": "沙湖",
     "province_id": 30,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 319,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 319
+    "tags": [
+      2
+    ]
   },
   {
     "name": "沙坡头",
     "province_id": 30,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 319,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 319
-  },
-  {
-    "name": "镇北堡西部影视城",
-    "province_id": 30,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 319
+    "tags": [
+      1
+    ]
   },
   {
     "name": "水洞沟",
     "province_id": 30,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 319,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 319
+    "tags": [
+      1
+    ]
   },
   {
     "name": "青铜峡黄河大峡谷",
     "province_id": 30,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 319,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 319
+    "tags": [
+      2,
+      4
+    ]
   },
   {
     "name": "须弥山",
     "province_id": 30,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 319,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 319
+    "tags": [
+      3
+    ]
   },
   {
     "name": "天山天池",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 328,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      3
+    ]
   },
   {
     "name": "吐鲁番葡萄沟",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 326,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 326
-  },
-  {
-    "name": "喀纳斯",
-    "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 324
+    "tags": [
+      1
+    ]
   },
   {
     "name": "那拉提",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 332,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      1,
+      5
+    ]
   },
   {
     "name": "可可托海",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 337,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
-  },
-  {
-    "name": "金胡杨",
-    "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 324
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "天山大峡谷",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 324,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "博斯腾湖",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 330,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
-  },
-  {
-    "name": "噶尔老城",
-    "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 324
+    "tags": [
+      2
+    ]
   },
   {
     "name": "泽普金胡杨",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 334,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      5
+    ]
   },
   {
     "name": "帕米尔高原",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 334,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      1
+    ]
   },
   {
     "name": "赛里木湖",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 329,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
-  },
-  {
-    "name": "巴音布鲁克",
-    "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
-    "pinyin": "",
-    "city_id": 324
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "喀拉峻",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 332,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      1
+    ]
   },
   {
     "name": "世界魔鬼城",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 325,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      4
+    ]
   },
   {
     "name": "江布拉克",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 328,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      2
+    ]
   },
   {
     "name": "天山托木尔",
     "province_id": 31,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 333,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": 324
+    "tags": [
+      3
+    ]
   },
   {
     "name": "故宫博物院(台北)",
     "province_id": 32,
-    "level": "5A",
-    "category_id": 9,
+    "city_id": 338,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1,
+      11
+    ]
   },
   {
     "name": "日月潭",
     "province_id": 32,
-    "level": "5A",
-    "category_id": 2,
+    "city_id": 338,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      2,
+      3
+    ]
   },
   {
     "name": "阿里山",
     "province_id": 32,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 338,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      3,
+      5
+    ]
   },
   {
     "name": "太鲁阁",
     "province_id": 32,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 338,
+    "is_5a": true,
+    "is_4a": true,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      4
+    ]
   },
   {
     "name": "维多利亚港",
     "province_id": 33,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 339,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      2,
+      6
+    ]
   },
   {
     "name": "香港迪士尼",
     "province_id": 33,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 339,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      8
+    ]
   },
   {
     "name": "太平山顶",
     "province_id": 33,
-    "level": "5A",
-    "category_id": 1,
+    "city_id": 339,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      3,
+      6
+    ]
   },
   {
     "name": "澳门历史城区",
     "province_id": 34,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 340,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1,
+      6
+    ]
   },
   {
     "name": "大三巴牌坊",
     "province_id": 34,
-    "level": "5A",
-    "category_id": 4,
+    "city_id": 340,
+    "is_5a": true,
+    "is_4a": false,
     "pinyin": "",
-    "city_id": null
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "北京植物园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "玉渊潭公园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "北海公园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "景山公园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "香山公园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      6
+    ]
+  },
+  {
+    "name": "北京动物园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "中国园林博物馆",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "北京海洋馆",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "天津水上公园",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "天津动物园",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "天津热带植物观光园",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      8
+    ]
+  },
+  {
+    "name": "天津意式风情区",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "天津盘山烈士陵园",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "石家庄抱犊寨",
+    "province_id": 3,
+    "city_id": 3,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "秦皇岛山海关乐岛",
+    "province_id": 3,
+    "city_id": 5,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "西柏坡纪念馆",
+    "province_id": 3,
+    "city_id": 3,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "北戴河鸽子窝公园",
+    "province_id": 3,
+    "city_id": 5,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "承德磬锤峰",
+    "province_id": 3,
+    "city_id": 10,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "正定隆兴寺",
+    "province_id": 3,
+    "city_id": 3,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "晋祠博物馆",
+    "province_id": 4,
+    "city_id": 14,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      11
+    ]
+  },
+  {
+    "name": "太原动物园",
+    "province_id": 4,
+    "city_id": 14,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "常家庄园",
+    "province_id": 4,
+    "city_id": 20,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "王莽岭",
+    "province_id": 4,
+    "city_id": 18,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "解州关帝庙",
+    "province_id": 4,
+    "city_id": 21,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "李家大院",
+    "province_id": 4,
+    "city_id": 21,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "芦芽山",
+    "province_id": 4,
+    "city_id": 22,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "呼和浩特大召寺",
+    "province_id": 5,
+    "city_id": 25,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "莫尔道嘎国家森林公园",
+    "province_id": 5,
+    "city_id": 31,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "达里诺尔湖",
+    "province_id": 5,
+    "city_id": 28,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "乌兰布统草原",
+    "province_id": 5,
+    "city_id": 28,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "沈阳森林动物园",
+    "province_id": 6,
+    "city_id": 37,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "大连森林动物园",
+    "province_id": 6,
+    "city_id": 38,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "大连圣亚海洋世界",
+    "province_id": 6,
+    "city_id": 38,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "鞍山千山温泉",
+    "province_id": 6,
+    "city_id": 39,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "丹东凤凰山",
+    "province_id": 6,
+    "city_id": 42,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "红海滩国家风景廊道",
+    "province_id": 6,
+    "city_id": 47,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      5
+    ]
+  },
+  {
+    "name": "长春世界雕塑园",
+    "province_id": 7,
+    "city_id": 51,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "哈尔滨极地馆",
+    "province_id": 8,
+    "city_id": 60,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "兴凯湖",
+    "province_id": 8,
+    "city_id": 62,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "扎龙自然保护区",
+    "province_id": 8,
+    "city_id": 61,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "镜泊湖地下森林",
+    "province_id": 8,
+    "city_id": 69,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      4,
+      5
+    ]
+  },
+  {
+    "name": "上海植物园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      8
+    ]
+  },
+  {
+    "name": "上海动物园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "上海大观园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "佘山国家森林公园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "南京总统府",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "南京玄武湖",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "苏州乐园",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "无锡蠡园",
+    "province_id": 10,
+    "city_id": 75,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "常州恐龙园",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "镇江金山寺",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "盐城丹顶鹤保护区",
+    "province_id": 10,
+    "city_id": 82,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "淮安周恩来纪念馆",
+    "province_id": 10,
+    "city_id": 81,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "南通狼山",
+    "province_id": 10,
+    "city_id": 79,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "杭州宋城",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "杭州野生动物世界",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "宁波东钱湖",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "温州雁荡山大龙湫",
+    "province_id": 11,
+    "city_id": 89,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "绍兴东湖",
+    "province_id": 11,
+    "city_id": 92,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "金华双龙洞",
+    "province_id": 11,
+    "city_id": 93,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      4
+    ]
+  },
+  {
+    "name": "舟山桃花岛",
+    "province_id": 11,
+    "city_id": 95,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "台州神仙居",
+    "province_id": 11,
+    "city_id": 96,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "丽水仙都",
+    "province_id": 11,
+    "city_id": 97,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "衢州江郎山",
+    "province_id": 11,
+    "city_id": 94,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "合肥野生动物园",
+    "province_id": 12,
+    "city_id": 98,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "芜湖方特东方神画",
+    "province_id": 12,
+    "city_id": 99,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "蚌埠龙子湖",
+    "province_id": 12,
+    "city_id": 100,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "淮南八公山",
+    "province_id": 12,
+    "city_id": 101,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "池州平天湖",
+    "province_id": 12,
+    "city_id": 112,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "厦门园林植物园",
+    "province_id": 13,
+    "city_id": 115,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      8
+    ]
+  },
+  {
+    "name": "泉州清源山",
+    "province_id": 13,
+    "city_id": 118,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      7
+    ]
+  },
+  {
+    "name": "龙岩古田会议旧址",
+    "province_id": 13,
+    "city_id": 121,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "莆田湄洲岛",
+    "province_id": 13,
+    "city_id": 116,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "宁德白水洋",
+    "province_id": 13,
+    "city_id": 122,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "南昌滕王阁",
+    "province_id": 14,
+    "city_id": 123,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "九江庐山西海",
+    "province_id": 14,
+    "city_id": 126,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      3
+    ]
+  },
+  {
+    "name": "萍乡武功山",
+    "province_id": 14,
+    "city_id": 125,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "新余仙女湖",
+    "province_id": 14,
+    "city_id": 127,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "鹰潭龙虎山",
+    "province_id": 14,
+    "city_id": 128,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      3,
+      7
+    ]
+  },
+  {
+    "name": "宜春明月山",
+    "province_id": 14,
+    "city_id": 131,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "济南千佛山",
+    "province_id": 15,
+    "city_id": 134,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "青岛海底世界",
+    "province_id": 15,
+    "city_id": 135,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "济宁曲阜明故城",
+    "province_id": 15,
+    "city_id": 141,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "泰安方特欢乐世界",
+    "province_id": 15,
+    "city_id": 142,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "郑州黄河风景名胜区",
+    "province_id": 16,
+    "city_id": 150,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "洛阳关林",
+    "province_id": 16,
+    "city_id": 152,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "鹤壁云梦山",
+    "province_id": 16,
+    "city_id": 155,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "许昌春秋楼",
+    "province_id": 16,
+    "city_id": 159,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "武汉东湖",
+    "province_id": 17,
+    "city_id": 167,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "武汉海昌极地海洋公园",
+    "province_id": 17,
+    "city_id": 167,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "宜昌三峡大瀑布",
+    "province_id": 17,
+    "city_id": 170,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "十堰丹江口水库",
+    "province_id": 17,
+    "city_id": 169,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "襄阳古隆中",
+    "province_id": 17,
+    "city_id": 171,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "荆州古城",
+    "province_id": 17,
+    "city_id": 175,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      9
+    ]
+  },
+  {
+    "name": "黄冈大别山",
+    "province_id": 17,
+    "city_id": 176,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "恩施土司城",
+    "province_id": 17,
+    "city_id": 179,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "长沙岳麓山",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      10
+    ]
+  },
+  {
+    "name": "长沙世界之窗",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "衡阳南岳大庙",
+    "province_id": 18,
+    "city_id": 183,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "邵阳崀山",
+    "province_id": 18,
+    "city_id": 184,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "岳阳君山岛",
+    "province_id": 18,
+    "city_id": 185,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "张家界大峡谷",
+    "province_id": 18,
+    "city_id": 187,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "凤凰古城",
+    "province_id": 18,
+    "city_id": 193,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "深圳欢乐谷",
+    "province_id": 19,
+    "city_id": 196,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "深圳野生动物园",
+    "province_id": 19,
+    "city_id": 196,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "珠海长隆海洋王国",
+    "province_id": 19,
+    "city_id": 197,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "汕头南澳岛",
+    "province_id": 19,
+    "city_id": 198,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "肇庆七星岩",
+    "province_id": 19,
+    "city_id": 203,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "清远英西峰林",
+    "province_id": 19,
+    "city_id": 209,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "柳州龙潭公园",
+    "province_id": 20,
+    "city_id": 216,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      6
+    ]
+  },
+  {
+    "name": "桂林两江四湖",
+    "province_id": 20,
+    "city_id": 217,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "桂林芦笛岩",
+    "province_id": 20,
+    "city_id": 217,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "北海银滩",
+    "province_id": 20,
+    "city_id": 219,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "崇左德天瀑布",
+    "province_id": 20,
+    "city_id": 228,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "海口火山口地质公园",
+    "province_id": 21,
+    "city_id": 229,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "三亚蜈支洲岛",
+    "province_id": 21,
+    "city_id": 230,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "重庆动物园",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "重庆园博园",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      6
+    ]
+  },
+  {
+    "name": "武隆仙女山",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "丰都鬼城",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "巫山小三峡",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "成都大熊猫繁育研究基地",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "成都武侯祠",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "自贡恐龙博物馆",
+    "province_id": 23,
+    "city_id": 235,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      11
+    ]
+  },
+  {
+    "name": "攀枝花二滩国家森林公园",
+    "province_id": 23,
+    "city_id": 236,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "泸州黄荆老林",
+    "province_id": 23,
+    "city_id": 237,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "宜宾蜀南竹海",
+    "province_id": 23,
+    "city_id": 246,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4,
+      5
+    ]
+  },
+  {
+    "name": "雅安碧峰峡",
+    "province_id": 23,
+    "city_id": 249,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      3
+    ]
+  },
+  {
+    "name": "贵阳黔灵山公园",
+    "province_id": 24,
+    "city_id": 255,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      6
+    ]
+  },
+  {
+    "name": "遵义会议会址",
+    "province_id": 24,
+    "city_id": 257,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "安顺龙宫",
+    "province_id": 24,
+    "city_id": 258,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "铜仁梵净山",
+    "province_id": 24,
+    "city_id": 260,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      7
+    ]
+  },
+  {
+    "name": "黔东南西江千户苗寨",
+    "province_id": 24,
+    "city_id": 262,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      9
+    ]
+  },
+  {
+    "name": "黔南荔波小七孔",
+    "province_id": 24,
+    "city_id": 263,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "昆明滇池",
+    "province_id": 25,
+    "city_id": 264,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "大理洱海",
+    "province_id": 25,
+    "city_id": 276,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "西双版纳热带植物园",
+    "province_id": 25,
+    "city_id": 275,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      8
+    ]
+  },
+  {
+    "name": "腾冲热海",
+    "province_id": 25,
+    "city_id": 267,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "拉萨罗布林卡",
+    "province_id": 26,
+    "city_id": 280,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "纳木错",
+    "province_id": 26,
+    "city_id": 280,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      3
+    ]
+  },
+  {
+    "name": "林芝巴松措",
+    "province_id": 26,
+    "city_id": 283,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "name": "宝鸡法门寺",
+    "province_id": 27,
+    "city_id": 289,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "渭南华山",
+    "province_id": 27,
+    "city_id": 291,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      3
+    ]
+  },
+  {
+    "name": "延安宝塔山",
+    "province_id": 27,
+    "city_id": 292,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "汉中张良庙",
+    "province_id": 27,
+    "city_id": 293,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "榆林红石峡",
+    "province_id": 27,
+    "city_id": 294,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "兰州黄河风情线",
+    "province_id": 28,
+    "city_id": 297,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "嘉峪关方特欢乐世界",
+    "province_id": 28,
+    "city_id": 298,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "天水麦积山温泉",
+    "province_id": 28,
+    "city_id": 301,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "张掖大佛寺",
+    "province_id": 28,
+    "city_id": 303,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "敦煌鸣沙山月牙泉",
+    "province_id": 28,
+    "city_id": 305,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "平凉崆峒山",
+    "province_id": 28,
+    "city_id": 304,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      7
+    ]
+  },
+  {
+    "name": "西宁塔尔寺",
+    "province_id": 29,
+    "city_id": 311,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "祁连山草原",
+    "province_id": 29,
+    "city_id": 313,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "银川镇北堡西部影城",
+    "province_id": 30,
+    "city_id": 319,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "西夏王陵",
+    "province_id": 30,
+    "city_id": 319,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "喀纳斯湖",
+    "province_id": 31,
+    "city_id": 337,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "name": "巴音布鲁克草原",
+    "province_id": 31,
+    "city_id": 330,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      2,
+      5
+    ]
+  },
+  {
+    "name": "喀什噶尔老城",
+    "province_id": 31,
+    "city_id": 334,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      9
+    ]
+  },
+  {
+    "name": "台北故宫博物院",
+    "province_id": 32,
+    "city_id": 338,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      11
+    ]
+  },
+  {
+    "name": "香港海洋公园",
+    "province_id": 33,
+    "city_id": 339,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "香港湿地公园",
+    "province_id": 33,
+    "city_id": 339,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      6
+    ]
+  },
+  {
+    "name": "澳门渔人码头",
+    "province_id": 34,
+    "city_id": 340,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      6,
+      8
+    ]
+  },
+  {
+    "name": "澳门旅游塔",
+    "province_id": 34,
+    "city_id": 340,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "黑沙海滩",
+    "province_id": 34,
+    "city_id": 340,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "北京大观园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "天津瓷房子",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "上海辰山植物园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5,
+      8
+    ]
+  },
+  {
+    "name": "北京环球度假区",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "上海迪士尼",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "上海乐高乐园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "北京泡泡玛特乐园",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "宏村",
+    "province_id": 12,
+    "city_id": 106,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      9
+    ]
+  },
+  {
+    "name": "西递",
+    "province_id": 12,
+    "city_id": 106,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      9
+    ]
+  },
+  {
+    "name": "安徽省博物馆",
+    "province_id": 12,
+    "city_id": 98,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "大别山",
+    "province_id": 12,
+    "city_id": 110,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      10
+    ]
+  },
+  {
+    "name": "八达岭长城",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      3
+    ]
+  },
+  {
+    "name": "慕田峪长城",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      3
+    ]
+  },
+  {
+    "name": "首都博物馆",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "中国地质博物馆",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "中国人民抗日战争纪念馆",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "中国人民革命军事博物馆",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "北京欢乐谷",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "雍和宫",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "白云观",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "潭柘寺",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "戒台寺",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "云居寺",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "牛街礼拜寺",
+    "province_id": 1,
+    "city_id": 1,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "白水洋",
+    "province_id": 13,
+    "city_id": 114,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "鸳鸯溪",
+    "province_id": 13,
+    "city_id": 114,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "南靖土楼",
+    "province_id": 13,
+    "city_id": 119,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "永定土楼",
+    "province_id": 13,
+    "city_id": 121,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "古田会议纪念馆",
+    "province_id": 13,
+    "city_id": 121,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "厦门中山路",
+    "province_id": 13,
+    "city_id": 115,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "福建博物院",
+    "province_id": 13,
+    "city_id": 114,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "梦幻王国",
+    "province_id": 13,
+    "city_id": 115,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "东方神画",
+    "province_id": 13,
+    "city_id": 115,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "海边水世界",
+    "province_id": 13,
+    "city_id": 115,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      8
+    ]
+  },
+  {
+    "name": "甘肃省博物馆",
+    "province_id": 28,
+    "city_id": 297,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "会宁红军会师旧址",
+    "province_id": 28,
+    "city_id": 300,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "中国工农红军西路军纪念馆",
+    "province_id": 28,
+    "city_id": 303,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "敦煌雅丹国家地质公园",
+    "province_id": 28,
+    "city_id": 305,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "黄河石林",
+    "province_id": 28,
+    "city_id": 300,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "水墨丹霞",
+    "province_id": 28,
+    "city_id": 297,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "平山湖大峡谷",
+    "province_id": 28,
+    "city_id": 303,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "广东省博物馆",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "黄花岗七十二烈士墓园",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "广州起义纪念馆",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "广州长隆欢乐世界",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "广州长隆野生动物世界",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "深圳世界之窗",
+    "province_id": 19,
+    "city_id": 196,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "深圳锦绣中华",
+    "province_id": 19,
+    "city_id": 196,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "广州塔",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "深圳欢乐海岸",
+    "province_id": 19,
+    "city_id": 196,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6,
+      8
+    ]
+  },
+  {
+    "name": "南岭国家森林公园",
+    "province_id": 19,
+    "city_id": 195,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "石门国家森林公园",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "流溪河国家森林公园",
+    "province_id": 19,
+    "city_id": 194,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "云勇森林公园",
+    "province_id": 19,
+    "city_id": 199,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "独秀峰",
+    "province_id": 20,
+    "city_id": 217,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "象山景区",
+    "province_id": 20,
+    "city_id": 215,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "靖江王城",
+    "province_id": 20,
+    "city_id": 217,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "南宁方特东盟神画",
+    "province_id": 20,
+    "city_id": 215,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "广西民族博物馆",
+    "province_id": 20,
+    "city_id": 215,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "桂林乐满地",
+    "province_id": 20,
+    "city_id": 217,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      8
+    ]
+  },
+  {
+    "name": "九万山",
+    "province_id": 20,
+    "city_id": 216,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "花坪自然保护区",
+    "province_id": 20,
+    "city_id": 217,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "猫儿山",
+    "province_id": 20,
+    "city_id": 217,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "贵州省博物馆",
+    "province_id": 24,
+    "city_id": 255,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "遵义会议纪念馆",
+    "province_id": 24,
+    "city_id": 257,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "四渡赤水纪念馆",
+    "province_id": 24,
+    "city_id": 257,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "荔波茂兰",
+    "province_id": 24,
+    "city_id": 263,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4,
+      5
+    ]
+  },
+  {
+    "name": "赤水竹海",
+    "province_id": 24,
+    "city_id": 257,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "雷公山",
+    "province_id": 24,
+    "city_id": 262,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "百里原始杜鹃林",
+    "province_id": 24,
+    "city_id": 262,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "海南省博物馆",
+    "province_id": 21,
+    "city_id": 229,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "尖峰岭",
+    "province_id": 21,
+    "city_id": 344,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "吊罗山",
+    "province_id": 21,
+    "city_id": 343,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "五指山",
+    "province_id": 21,
+    "city_id": 345,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "霸王岭",
+    "province_id": 21,
+    "city_id": 346,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "黎母山",
+    "province_id": 21,
+    "city_id": 347,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "七仙岭",
+    "province_id": 21,
+    "city_id": 342,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      5
+    ]
+  },
+  {
+    "name": "外八庙",
+    "province_id": 3,
+    "city_id": 10,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3,
+      7
+    ]
+  },
+  {
+    "name": "承德避暑山庄",
+    "province_id": 3,
+    "city_id": 10,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "唐山南湖",
+    "province_id": 3,
+    "city_id": 4,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "开滦国家矿山公园",
+    "province_id": 3,
+    "city_id": 4,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "河北博物院",
+    "province_id": 3,
+    "city_id": 3,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "狼牙山",
+    "province_id": 3,
+    "city_id": 8,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      10
+    ]
+  },
+  {
+    "name": "白洋淀",
+    "province_id": 3,
+    "city_id": 8,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      2,
+      10
+    ]
+  },
+  {
+    "name": "塞罕坝",
+    "province_id": 3,
+    "city_id": 10,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "坝上草原",
+    "province_id": 3,
+    "city_id": 10,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "中原大佛",
+    "province_id": 16,
+    "city_id": 153,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3,
+      7
+    ]
+  },
+  {
+    "name": "云台山",
+    "province_id": 16,
+    "city_id": 157,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "太行大峡谷",
+    "province_id": 16,
+    "city_id": 154,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      4
+    ]
+  },
+  {
+    "name": "尧山",
+    "province_id": 16,
+    "city_id": 153,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "恐龙遗址园",
+    "province_id": 16,
+    "city_id": 162,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "神农山",
+    "province_id": 16,
+    "city_id": 157,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "红旗渠",
+    "province_id": 16,
+    "city_id": 154,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "老君山",
+    "province_id": 16,
+    "city_id": 152,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "老界岭",
+    "province_id": 16,
+    "city_id": 162,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "青天河",
+    "province_id": 16,
+    "city_id": 157,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "鸡冠洞",
+    "province_id": 16,
+    "city_id": 152,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "河南博物院",
+    "province_id": 16,
+    "city_id": 150,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "洛阳博物馆",
+    "province_id": 16,
+    "city_id": 152,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "白马寺",
+    "province_id": 16,
+    "city_id": 152,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "许世友将军故里",
+    "province_id": 16,
+    "city_id": 164,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "焦裕禄纪念园",
+    "province_id": 16,
+    "city_id": 151,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "郑州方特欢乐世界",
+    "province_id": 16,
+    "city_id": 150,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "东北烈士纪念馆",
+    "province_id": 8,
+    "city_id": 60,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "哈尔滨冰雪大世界",
+    "province_id": 8,
+    "city_id": 60,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "大兴安岭",
+    "province_id": 8,
+    "city_id": 72,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "小兴安岭",
+    "province_id": 8,
+    "city_id": 66,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "五营国家森林公园",
+    "province_id": 8,
+    "city_id": 66,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "亚布力滑雪旅游度假区",
+    "province_id": 8,
+    "city_id": 60,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "哈尔滨中央大街",
+    "province_id": 8,
+    "city_id": 60,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "湖北省博物馆",
+    "province_id": 17,
+    "city_id": 167,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "武汉革命博物馆",
+    "province_id": 17,
+    "city_id": 167,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "大九湖",
+    "province_id": 17,
+    "city_id": 341,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      5
+    ]
+  },
+  {
+    "name": "九宫山",
+    "province_id": 17,
+    "city_id": 177,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "武汉江汉路",
+    "province_id": 17,
+    "city_id": 167,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "武汉欢乐谷",
+    "province_id": 17,
+    "city_id": 167,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "武汉户部巷",
+    "province_id": 17,
+    "city_id": 167,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "岳阳楼",
+    "province_id": 18,
+    "city_id": 185,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "十八洞",
+    "province_id": 18,
+    "city_id": 193,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "天门山",
+    "province_id": 18,
+    "city_id": 187,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "德夯大峡谷",
+    "province_id": 18,
+    "city_id": 193,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "橘子洲",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      10
+    ]
+  },
+  {
+    "name": "武陵源",
+    "province_id": 18,
+    "city_id": 187,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "矮寨",
+    "province_id": 18,
+    "city_id": 193,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "湖南省博物馆",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "刘少奇同志纪念馆",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "秋收起义纪念馆",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "张家界国家森林公园",
+    "province_id": 18,
+    "city_id": 187,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "长沙坡子街",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "长沙方特东方神画",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "长沙太平街",
+    "province_id": 18,
+    "city_id": 180,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "龙湾群国家森林公园",
+    "province_id": 7,
+    "city_id": 55,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "中山陵",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6,
+      10
+    ]
+  },
+  {
+    "name": "北固山",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "夫子庙",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      2,
+      6
+    ]
+  },
+  {
+    "name": "焦山",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "秦淮河风光带",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      2,
+      6
+    ]
+  },
+  {
+    "name": "金山",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "钟山风景区",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "拙政园",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "沙家浜",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "留园",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "虎丘",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "虞山尚湖",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "南京博物院",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "南京中国科举博物馆",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "侵华日军南京大屠杀遇难同胞纪念馆",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "苏州博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      11
+    ]
+  },
+  {
+    "name": "淮海战役纪念馆",
+    "province_id": 10,
+    "city_id": 76,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "雨花台烈士陵园",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "新四军纪念馆",
+    "province_id": 10,
+    "city_id": 82,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "锦溪古镇",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "甪直古镇",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "木渎古镇",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3,
+      9
+    ]
+  },
+  {
+    "name": "荡口古镇",
+    "province_id": 10,
+    "city_id": 75,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "窑湾古镇",
+    "province_id": 10,
+    "city_id": 76,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "溱潼古镇",
+    "province_id": 10,
+    "city_id": 85,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "寒山寺",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "栖霞寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "鸡鸣寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "大明寺",
+    "province_id": 10,
+    "city_id": 83,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "常州淹城春秋乐园",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "千灯古镇",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "沙溪古镇",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "苏州平江路",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6,
+      9
+    ]
+  },
+  {
+    "name": "常州嬉戏谷",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "华谊兄弟电影世界",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "震泽古镇",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "黎里古镇",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "长泾古镇",
+    "province_id": 10,
+    "city_id": 75,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "巡塘古镇",
+    "province_id": 10,
+    "city_id": 75,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "梅里古镇",
+    "province_id": 10,
+    "city_id": 75,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "南京老门东",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "嬉戏谷",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "东方盐湖城",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "淹城春秋乐园",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "中华恐龙园",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "恐龙谷温泉",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      8
+    ]
+  },
+  {
+    "name": "无锡融创乐园",
+    "province_id": 10,
+    "city_id": 75,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "徐州乐园",
+    "province_id": 10,
+    "city_id": 76,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "银杏湖乐园",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "南京欢乐谷",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "苏州乐园森林世界",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "森林水世界",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      8
+    ]
+  },
+  {
+    "name": "金鸡湖景区",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "金鸡湖音乐喷泉",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "李公堤",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "诚品书店",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "苏州中心",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "山塘街",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      6,
+      9
+    ]
+  },
+  {
+    "name": "观前街",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "圆融时代广场",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "月光码头",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "独墅湖",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "太湖国家旅游度假区",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "苏州博物馆西馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6,
+      11
+    ]
+  },
+  {
+    "name": "沧浪亭",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "怡园",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "扬州中国大运河博物馆",
+    "province_id": 10,
+    "city_id": 83,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "南京六朝博物馆",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "南京古生物博物馆",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "苏州丝绸博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "苏州评弹博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "苏州戏曲博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "苏州城墙博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "苏州生肖邮票博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "昆曲博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "东吴大学旧址博物馆",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      11
+    ]
+  },
+  {
+    "name": "常州博物馆",
+    "province_id": 10,
+    "city_id": 77,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "无锡博物院",
+    "province_id": 10,
+    "city_id": 75,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "徐州博物馆",
+    "province_id": 10,
+    "city_id": 76,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "南通博物苑",
+    "province_id": 10,
+    "city_id": 79,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "镇江博物馆",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "甘露寺",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "金山寺",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "定慧寺",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "宝华山隆昌寺",
+    "province_id": 10,
+    "city_id": 84,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "瓦官寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "灵谷寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "玄奘寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "毗卢寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "崇正书院",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "清凉寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "宏觉寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "定林寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "无想寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "永宁寺",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "南京雨花台",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "梅园新村纪念馆",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "渡江胜利纪念馆",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "总统府",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "拉贝故居",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "八路军驻京办事处",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "晓庄革命烈士陵园",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "恽代英烈士殉难处",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "邓演达墓",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "航空烈士公墓",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "云台山抗日烈士陵园",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "桂子山烈士陵园",
+    "province_id": 10,
+    "city_id": 74,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "陆巷古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "明月湾古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "杨湾古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "东村古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "三山岛",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "徐湾古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "植里古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "堂里古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "东西蔡古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "后埠古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "涵村古村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "东蔡村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "西蔡村",
+    "province_id": 10,
+    "city_id": 78,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "井冈山革命博物馆",
+    "province_id": 14,
+    "city_id": 130,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "南昌八一起义纪念馆",
+    "province_id": 14,
+    "city_id": 123,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "瑞金中央革命根据地纪念馆",
+    "province_id": 14,
+    "city_id": 129,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "江西博物馆",
+    "province_id": 14,
+    "city_id": 123,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "辽宁省博物馆",
+    "province_id": 6,
+    "city_id": 37,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "抗美援朝纪念馆",
+    "province_id": 6,
+    "city_id": 42,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "辽沈战役纪念馆",
+    "province_id": 6,
+    "city_id": 43,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "九一八历史博物馆",
+    "province_id": 6,
+    "city_id": 37,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "大连发现王国",
+    "province_id": 6,
+    "city_id": 38,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "大连星海广场",
+    "province_id": 6,
+    "city_id": 38,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "呼伦贝尔大草原",
+    "province_id": 5,
+    "city_id": 31,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      5
+    ]
+  },
+  {
+    "name": "莫尔格勒河",
+    "province_id": 5,
+    "city_id": 31,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      5
+    ]
+  },
+  {
+    "name": "柴河",
+    "province_id": 5,
+    "city_id": 34,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "阿尔山",
+    "province_id": 5,
+    "city_id": 34,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4,
+      5
+    ]
+  },
+  {
+    "name": "内蒙古博物院",
+    "province_id": 5,
+    "city_id": 25,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "白桦林",
+    "province_id": 5,
+    "city_id": 31,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "额济纳胡杨林",
+    "province_id": 5,
+    "city_id": 36,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "根河湿地",
+    "province_id": 5,
+    "city_id": 31,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      5
+    ]
+  },
+  {
+    "name": "宁夏博物馆",
+    "province_id": 30,
+    "city_id": 319,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "青海省博物馆",
+    "province_id": 29,
+    "city_id": 311,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "可可西里",
+    "province_id": 29,
+    "city_id": 317,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4,
+      5
+    ]
+  },
+  {
+    "name": "贵德国家地质公园",
+    "province_id": 29,
+    "city_id": 315,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "可可西里自然保护区",
+    "province_id": 29,
+    "city_id": 317,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4,
+      5
+    ]
+  },
+  {
+    "name": "地下大峡谷",
+    "province_id": 15,
+    "city_id": 145,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "大明湖",
+    "province_id": 15,
+    "city_id": 134,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "萤火虫水洞",
+    "province_id": 15,
+    "city_id": 145,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "趵突泉",
+    "province_id": 15,
+    "city_id": 134,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "三仙山",
+    "province_id": 15,
+    "city_id": 139,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "八仙过海",
+    "province_id": 15,
+    "city_id": 139,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "蓬莱阁",
+    "province_id": 15,
+    "city_id": 139,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "山东博物馆",
+    "province_id": 15,
+    "city_id": 134,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "青岛栈桥",
+    "province_id": 15,
+    "city_id": 135,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "青岛五四广场",
+    "province_id": 15,
+    "city_id": 135,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "山西博物院",
+    "province_id": 4,
+    "city_id": 14,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "八路军太行纪念馆",
+    "province_id": 4,
+    "city_id": 17,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "悬空寺",
+    "province_id": 4,
+    "city_id": 15,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "南禅寺",
+    "province_id": 4,
+    "city_id": 22,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "佛光寺",
+    "province_id": 4,
+    "city_id": 22,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "玄中寺",
+    "province_id": 4,
+    "city_id": 24,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "普救寺",
+    "province_id": 4,
+    "city_id": 21,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "小西天",
+    "province_id": 4,
+    "city_id": 23,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "永乐宫",
+    "province_id": 4,
+    "city_id": 21,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "大唐芙蓉园",
+    "province_id": 27,
+    "city_id": 287,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "大雁塔",
+    "province_id": 27,
+    "city_id": 287,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "碑林博物馆",
+    "province_id": 27,
+    "city_id": 287,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      11
+    ]
+  },
+  {
+    "name": "西安城墙",
+    "province_id": 27,
+    "city_id": 287,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "陕西历史博物馆",
+    "province_id": 27,
+    "city_id": 287,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "西安回民街",
+    "province_id": 27,
+    "city_id": 287,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "波浪谷",
+    "province_id": 27,
+    "city_id": 294,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "雨岔大峡谷",
+    "province_id": 27,
+    "city_id": 292,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "靖边龙洲丹霞",
+    "province_id": 27,
+    "city_id": 294,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "甘泉大峡谷",
+    "province_id": 27,
+    "city_id": 292,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "中共一大纪念馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "中共二大会址纪念馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "中共四大纪念馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "上海博物馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "上海四行仓库抗战纪念馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "上海淞沪抗战纪念馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "龙华烈士陵园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10
+    ]
+  },
+  {
+    "name": "国歌展示馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "钱学森图书馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "陈云纪念馆",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "张闻天故居",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      10
+    ]
+  },
+  {
+    "name": "朱家角古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "枫泾古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "七宝古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "新场古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "南翔古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "召稼楼",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "练塘古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "上海欢乐谷",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "上海海昌海洋公园",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "上海外滩",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "上海南京路",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "上海新天地",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "上海田子坊",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "金泽古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "嘉定州桥",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "川沙古镇",
+    "province_id": 9,
+    "city_id": 73,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "成都天台山",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "都江堰",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "青城山",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      3,
+      7
+    ]
+  },
+  {
+    "name": "四川博物院",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "三星堆博物馆",
+    "province_id": 23,
+    "city_id": 238,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "金沙遗址博物馆",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "邓小平故居陈列馆",
+    "province_id": 23,
+    "city_id": 247,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "成都春熙路",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "成都欢乐谷",
+    "province_id": 23,
+    "city_id": 234,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "墨石公园",
+    "province_id": 23,
+    "city_id": 253,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "莲宝叶则",
+    "province_id": 23,
+    "city_id": 252,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "光雾山诺水河",
+    "province_id": 23,
+    "city_id": 250,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "天津博物馆",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "平津战役纪念馆",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "周恩来邓颖超纪念馆",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "天津方特欢乐世界",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "天津欢乐谷",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "天津天后宫",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "独乐寺",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "天津五大道",
+    "province_id": 2,
+    "city_id": 2,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "西藏博物馆",
+    "province_id": 26,
+    "city_id": 280,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "新疆维吾尔自治区博物馆",
+    "province_id": 31,
+    "city_id": 324,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "乌尔禾魔鬼城",
+    "province_id": 31,
+    "city_id": 325,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "天山神秘大峡谷",
+    "province_id": 31,
+    "city_id": 333,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "温宿大峡谷",
+    "province_id": 31,
+    "city_id": 333,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "云南省博物馆",
+    "province_id": 25,
+    "city_id": 264,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "西双版纳原始森林公园",
+    "province_id": 25,
+    "city_id": 275,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      5
+    ]
+  },
+  {
+    "name": "普达措",
+    "province_id": 25,
+    "city_id": 279,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "昆明七彩云南欢乐世界",
+    "province_id": 25,
+    "city_id": 264,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "天一阁",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "月湖",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "沈园",
+    "province_id": 11,
+    "city_id": 92,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "溪口",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      2
+    ]
+  },
+  {
+    "name": "滕头",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2
+    ]
+  },
+  {
+    "name": "鲁迅故里",
+    "province_id": 11,
+    "city_id": 92,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "浙江省博物馆",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "南湖革命纪念馆",
+    "province_id": 11,
+    "city_id": 90,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      10,
+      11
+    ]
+  },
+  {
+    "name": "安昌古镇",
+    "province_id": 11,
+    "city_id": 92,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "龙门古镇",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "佛堂古镇",
+    "province_id": 11,
+    "city_id": 93,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "廿八都",
+    "province_id": 11,
+    "city_id": 94,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3,
+      9
+    ]
+  },
+  {
+    "name": "皤滩古镇",
+    "province_id": 11,
+    "city_id": 96,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "石浦渔港古城",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "前童古镇",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "慈城古镇",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "鸣鹤古镇",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "盐官古城",
+    "province_id": 11,
+    "city_id": 90,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "灵隐寺",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "天童寺",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "国清寺",
+    "province_id": 11,
+    "city_id": 96,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      7
+    ]
+  },
+  {
+    "name": "净慈寺",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "径山寺",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "法喜寺",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      7
+    ]
+  },
+  {
+    "name": "塘栖古镇",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      9
+    ]
+  },
+  {
+    "name": "莫干山",
+    "province_id": 11,
+    "city_id": 91,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "天目山",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      3,
+      5
+    ]
+  },
+  {
+    "name": "杭州南宋御街",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "西湖音乐喷泉",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      6
+    ]
+  },
+  {
+    "name": "杭州乐园",
+    "province_id": 11,
+    "city_id": 87,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "宁波罗蒙环球乐园",
+    "province_id": 11,
+    "city_id": 88,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "劳岭村",
+    "province_id": 11,
+    "city_id": 91,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "庾村",
+    "province_id": 11,
+    "city_id": 91,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      9
+    ]
+  },
+  {
+    "name": "小小三峡",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "白帝城",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      1
+    ]
+  },
+  {
+    "name": "瞿塘峡",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "神龙峡",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      2,
+      4
+    ]
+  },
+  {
+    "name": "金佛山",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      3
+    ]
+  },
+  {
+    "name": "黑山谷",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4,
+      5
+    ]
+  },
+  {
+    "name": "龙鳞石海",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": true,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "重庆中国三峡博物馆",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      11
+    ]
+  },
+  {
+    "name": "重庆解放碑",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      6
+    ]
+  },
+  {
+    "name": "重庆洪崖洞",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": false,
+    "pinyin": "",
+    "tags": [
+      1,
+      6
+    ]
+  },
+  {
+    "name": "重庆欢乐谷",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "乐和乐都",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      8
+    ]
+  },
+  {
+    "name": "奉节小寨天坑",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4
+    ]
+  },
+  {
+    "name": "四面山",
+    "province_id": 22,
+    "city_id": 233,
+    "is_5a": false,
+    "is_4a": true,
+    "pinyin": "",
+    "tags": [
+      4,
+      5
+    ]
   }
 ]

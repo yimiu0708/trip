@@ -10,12 +10,13 @@ router.get('/', (req, res) => {
   const db = getDb();
   const { provinceId, cityId, categoryId, level, q } = req.query;
 
-  let sql = `SELECT a.*, p.name as province_name, ci.name as city_name, c.name as category_name
+  let sql = `SELECT a.id, a.name, a.province_id, a.city_id, a.is_5a, a.is_4a,
+                    CASE WHEN a.is_5a THEN '5A' WHEN a.is_4a THEN '4A' ELSE '' END as level,
+                    a.pinyin, p.name as province_name, ci.name as city_name
              FROM attractions a
              JOIN provinces p ON a.province_id = p.id
              LEFT JOIN cities ci ON a.city_id = ci.id
-             LEFT JOIN categories c ON a.category_id = c.id
-             WHERE 1=1`;
+             WHERE a.status = 'approved'`;
   const params: (string | number)[] = [];
 
   if (provinceId) {
@@ -27,21 +28,36 @@ router.get('/', (req, res) => {
     params.push(Number(cityId));
   }
   if (categoryId) {
-    sql += ' AND a.category_id = ?';
+    sql += ' AND a.id IN (SELECT attraction_id FROM attraction_tags WHERE category_id = ?)';
     params.push(Number(categoryId));
   }
-  if (level) {
-    sql += ' AND a.level = ?';
-    params.push(String(level));
+  if (level === '5A') {
+    sql += ' AND a.is_5a = 1';
+  } else if (level === '4A') {
+    sql += ' AND a.is_4a = 1';
   }
   if (q) {
-    sql += ' AND a.name LIKE ?';
-    params.push(`%${String(q)}%`);
+    sql += ' AND (a.name LIKE ? OR a.pinyin LIKE ?)';
+    params.push(`%${String(q)}%`, `%${String(q).toLowerCase()}%`);
   }
 
-  sql += ' ORDER BY a.province_id, a.city_id, a.level DESC, a.pinyin ASC';
+  sql += ' ORDER BY a.province_id, a.city_id, a.is_5a DESC, a.is_4a DESC, a.pinyin ASC';
 
-  const attractions = db.prepare(sql).all(...params);
+  const attractions = db.prepare(sql).all(...params) as any[];
+
+  // Attach tags
+  const tagStmt = db.prepare(`
+    SELECT c.id, c.name
+    FROM attraction_tags at
+    JOIN categories c ON at.category_id = c.id
+    WHERE at.attraction_id = ?
+    ORDER BY c.sort_order
+  `);
+  for (const a of attractions) {
+    a.tags = tagStmt.all(a.id);
+    a.category_name = a.tags.map((t: any) => t.name).join(', ');
+  }
+
   res.json(attractions);
 });
 
@@ -57,16 +73,29 @@ router.post('/batch/lit', authMiddleware, (req: AuthRequest, res) => {
   }
 
   const litAtValue = lit_at && !isNaN(Date.parse(lit_at)) ? lit_at : new Date().toISOString();
+  const approvedIds = db.prepare(`
+    SELECT id FROM attractions
+    WHERE status = 'approved' AND id IN (${ids.map(() => '?').join(',')})
+  `).all(...ids) as { id: number }[];
+  const approvedIdSet = new Set(approvedIds.map((item) => item.id));
+  const litIds: number[] = [];
   const insert = db.prepare('INSERT INTO user_attractions (user_id, attraction_id, lit_at) VALUES (?, ?, ?)');
   const transaction = db.transaction((idsArr: number[]) => {
     for (const id of idsArr) {
+      if (!approvedIdSet.has(id)) continue;
       insert.run(userId, id, litAtValue);
+      litIds.push(id);
     }
   });
   transaction(ids);
 
   const newAchievements = checkAchievements(userId);
-  res.json({ success: true, newAchievements });
+  res.json({
+    success: true,
+    litIds,
+    skippedIds: ids.filter((id) => !approvedIdSet.has(id)),
+    newAchievements,
+  });
 });
 
 // 点亮景区（需登录），支持自定义时间
@@ -75,6 +104,12 @@ router.post('/:id/lit', authMiddleware, (req: AuthRequest, res) => {
   const userId = req.user!.id;
   const attractionId = Number(req.params.id);
   const { lit_at } = req.body as { lit_at?: string };
+
+  const approved = db.prepare("SELECT id FROM attractions WHERE id = ? AND status = 'approved'").get(attractionId);
+  if (!approved) {
+    res.status(404).json({ error: '景点不存在或未审核通过' });
+    return;
+  }
 
   const litAtValue = lit_at && !isNaN(Date.parse(lit_at)) ? lit_at : new Date().toISOString();
   db.prepare('INSERT INTO user_attractions (user_id, attraction_id, lit_at) VALUES (?, ?, ?)').run(userId, attractionId, litAtValue);

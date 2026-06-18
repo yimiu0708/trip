@@ -4,10 +4,10 @@ import { getDb } from '../db.js';
 const router = Router();
 
 // 获取所有省份（含统计）
-router.get('/', (req, res) => {
+router.get('/', (_req, res) => {
   const db = getDb();
   const provinces = db.prepare(`
-    SELECT p.*, (SELECT COUNT(*) FROM attractions WHERE province_id = p.id) as total_count
+    SELECT p.*, (SELECT COUNT(*) FROM attractions WHERE province_id = p.id AND status = 'approved') as total_count
     FROM provinces p
     ORDER BY p.id
   `).all();
@@ -27,11 +27,11 @@ router.get('/:id', (req, res) => {
   const cities = db
     .prepare(
       `SELECT c.*,
-        (SELECT COUNT(*) FROM attractions WHERE city_id = c.id) as total_count,
+        (SELECT COUNT(*) FROM attractions WHERE city_id = c.id AND status = 'approved') as total_count,
         COALESCE((SELECT COUNT(DISTINCT ua.attraction_id)
                   FROM user_attractions ua
                   JOIN attractions a ON ua.attraction_id = a.id
-                  WHERE a.city_id = c.id), 0) as lit_count
+                  WHERE a.city_id = c.id AND a.status = 'approved'), 0) as lit_count
        FROM cities c
        WHERE c.province_id = ?
        ORDER BY c.id`
@@ -40,14 +40,28 @@ router.get('/:id', (req, res) => {
 
   const attractions = db
     .prepare(
-      `SELECT a.*, c.name as category_name, ci.name as city_name
+      `SELECT a.id, a.name, a.province_id, a.city_id, a.is_5a, a.is_4a,
+              CASE WHEN a.is_5a THEN '5A' WHEN a.is_4a THEN '4A' ELSE '' END as level,
+              a.pinyin, ci.name as city_name
        FROM attractions a
-       LEFT JOIN categories c ON a.category_id = c.id
        LEFT JOIN cities ci ON a.city_id = ci.id
-       WHERE a.province_id = ?
-       ORDER BY a.city_id, a.level DESC, a.pinyin ASC`
+       WHERE a.province_id = ? AND a.status = 'approved'
+       ORDER BY a.city_id, a.is_5a DESC, a.is_4a DESC, a.pinyin ASC`
     )
-    .all(provinceId);
+    .all(provinceId) as any[];
+
+  // Attach tags
+  const tagStmt = db.prepare(`
+    SELECT c.id, c.name
+    FROM attraction_tags at
+    JOIN categories c ON at.category_id = c.id
+    WHERE at.attraction_id = ?
+    ORDER BY c.sort_order
+  `);
+  for (const a of attractions) {
+    a.tags = tagStmt.all(a.id);
+    a.category_name = a.tags.map((t: any) => t.name).join(', ');
+  }
 
   res.json({ province, cities, attractions });
 });

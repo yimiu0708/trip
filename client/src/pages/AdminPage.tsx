@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Users, Settings } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -32,15 +32,7 @@ export default function AdminPage() {
   const [editingUser, setEditingUser] = useState<number | null>(null);
   const [newPassword, setNewPassword] = useState('');
 
-  useEffect(() => {
-    if (!isAdmin) {
-      navigate('/');
-      return;
-    }
-    fetchData();
-  }, [isAdmin, navigate, tab]);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       if (tab === 'users') {
@@ -55,7 +47,15 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, [tab]);
+
+  useEffect(() => {
+    if (!isAdmin) {
+      navigate('/');
+      return;
+    }
+    fetchData();
+  }, [fetchData, isAdmin, navigate]);
 
   const handleUpdatePassword = async (userId: number) => {
     if (!newPassword || newPassword.length < 6) {

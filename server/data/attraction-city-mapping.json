@@ -2,57 +2,57 @@
   {
     "province_id": 1,
     "name": "故宫博物院",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "天坛公园",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "颐和园",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "恭王府",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "八达岭-慕田峪长城",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "明十三陵",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "北京奥林匹克公园",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "圆明园",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 1,
     "name": "北京(通州)大运河文化旅游",
-    "city_id": null
+    "city_id": 1
   },
   {
     "province_id": 2,
     "name": "天津古文化街(津门故里)",
-    "city_id": null
+    "city_id": 2
   },
   {
     "province_id": 2,
     "name": "盘山风景名胜区",
-    "city_id": null
+    "city_id": 2
   },
   {
     "province_id": 3,
@@ -332,27 +332,27 @@
   {
     "province_id": 9,
     "name": "东方明珠",
-    "city_id": null
+    "city_id": 73
   },
   {
     "province_id": 9,
     "name": "上海野生动物园",
-    "city_id": null
+    "city_id": 73
   },
   {
     "province_id": 9,
     "name": "上海科技馆",
-    "city_id": null
+    "city_id": 73
   },
   {
     "province_id": 9,
     "name": "中国共产党一大·二大·四大纪念馆",
-    "city_id": null
+    "city_id": 73
   },
   {
     "province_id": 9,
     "name": "西沙明珠湖",
-    "city_id": null
+    "city_id": 73
   },
   {
     "province_id": 10,
@@ -1272,62 +1272,62 @@
   {
     "province_id": 22,
     "name": "大足石刻",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "巫山小三峡-小小三峡",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "武隆喀斯特",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "酉阳桃花源",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "黑山谷-龙鳞石海",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "金佛山-神龙峡",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "江津四面山",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "云阳龙缸",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "万盛奥陶纪",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "白帝城·瞿塘峡",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "阿依河",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 22,
     "name": "武陵山大裂谷",
-    "city_id": null
+    "city_id": 233
   },
   {
     "province_id": 23,
@@ -1792,46 +1792,46 @@
   {
     "province_id": 32,
     "name": "故宫博物院(台北)",
-    "city_id": null
+    "city_id": 338
   },
   {
     "province_id": 32,
     "name": "日月潭",
-    "city_id": null
+    "city_id": 338
   },
   {
     "province_id": 32,
     "name": "阿里山",
-    "city_id": null
+    "city_id": 338
   },
   {
     "province_id": 32,
     "name": "太鲁阁",
-    "city_id": null
+    "city_id": 338
   },
   {
     "province_id": 33,
     "name": "维多利亚港",
-    "city_id": null
+    "city_id": 339
   },
   {
     "province_id": 33,
     "name": "香港迪士尼",
-    "city_id": null
+    "city_id": 339
   },
   {
     "province_id": 33,
     "name": "太平山顶",
-    "city_id": null
+    "city_id": 339
   },
   {
     "province_id": 34,
     "name": "澳门历史城区",
-    "city_id": null
+    "city_id": 340
   },
   {
     "province_id": 34,
     "name": "大三巴牌坊",
-    "city_id": null
+    "city_id": 340
   }
 ]
