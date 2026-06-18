@@ -4,6 +4,8 @@ import { Calendar, MapPin, Clock3 } from 'lucide-react';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import ProvinceOutlineMap from '../components/ProvinceOutlineMap';
+import { shortLocationName } from '../lib/location';
+import { formatRecallTime } from '../lib/recallTime';
 
 interface Attraction {
   id: number;
@@ -17,6 +19,10 @@ interface Attraction {
 
 interface LitVisit {
   lit_at: string;
+  time_precision?: string | null;
+  season?: string | null;
+  display_time_text?: string | null;
+  source?: string | null;
 }
 
 interface Category {
@@ -73,7 +79,13 @@ export default function ProvincePage() {
         list.forEach((item: any) => {
           if (item.province_name === detail.province.name) {
             visits[item.id] = visits[item.id] || [];
-            visits[item.id].push({ lit_at: item.lit_at });
+            visits[item.id].push({
+              lit_at: item.lit_at,
+              time_precision: item.time_precision,
+              season: item.season,
+              display_time_text: item.display_time_text,
+              source: item.source,
+            });
           }
         });
         Object.values(visits).forEach((items) => {
@@ -117,7 +129,8 @@ export default function ProvincePage() {
 
   // 按城市分组展示
   const groupedByCity = filtered.reduce<Record<string, Attraction[]>>((acc, a) => {
-    const key = a.city_name || province?.name || '其他地区';
+    const key = a.city_name || province?.name;
+    if (!key) return acc;
     acc[key] = acc[key] || [];
     acc[key].push(a);
     return acc;
@@ -290,7 +303,7 @@ export default function ProvincePage() {
         return (
           <section key={cityName} className="attraction-section">
             <h2>
-              <MapPin size={16} aria-hidden="true" /> {cityName}
+              <MapPin size={16} aria-hidden="true" /> {shortLocationName(cityName)}
               <span className="city-count">{cityAttractions.length}</span>
             </h2>
             <div className="attraction-grid">
@@ -385,7 +398,7 @@ function AttractionCard({
           <div className="visit-dates" aria-label={`${a.name} 点亮日期`}>
             {visits.map((visit, index) => (
               <span key={`${visit.lit_at}-${index}`} className="visit-date">
-                {formatLitDate(visit.lit_at)}
+                {formatRecallTime(visit)}
               </span>
             ))}
           </div>
@@ -410,10 +423,6 @@ function AttractionCard({
       </div>
     </div>
   );
-}
-
-function formatLitDate(value: string) {
-  return value?.slice(0, 10) || '未知日期';
 }
 
 function getProvinceHeroImage(provinceId?: number) {

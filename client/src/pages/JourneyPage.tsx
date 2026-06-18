@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../api/client';
-import { CalendarDays, CheckCircle2, MapPin, Route, Sparkles } from 'lucide-react';
+import { CalendarDays, CheckCircle2, MapPinned, MapPin, Route, Sparkles } from 'lucide-react';
+import { formatLocation } from '../lib/location';
+import { formatRecallTime } from '../lib/recallTime';
 
 interface LitItem {
   id: number;
@@ -10,6 +13,10 @@ interface LitItem {
   city_name?: string;
   category_name: string;
   lit_at: string;
+  time_precision?: string | null;
+  season?: string | null;
+  display_time_text?: string | null;
+  source?: string | null;
 }
 
 interface VisitGroup {
@@ -19,8 +26,10 @@ interface VisitGroup {
   province_name: string;
   city_name?: string;
   category_name: string;
-  visits: { lit_at: string }[];
+  visits: VisitTime[];
 }
+
+type VisitTime = Pick<LitItem, 'lit_at' | 'time_precision' | 'season' | 'display_time_text' | 'source'>;
 
 interface YearGroup {
   year: string;
@@ -28,6 +37,7 @@ interface YearGroup {
 }
 
 export default function JourneyPage() {
+  const navigate = useNavigate();
   const [list, setList] = useState<LitItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -46,8 +56,15 @@ export default function JourneyPage() {
   const groupMap = new Map<number, VisitGroup>();
   list.forEach((item) => {
     const existing = groupMap.get(item.id);
+    const visit = {
+      lit_at: item.lit_at,
+      time_precision: item.time_precision,
+      season: item.season,
+      display_time_text: item.display_time_text,
+      source: item.source,
+    };
     if (existing) {
-      existing.visits.push({ lit_at: item.lit_at });
+      existing.visits.push(visit);
     } else {
       groupMap.set(item.id, {
         id: item.id,
@@ -56,7 +73,7 @@ export default function JourneyPage() {
         province_name: item.province_name,
         city_name: item.city_name,
         category_name: item.category_name,
-        visits: [{ lit_at: item.lit_at }],
+        visits: [visit],
       });
     }
   });
@@ -122,10 +139,13 @@ export default function JourneyPage() {
       </div>
 
       {groups.length === 0 ? (
-        <div className="empty-state">
-          <div className="empty-icon">🗺️</div>
-          <p>还没有点亮任何景区</p>
-          <p className="sub">去地图上探索吧</p>
+        <div className="empty-state journey-empty-recall">
+          <div className="empty-icon"><MapPinned size={42} aria-hidden="true" /></div>
+          <p>还没有旅行记录？先找回你的足迹</p>
+          <p className="sub">从记得的城市开始，把去过的景区补回旅程里。</p>
+          <button type="button" onClick={() => navigate('/recall/cities')}>
+            找回我的足迹
+          </button>
         </div>
       ) : (
         <div className="journey-timeline">
@@ -152,7 +172,7 @@ export default function JourneyPage() {
                             <h2>{g.name}</h2>
                             {g.level && <span className={`level-tag level-${g.level}`}>{g.level}</span>}
                           </div>
-                          <p>{g.province_name}{g.city_name ? ` · ${g.city_name}` : ''}</p>
+                          <p>{formatLocation(g.province_name, g.city_name)}</p>
                           <div className="journey-event-meta">
                             <MapPin size={13} aria-hidden="true" />
                             <span>{g.category_name || '未分类景点'}</span>
@@ -165,7 +185,7 @@ export default function JourneyPage() {
                       </div>
                       <div className="journey-event-footer">
                         <span>点亮 {g.visits.length} 次</span>
-                        <span>最近 {formatDate(g.visits[0].lit_at)}</span>
+                        <span>最近 {formatRecallTime(g.visits[0])}</span>
                       </div>
                     </div>
                   </article>
@@ -185,8 +205,9 @@ function formatDate(value?: string) {
   return `${month}.${day}`;
 }
 
-function formatDateRange(visits: { lit_at: string }[]) {
+function formatDateRange(visits: VisitTime[]) {
   if (!visits.length) return '未知日期';
+  if (visits.length === 1) return formatRecallTime(visits[0]);
   const dates = visits.map((visit) => visit.lit_at).sort((a, b) => a.localeCompare(b));
   const first = formatDate(dates[0]);
   const last = formatDate(dates[dates.length - 1]);

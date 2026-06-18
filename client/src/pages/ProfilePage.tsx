@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Award,
   Camera,
@@ -8,6 +9,7 @@ import {
   ChevronRight,
   HelpCircle,
   History,
+  MapPinned,
   Settings,
   Star,
   Map,
@@ -76,6 +78,7 @@ const DEFAULT_SIGNATURE = '记录走过的地方，也记录想去的远方。';
 const PROFILE_STORAGE_PREFIX = 'trip_community_profile_';
 
 export default function ProfilePage() {
+  const navigate = useNavigate();
   const { user } = useAuth();
   const [editingProfile, setEditingProfile] = useState(false);
   const [goalReviewOpen, setGoalReviewOpen] = useState(false);
@@ -296,6 +299,17 @@ export default function ProfilePage() {
                 ? `最近达成：${goalHistoryViews[0].provinceName} ${goalHistoryViews[0].targetProgress}%`
                 : '查看已达成目标记录'}
             </em>
+          </span>
+          <ChevronRight size={19} aria-hidden="true" />
+        </button>
+      </section>
+
+      <section className="profile-v3-recall-panel" aria-label="继续补录足迹">
+        <button type="button" className="profile-v3-goal-entry profile-v3-recall-entry" onClick={() => navigate('/recall/cities')}>
+          <span className="profile-v3-goal-icon"><MapPinned size={22} aria-hidden="true" /></span>
+          <span className="profile-v3-goal-copy">
+            <strong>继续补录足迹</strong>
+            <em>从记得的城市开始，补回去过的景区</em>
           </span>
           <ChevronRight size={19} aria-hidden="true" />
         </button>

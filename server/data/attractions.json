@@ -2,7 +2,7 @@
   {
     "name": "故宫博物院",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -14,7 +14,7 @@
   {
     "name": "天坛公园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -26,7 +26,7 @@
   {
     "name": "颐和园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -38,7 +38,7 @@
   {
     "name": "恭王府",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -49,7 +49,7 @@
   {
     "name": "明十三陵",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -60,7 +60,7 @@
   {
     "name": "北京奥林匹克公园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -72,7 +72,7 @@
   {
     "name": "圆明园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -84,7 +84,7 @@
   {
     "name": "北京(通州)大运河文化旅游",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -95,7 +95,7 @@
   {
     "name": "天津古文化街(津门故里)",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -106,7 +106,7 @@
   {
     "name": "盘山风景名胜区",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -672,7 +672,7 @@
   {
     "name": "东方明珠",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -683,7 +683,7 @@
   {
     "name": "上海野生动物园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -694,7 +694,7 @@
   {
     "name": "上海科技馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -705,7 +705,7 @@
   {
     "name": "西沙明珠湖",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -1836,7 +1836,7 @@
   {
     "name": "神农架",
     "province_id": 17,
-    "city_id": null,
+    "city_id": 341,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2316,7 +2316,7 @@
   {
     "name": "呀诺达雨林",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 342,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2327,7 +2327,7 @@
   {
     "name": "分界洲岛",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 343,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2338,7 +2338,7 @@
   {
     "name": "槟榔谷",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 342,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2371,7 +2371,7 @@
   {
     "name": "大足石刻",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2382,7 +2382,7 @@
   {
     "name": "武隆喀斯特",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2393,7 +2393,7 @@
   {
     "name": "酉阳桃花源",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2404,7 +2404,7 @@
   {
     "name": "江津四面山",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2415,7 +2415,7 @@
   {
     "name": "云阳龙缸",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2426,7 +2426,7 @@
   {
     "name": "万盛奥陶纪",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2437,7 +2437,7 @@
   {
     "name": "阿依河",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -2448,7 +2448,7 @@
   {
     "name": "武陵山大裂谷",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3298,7 +3298,7 @@
   {
     "name": "故宫博物院(台北)",
     "province_id": 32,
-    "city_id": null,
+    "city_id": 338,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3310,7 +3310,7 @@
   {
     "name": "日月潭",
     "province_id": 32,
-    "city_id": null,
+    "city_id": 338,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3322,7 +3322,7 @@
   {
     "name": "阿里山",
     "province_id": 32,
-    "city_id": null,
+    "city_id": 338,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3334,7 +3334,7 @@
   {
     "name": "太鲁阁",
     "province_id": 32,
-    "city_id": null,
+    "city_id": 338,
     "is_5a": true,
     "is_4a": true,
     "pinyin": "",
@@ -3345,7 +3345,7 @@
   {
     "name": "维多利亚港",
     "province_id": 33,
-    "city_id": null,
+    "city_id": 339,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3357,7 +3357,7 @@
   {
     "name": "香港迪士尼",
     "province_id": 33,
-    "city_id": null,
+    "city_id": 339,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3368,7 +3368,7 @@
   {
     "name": "太平山顶",
     "province_id": 33,
-    "city_id": null,
+    "city_id": 339,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3380,7 +3380,7 @@
   {
     "name": "澳门历史城区",
     "province_id": 34,
-    "city_id": null,
+    "city_id": 340,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3392,7 +3392,7 @@
   {
     "name": "大三巴牌坊",
     "province_id": 34,
-    "city_id": null,
+    "city_id": 340,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -3404,7 +3404,7 @@
   {
     "name": "北京植物园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3415,7 +3415,7 @@
   {
     "name": "玉渊潭公园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3427,7 +3427,7 @@
   {
     "name": "北海公园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3439,7 +3439,7 @@
   {
     "name": "景山公园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3451,7 +3451,7 @@
   {
     "name": "香山公园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3463,7 +3463,7 @@
   {
     "name": "北京动物园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3474,7 +3474,7 @@
   {
     "name": "中国园林博物馆",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3485,7 +3485,7 @@
   {
     "name": "北京海洋馆",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3496,7 +3496,7 @@
   {
     "name": "天津水上公园",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3508,7 +3508,7 @@
   {
     "name": "天津动物园",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3519,7 +3519,7 @@
   {
     "name": "天津热带植物观光园",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3531,7 +3531,7 @@
   {
     "name": "天津意式风情区",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3542,7 +3542,7 @@
   {
     "name": "天津盘山烈士陵园",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3870,7 +3870,7 @@
   {
     "name": "上海植物园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3882,7 +3882,7 @@
   {
     "name": "上海动物园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3893,7 +3893,7 @@
   {
     "name": "上海大观园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -3905,7 +3905,7 @@
   {
     "name": "佘山国家森林公园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -4715,7 +4715,7 @@
   {
     "name": "重庆动物园",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -4726,7 +4726,7 @@
   {
     "name": "重庆园博园",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -4738,7 +4738,7 @@
   {
     "name": "武隆仙女山",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -4749,7 +4749,7 @@
   {
     "name": "丰都鬼城",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -4760,7 +4760,7 @@
   {
     "name": "巫山小三峡",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5217,7 +5217,7 @@
   {
     "name": "台北故宫博物院",
     "province_id": 32,
-    "city_id": null,
+    "city_id": 338,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5229,7 +5229,7 @@
   {
     "name": "香港海洋公园",
     "province_id": 33,
-    "city_id": null,
+    "city_id": 339,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5240,7 +5240,7 @@
   {
     "name": "香港湿地公园",
     "province_id": 33,
-    "city_id": null,
+    "city_id": 339,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5252,7 +5252,7 @@
   {
     "name": "澳门渔人码头",
     "province_id": 34,
-    "city_id": null,
+    "city_id": 340,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5264,7 +5264,7 @@
   {
     "name": "澳门旅游塔",
     "province_id": 34,
-    "city_id": null,
+    "city_id": 340,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5275,7 +5275,7 @@
   {
     "name": "黑沙海滩",
     "province_id": 34,
-    "city_id": null,
+    "city_id": 340,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5286,7 +5286,7 @@
   {
     "name": "北京大观园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5298,7 +5298,7 @@
   {
     "name": "天津瓷房子",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5309,7 +5309,7 @@
   {
     "name": "上海辰山植物园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5321,7 +5321,7 @@
   {
     "name": "北京环球度假区",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -5332,7 +5332,7 @@
   {
     "name": "上海迪士尼",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -5343,7 +5343,7 @@
   {
     "name": "上海乐高乐园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5354,7 +5354,7 @@
   {
     "name": "北京泡泡玛特乐园",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5412,7 +5412,7 @@
   {
     "name": "八达岭长城",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -5424,7 +5424,7 @@
   {
     "name": "慕田峪长城",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -5436,7 +5436,7 @@
   {
     "name": "首都博物馆",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5447,7 +5447,7 @@
   {
     "name": "中国地质博物馆",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5458,7 +5458,7 @@
   {
     "name": "中国人民抗日战争纪念馆",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5470,7 +5470,7 @@
   {
     "name": "中国人民革命军事博物馆",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5482,7 +5482,7 @@
   {
     "name": "北京欢乐谷",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -5493,7 +5493,7 @@
   {
     "name": "雍和宫",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5505,7 +5505,7 @@
   {
     "name": "白云观",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5517,7 +5517,7 @@
   {
     "name": "潭柘寺",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5528,7 +5528,7 @@
   {
     "name": "戒台寺",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5539,7 +5539,7 @@
   {
     "name": "云居寺",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -5551,7 +5551,7 @@
   {
     "name": "牛街礼拜寺",
     "province_id": 1,
-    "city_id": null,
+    "city_id": 1,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -6091,7 +6091,7 @@
   {
     "name": "尖峰岭",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 344,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -6102,7 +6102,7 @@
   {
     "name": "吊罗山",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 343,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -6113,7 +6113,7 @@
   {
     "name": "五指山",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 345,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -6124,7 +6124,7 @@
   {
     "name": "霸王岭",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 346,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -6135,7 +6135,7 @@
   {
     "name": "黎母山",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 347,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -6146,7 +6146,7 @@
   {
     "name": "七仙岭",
     "province_id": 21,
-    "city_id": null,
+    "city_id": 342,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -6556,7 +6556,7 @@
   {
     "name": "大九湖",
     "province_id": 17,
-    "city_id": null,
+    "city_id": 341,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -7151,7 +7151,7 @@
   {
     "name": "沙溪古镇",
     "province_id": 10,
-    "city_id": null,
+    "city_id": 78,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8757,7 +8757,7 @@
   {
     "name": "中共一大纪念馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -8769,7 +8769,7 @@
   {
     "name": "中共二大会址纪念馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -8781,7 +8781,7 @@
   {
     "name": "中共四大纪念馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -8793,7 +8793,7 @@
   {
     "name": "上海博物馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8804,7 +8804,7 @@
   {
     "name": "上海四行仓库抗战纪念馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8816,7 +8816,7 @@
   {
     "name": "上海淞沪抗战纪念馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8828,7 +8828,7 @@
   {
     "name": "龙华烈士陵园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8839,7 +8839,7 @@
   {
     "name": "国歌展示馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8851,7 +8851,7 @@
   {
     "name": "钱学森图书馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8863,7 +8863,7 @@
   {
     "name": "陈云纪念馆",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8875,7 +8875,7 @@
   {
     "name": "张闻天故居",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8887,7 +8887,7 @@
   {
     "name": "朱家角古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -8899,7 +8899,7 @@
   {
     "name": "枫泾古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -8911,7 +8911,7 @@
   {
     "name": "七宝古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8922,7 +8922,7 @@
   {
     "name": "新场古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8933,7 +8933,7 @@
   {
     "name": "南翔古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8944,7 +8944,7 @@
   {
     "name": "召稼楼",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8956,7 +8956,7 @@
   {
     "name": "练塘古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -8968,7 +8968,7 @@
   {
     "name": "上海欢乐谷",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -8979,7 +8979,7 @@
   {
     "name": "上海海昌海洋公园",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -8990,7 +8990,7 @@
   {
     "name": "上海外滩",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9001,7 +9001,7 @@
   {
     "name": "上海南京路",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9012,7 +9012,7 @@
   {
     "name": "上海新天地",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9024,7 +9024,7 @@
   {
     "name": "上海田子坊",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9036,7 +9036,7 @@
   {
     "name": "金泽古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9048,7 +9048,7 @@
   {
     "name": "嘉定州桥",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9059,7 +9059,7 @@
   {
     "name": "川沙古镇",
     "province_id": 9,
-    "city_id": null,
+    "city_id": 73,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9183,7 +9183,7 @@
   {
     "name": "莲宝叶则",
     "province_id": 23,
-    "city_id": null,
+    "city_id": 252,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -9205,7 +9205,7 @@
   {
     "name": "天津博物馆",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9216,7 +9216,7 @@
   {
     "name": "平津战役纪念馆",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9228,7 +9228,7 @@
   {
     "name": "周恩来邓颖超纪念馆",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9240,7 +9240,7 @@
   {
     "name": "天津方特欢乐世界",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -9251,7 +9251,7 @@
   {
     "name": "天津欢乐谷",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -9262,7 +9262,7 @@
   {
     "name": "天津天后宫",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9274,7 +9274,7 @@
   {
     "name": "独乐寺",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9286,7 +9286,7 @@
   {
     "name": "天津五大道",
     "province_id": 2,
-    "city_id": null,
+    "city_id": 2,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9777,7 +9777,7 @@
   {
     "name": "小小三峡",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -9789,7 +9789,7 @@
   {
     "name": "白帝城",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": true,
     "pinyin": "",
@@ -9800,7 +9800,7 @@
   {
     "name": "瞿塘峡",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -9812,7 +9812,7 @@
   {
     "name": "神龙峡",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -9824,7 +9824,7 @@
   {
     "name": "金佛山",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -9835,7 +9835,7 @@
   {
     "name": "黑山谷",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": true,
     "pinyin": "",
@@ -9847,7 +9847,7 @@
   {
     "name": "龙鳞石海",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": true,
     "is_4a": false,
     "pinyin": "",
@@ -9858,7 +9858,7 @@
   {
     "name": "重庆中国三峡博物馆",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9869,7 +9869,7 @@
   {
     "name": "重庆解放碑",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9880,7 +9880,7 @@
   {
     "name": "重庆洪崖洞",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": false,
     "pinyin": "",
@@ -9892,7 +9892,7 @@
   {
     "name": "重庆欢乐谷",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -9903,7 +9903,7 @@
   {
     "name": "乐和乐都",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -9914,7 +9914,7 @@
   {
     "name": "奉节小寨天坑",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",
@@ -9925,7 +9925,7 @@
   {
     "name": "四面山",
     "province_id": 22,
-    "city_id": null,
+    "city_id": 233,
     "is_5a": false,
     "is_4a": true,
     "pinyin": "",

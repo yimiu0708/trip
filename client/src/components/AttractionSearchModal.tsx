@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { CheckCircle2, Loader2, MapPin, Search, Sparkles, X } from 'lucide-react';
 import { api } from '../api/client';
+import { formatLocation } from '../lib/location';
 
 interface AttractionSearchModalProps {
   isOpen: boolean;
@@ -165,10 +166,7 @@ export default function AttractionSearchModal({ isOpen, onClose }: AttractionSea
                     <h3>{attraction.name}</h3>
                     {attraction.level && <span>{attraction.level}</span>}
                   </div>
-                  <p>
-                    {attraction.province_name}
-                    {attraction.city_name ? ` · ${attraction.city_name}` : ''}
-                  </p>
+                  <p>{formatLocation(attraction.province_name, attraction.city_name)}</p>
                   {attraction.category_name && <em>{attraction.category_name}</em>}
                 </div>
                 <button

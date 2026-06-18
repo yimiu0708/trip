@@ -37,7 +37,7 @@ export default function Navbar() {
     }
   };
 
-  if (!user) return null;
+  if (!user || location.pathname.startsWith('/recall')) return null;
 
   return (
     <>

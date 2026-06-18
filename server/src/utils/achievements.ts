@@ -34,6 +34,10 @@ export function checkAchievements(userId: number): { id: number; name: string }[
     WHERE ua.user_id = ? AND a.status = 'approved' AND a.city_id IS NOT NULL
   `).get(userId) as { count: number };
 
+  const cityTotal = db.prepare(`
+    SELECT COUNT(*) as count FROM cities
+  `).get() as { count: number };
+
   const attractionLit = db.prepare(`
     SELECT COUNT(DISTINCT ua.attraction_id) as count
     FROM user_attractions ua
@@ -83,7 +87,7 @@ export function checkAchievements(userId: number): { id: number; name: string }[
 
     if (ach.type === 'city' && ach.condition_value !== null && !unlockedIds.has(ach.id)) {
       if (cityLit.count >= ach.condition_value) {
-        unlock(ach, { lit: cityLit.count, total: 300 });
+        unlock(ach, { lit: cityLit.count, total: cityTotal.count });
       }
     }
 

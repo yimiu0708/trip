@@ -10,6 +10,7 @@ import attractionRoutes from './routes/attractions.js';
 import achievementRoutes from './routes/achievements.js';
 import userRoutes from './routes/user.js';
 import adminRoutes from './routes/admin.js';
+import recallRoutes from './routes/recall.js';
 
 dotenv.config();
 
@@ -27,6 +28,7 @@ app.use('/api/attractions', attractionRoutes);
 app.use('/api/achievements', achievementRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/recall', recallRoutes);
 
 // 生产环境：提供前端静态文件
 app.use(express.static(path.join(__dirname, '../../client/dist')));

@@ -58,6 +58,7 @@ router.delete('/users/:id', (req: AuthRequest, res: Response) => {
 
   db.prepare('DELETE FROM user_attractions WHERE user_id = ?').run(userId);
   db.prepare('DELETE FROM user_achievements WHERE user_id = ?').run(userId);
+  db.prepare('DELETE FROM user_recall_guides WHERE user_id = ?').run(userId);
   db.prepare('DELETE FROM users WHERE id = ?').run(userId);
   res.json({ success: true });
 });

@@ -1,5 +1,17 @@
 [
   {
+    "id": 1,
+    "name": "北京市",
+    "province_id": 1,
+    "type": "city"
+  },
+  {
+    "id": 2,
+    "name": "天津市",
+    "province_id": 2,
+    "type": "city"
+  },
+  {
     "id": 3,
     "name": "石家庄市",
     "province_id": 3,
@@ -418,6 +430,12 @@
     "name": "大兴安岭地区",
     "province_id": 8,
     "type": "region"
+  },
+  {
+    "id": 73,
+    "name": "上海市",
+    "province_id": 9,
+    "type": "city"
   },
   {
     "id": 74,
@@ -1374,6 +1392,12 @@
     "type": "city"
   },
   {
+    "id": 233,
+    "name": "重庆市",
+    "province_id": 22,
+    "type": "city"
+  },
+  {
     "id": 234,
     "name": "成都市",
     "province_id": 23,
@@ -1996,5 +2020,65 @@
     "name": "阿勒泰地区",
     "province_id": 31,
     "type": "region"
+  },
+  {
+    "id": 338,
+    "name": "台湾省",
+    "province_id": 32,
+    "type": "city"
+  },
+  {
+    "id": 339,
+    "name": "香港特别行政区",
+    "province_id": 33,
+    "type": "city"
+  },
+  {
+    "id": 340,
+    "name": "澳门特别行政区",
+    "province_id": 34,
+    "type": "city"
+  },
+  {
+    "id": 341,
+    "name": "神农架林区",
+    "province_id": 17,
+    "type": "region"
+  },
+  {
+    "id": 342,
+    "name": "保亭黎族苗族自治县",
+    "province_id": 21,
+    "type": "county"
+  },
+  {
+    "id": 343,
+    "name": "陵水黎族自治县",
+    "province_id": 21,
+    "type": "county"
+  },
+  {
+    "id": 344,
+    "name": "乐东黎族自治县",
+    "province_id": 21,
+    "type": "county"
+  },
+  {
+    "id": 345,
+    "name": "五指山市",
+    "province_id": 21,
+    "type": "city"
+  },
+  {
+    "id": 346,
+    "name": "昌江黎族自治县",
+    "province_id": 21,
+    "type": "county"
+  },
+  {
+    "id": 347,
+    "name": "琼中黎族苗族自治县",
+    "province_id": 21,
+    "type": "county"
   }
 ]

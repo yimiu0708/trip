@@ -1,6 +1,6 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag, Sparkles, Trophy, Maximize2 } from 'lucide-react';
+import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag, Sparkles, Trophy, Maximize2, ArrowRight, MapPinned } from 'lucide-react';
 import ChinaMap from '../components/ChinaMap';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
@@ -14,7 +14,14 @@ interface ProvinceStat {
   region: string;
 }
 
-const TOTAL_PREFECTURE_DIVISIONS = 333;
+interface RecallGuideState {
+  seen: boolean;
+  skipped: boolean;
+  completed: boolean;
+  shouldShow: boolean;
+}
+
+const TOTAL_CITY_NODES = 347;
 const EMPTY_ACHIEVEMENT_STATS = { unlocked: 0, total: 0 };
 const GOAL_ACHIEVED_NOTICE_PREFIX = 'trip_goal_achieved_notice_';
 
@@ -43,7 +50,7 @@ function getGoalNoticeKey(goal: TravelGoal) {
 export default function HomePage() {
   const navigate = useNavigate();
   const [stats, setStats] = useState<ProvinceStat[]>([]);
-  const [cityStats, setCityStats] = useState({ lit_cities: 0, total_cities: TOTAL_PREFECTURE_DIVISIONS });
+  const [cityStats, setCityStats] = useState({ lit_cities: 0, total_cities: TOTAL_CITY_NODES });
   const [achievementStats, setAchievementStats] = useState(EMPTY_ACHIEVEMENT_STATS);
   const [loading, setLoading] = useState(true);
   const [selectedProvinceId, setSelectedProvinceId] = useState<number | null>(null);
@@ -53,6 +60,8 @@ export default function HomePage() {
   const [mapCleanMode, setMapCleanMode] = useState(false);
   const [goalMessage, setGoalMessage] = useState('');
   const [goalError, setGoalError] = useState('');
+  const [hasUserLitRecord, setHasUserLitRecord] = useState(true);
+  const [recallGuide, setRecallGuide] = useState<RecallGuideState | null>(null);
   const [goal, setGoal] = useState<TravelGoal | null>(() => readCurrentGoal());
   const [draftGoal, setDraftGoal] = useState<TravelGoal>(() => ({
     provinceId: 1,
@@ -65,15 +74,21 @@ export default function HomePage() {
     try {
       const provinces = await api.provinces.list();
       if (user) {
-        const [progress, achievements] = await Promise.all([
+        const [progress, achievements, guide] = await Promise.all([
           api.user.progress(),
           api.achievements.mine().catch(() => []),
+          api.recall.guide().catch(() => null),
         ]);
-        setCityStats(progress.cityStats || { lit_cities: 0, total_cities: TOTAL_PREFECTURE_DIVISIONS });
+        setCityStats(progress.cityStats || { lit_cities: 0, total_cities: TOTAL_CITY_NODES });
         setAchievementStats({
           unlocked: achievements.filter((item: any) => item.unlocked_at).length,
           total: achievements.length,
         });
+        setHasUserLitRecord(
+          (progress.attractionStats?.lit_attractions || 0) > 0
+          || (progress.attractionStats?.total_visits || 0) > 0,
+        );
+        setRecallGuide(guide);
         const map = new Map<number, any>(progress.provinceBreakdown.map((p: any) => [p.id, p]));
         setStats(provinces.map((p: any) => {
           const item = map.get(p.id);
@@ -88,7 +103,9 @@ export default function HomePage() {
       } else {
         const achievements = await api.achievements.list().catch(() => []);
         setAchievementStats({ unlocked: 0, total: achievements.length });
-        setCityStats({ lit_cities: 0, total_cities: TOTAL_PREFECTURE_DIVISIONS });
+        setCityStats({ lit_cities: 0, total_cities: TOTAL_CITY_NODES });
+        setHasUserLitRecord(false);
+        setRecallGuide(null);
         setStats(provinces.map((p: any) => ({ id: p.id, name: p.name, region: p.region, lit_count: 0, total_count: p.total_count || 0 })));
       }
     } catch {
@@ -107,12 +124,17 @@ export default function HomePage() {
     return () => window.removeEventListener('trip:progress-updated', fetchStats);
   }, [fetchStats]);
 
+  useEffect(() => {
+    if (loading || !user || hasUserLitRecord || !recallGuide?.shouldShow) return;
+    navigate('/recall', { replace: true });
+  }, [hasUserLitRecord, loading, navigate, recallGuide?.shouldShow, user]);
+
   const litProvinces = stats.filter((s) => s.lit_count > 0).length;
   const litAttractions = stats.reduce((sum, s) => sum + s.lit_count, 0);
   const totalAttractions = stats.reduce((sum, s) => sum + s.total_count, 0);
   const litProvincePct = Math.round((litProvinces / 34) * 100);
   const exploredCityCount = cityStats.lit_cities || 0;
-  const totalCities = cityStats.total_cities || TOTAL_PREFECTURE_DIVISIONS;
+  const totalCities = cityStats.total_cities || TOTAL_CITY_NODES;
 
   const top5 = useMemo(() => {
     return [...stats]
@@ -267,6 +289,17 @@ export default function HomePage() {
             >
               <Footprints size={18} aria-hidden="true" />
               <span>足迹</span>
+            </button>
+            <button
+              type="button"
+              className="map-action-pill"
+              onClick={(event) => {
+                event.stopPropagation();
+                navigate('/recall/cities');
+              }}
+            >
+              <MapPinned size={18} aria-hidden="true" />
+              <span>找回</span>
             </button>
             <button
               type="button"
@@ -471,6 +504,15 @@ export default function HomePage() {
             <div style={{ width: `${Math.min(goalProgress, 100)}%` }} />
             <strong>{goalProgress}%</strong>
           </div>
+        </button>
+      )}
+      {!mapCleanMode && selectedProvinceId === null && user && (
+        <button className="home-recall-strip" type="button" onClick={() => navigate('/recall/cities')} aria-label="继续补录足迹">
+          <span>
+            继续补录足迹
+            <small>从记得的城市开始，找回去过的景区</small>
+          </span>
+          <ArrowRight size={20} aria-hidden="true" />
         </button>
       )}
       {!user && (

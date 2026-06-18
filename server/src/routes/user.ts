@@ -96,7 +96,8 @@ router.get('/lit-list', authMiddleware, (req: AuthRequest, res) => {
   const userId = req.user!.id;
 
   const list = db.prepare(`
-    SELECT a.id, a.name, a.is_5a, a.is_4a, p.name as province_name, ci.name as city_name, ua.lit_at
+    SELECT a.id, a.name, a.is_5a, a.is_4a, p.name as province_name, ci.name as city_name,
+           ua.lit_at, ua.time_precision, ua.season, ua.display_time_text, ua.source
     FROM user_attractions ua
     JOIN attractions a ON ua.attraction_id = a.id
     JOIN provinces p ON a.province_id = p.id

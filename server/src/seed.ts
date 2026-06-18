@@ -62,6 +62,7 @@ const ACHIEVEMENTS = getAchievementCatalog();
 async function seed() {
   initDb();
   const db = getDb();
+  let seededCityIds = new Set<number>();
 
   // 省份
   const insertProvince = db.prepare('INSERT OR IGNORE INTO provinces (id, name, code, region) VALUES (?, ?, ?, ?)');
@@ -116,6 +117,7 @@ async function seed() {
     for (const c of cities) {
       insertCity.run(c.id, c.name, c.province_id, c.type);
     }
+    seededCityIds = new Set(cities.map((c) => c.id));
     const cityIds = cities.map((c) => c.id);
     if (cityIds.length > 0) {
       const placeholders = cityIds.map(() => '?').join(',');
@@ -139,6 +141,24 @@ async function seed() {
       pinyin?: string;
       tags?: number[];
     }[];
+
+    const provinceIds = new Set(PROVINCES.map((p) => p.id));
+    const missingProvince = attractions.filter((a) => a.province_id === null || a.province_id === undefined);
+    if (missingProvince.length > 0) {
+      throw new Error(`attractions.json has ${missingProvince.length} attractions without province_id`);
+    }
+    const invalidProvince = attractions.filter((a) => !provinceIds.has(a.province_id));
+    if (invalidProvince.length > 0) {
+      throw new Error(`attractions.json has ${invalidProvince.length} attractions with invalid province_id`);
+    }
+    const missingCity = attractions.filter((a) => a.city_id === null || a.city_id === undefined);
+    if (missingCity.length > 0) {
+      throw new Error(`attractions.json has ${missingCity.length} attractions without city_id`);
+    }
+    const invalidCity = attractions.filter((a) => !seededCityIds.has(a.city_id as number));
+    if (invalidCity.length > 0) {
+      throw new Error(`attractions.json has ${invalidCity.length} attractions with invalid city_id`);
+    }
 
     // Sync tags
     db.prepare('DELETE FROM attraction_tags').run();

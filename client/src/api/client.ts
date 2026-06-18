@@ -55,6 +55,47 @@ export const api = {
     list: () => request('/achievements'),
     mine: () => request('/achievements/mine'),
   },
+  recall: {
+    hotCities: (limit?: number) => {
+      const qs = new URLSearchParams();
+      if (limit) qs.set('limit', String(limit));
+      return request(`/recall/cities/hot?${qs.toString()}`);
+    },
+    searchCities: (q: string, limit?: number) => {
+      const qs = new URLSearchParams({ q });
+      if (limit) qs.set('limit', String(limit));
+      return request(`/recall/cities/search?${qs.toString()}`);
+    },
+    provinceCities: (provinceId: number) => request(`/recall/provinces/${provinceId}/cities`),
+    cityAttractions: (cityId: number) => request(`/recall/cities/${cityId}/attractions`),
+    guide: () => request('/recall/guide'),
+    updateGuide: (action: 'seen' | 'skipped' | 'completed') =>
+      request('/recall/guide', { method: 'PUT', body: JSON.stringify({ action }) }),
+    batch: (payload: {
+      ids?: number[];
+      items?: Array<{
+        id?: number;
+        attraction_id?: number;
+        attractionId?: number;
+        lit_at?: string;
+        litAt?: string;
+        time_precision?: string;
+        timePrecision?: string;
+        season?: string;
+        display_time_text?: string;
+        displayTimeText?: string;
+        source?: string;
+      }>;
+      lit_at?: string;
+      litAt?: string;
+      time_precision?: string;
+      timePrecision?: string;
+      season?: string;
+      display_time_text?: string;
+      displayTimeText?: string;
+      source?: string;
+    }) => request('/recall/batch', { method: 'POST', body: JSON.stringify(payload) }),
+  },
   user: {
     progress: () => request('/user/progress'),
     litList: () => request('/user/lit-list'),
