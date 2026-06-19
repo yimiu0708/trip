@@ -9,6 +9,7 @@ import './App.css';
 const LoginPage = lazy(() => import('./pages/LoginPage'));
 const HomePage = lazy(() => import('./pages/HomePage'));
 const ProvincePage = lazy(() => import('./pages/ProvincePage'));
+const CityAttractionsPage = lazy(() => import('./pages/CityAttractionsPage'));
 const ProfilePage = lazy(() => import('./pages/ProfilePage'));
 const JourneyPage = lazy(() => import('./pages/JourneyPage'));
 const AchievementPage = lazy(() => import('./pages/AchievementPage'));
@@ -39,6 +40,7 @@ function AppRoutes() {
       <Route path="/" element={<Navigate to="/login" replace />} />
       <Route path="/map" element={<HomePage />} />
       <Route path="/province/:id" element={<RequireAuth><ProvincePage /></RequireAuth>} />
+      <Route path="/province/:id/cities/:cityId" element={<RequireAuth><CityAttractionsPage /></RequireAuth>} />
       <Route path="/profile" element={<RequireAuth><ProfilePage /></RequireAuth>} />
       <Route path="/journeys" element={<RequireAuth><JourneyPage /></RequireAuth>} />
       <Route path="/achievements" element={<RequireAuth><AchievementPage /></RequireAuth>} />
