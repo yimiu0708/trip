@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent, type UIEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { CalendarDays, Check, CircleAlert, Clock3, Filter, LoaderCircle, MapPin, Search, X } from 'lucide-react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { CalendarDays, Check, ChevronDown, CircleAlert, Clock3, LoaderCircle, Search, SlidersHorizontal, X } from 'lucide-react';
 import { api } from '../api/client';
+import RegionSelect from '../components/RegionSelect';
 import { useRecall, type RecallAttraction } from '../context/RecallContext';
 import { trackRecallEvent } from '../lib/analytics';
-import { formatLocation } from '../lib/location';
 
 type RecallPrecision = 'exact' | 'month' | 'year' | 'season' | 'unknown';
 type RecallSeason = 'spring' | 'summer' | 'autumn' | 'winter';
@@ -135,7 +135,10 @@ function YearWheelPicker({ value, onChange }: { value: string; onChange: (year: 
 
 export default function RecallConfirmPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const requestedSeason = searchParams.get('season') as RecallSeason | null;
   const {
+    draftReady,
     selectedCity,
     selectedCities,
     selectedAttractionIds,
@@ -150,15 +153,17 @@ export default function RecallConfirmPage() {
   const [query, setQuery] = useState('');
   const [levelFilter, setLevelFilter] = useState<LevelFilter>('all');
   const [categoryFilter, setCategoryFilter] = useState('all');
+  const [filtersOpen, setFiltersOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
+  const [timeOptionsOpen, setTimeOptionsOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
-  const [precision, setPrecision] = useState<RecallPrecision>('unknown');
+  const [precision, setPrecision] = useState<RecallPrecision>(requestedSeason && ['spring', 'summer', 'autumn', 'winter'].includes(requestedSeason) ? 'season' : 'unknown');
   const [exactDate, setExactDate] = useState(todayDateValue);
   const [monthValue, setMonthValue] = useState(currentMonthValue);
   const [yearValue, setYearValue] = useState(currentYearValue);
   const [seasonYear, setSeasonYear] = useState(currentYearValue);
-  const [season, setSeason] = useState<RecallSeason>('summer');
+  const [season, setSeason] = useState<RecallSeason>(requestedSeason && ['spring', 'summer', 'autumn', 'winter'].includes(requestedSeason) ? requestedSeason : 'summer');
 
   useEffect(() => {
     if (selectedCities.length === 0) return;
@@ -357,6 +362,8 @@ export default function RecallConfirmPage() {
     }
   };
 
+  if (!draftReady) return <div className="page-loading">正在恢复选择...</div>;
+
   if (!selectedCity || selectedCities.length === 0) {
     return (
       <div className="recall-page">
@@ -373,7 +380,7 @@ export default function RecallConfirmPage() {
 
   return (
     <div className="recall-page recall-confirm-page">
-      <section className="recall-confirm-city-switcher" aria-label="切换城市">
+      <section className="recall-card recall-filter-panel" aria-label="城市与景区筛选">
         <div className="recall-confirm-city-switcher-head">
           <div>
             <strong>逐个确认城市</strong>
@@ -396,53 +403,45 @@ export default function RecallConfirmPage() {
             </button>
           ))}
         </div>
-      </section>
-
-      <section className="recall-card recall-filter-panel">
-        <div className="recall-current-city-head">
-          <div>
-            <MapPin size={18} aria-hidden="true" />
-            <span>
-              <strong>{activeCity?.name}</strong>
-              <small>{activeCity ? formatLocation(activeCity.province_name, activeCity.name) : ''}</small>
-            </span>
-          </div>
-          <em>{filteredAttractions.length}/{activeCityAttractions.length}</em>
-        </div>
-        <label className="recall-search recall-attraction-search" aria-label="搜索当前城市景区">
-          <Search size={18} aria-hidden="true" />
-          <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`搜索${activeCity?.name || '当前城市'}景区`} />
-          {query && (
-            <button type="button" onClick={() => setQuery('')} aria-label="清空景区搜索">
-              <X size={16} aria-hidden="true" />
-            </button>
-          )}
-        </label>
-        <div className="recall-filter-title">
-          <Filter size={17} aria-hidden="true" />
-          <span>筛选</span>
-        </div>
-        <div className="recall-filter-row" role="group" aria-label="等级筛选">
-          {(['all', '5A', '4A'] as LevelFilter[]).map((level) => (
-            <button
-              key={level}
-              type="button"
-              className={levelFilter === level ? 'active' : ''}
-              onClick={() => setLevelFilter(level)}
-            >
-              {level === 'all' ? '全部等级' : level}
-            </button>
-          ))}
-        </div>
-        <label className="recall-field recall-category-filter">
-          <span>分类</span>
-          <select value={categoryFilter} onChange={(event) => setCategoryFilter(event.target.value)}>
-            <option value="all">全部分类</option>
-            {categoryOptions.map((category) => (
-              <option key={category} value={category}>{category}</option>
-            ))}
-          </select>
-        </label>
+        <button
+          type="button"
+          className="recall-filter-toggle"
+          aria-expanded={filtersOpen}
+          onClick={() => setFiltersOpen((value) => !value)}
+        >
+          <span><SlidersHorizontal size={16} aria-hidden="true" />搜索与筛选</span>
+          <span>{query || levelFilter !== 'all' || categoryFilter !== 'all' ? '已筛选' : '按需使用'}<ChevronDown size={16} aria-hidden="true" /></span>
+        </button>
+        {filtersOpen && <div className="province-city-tools city-attraction-tools recall-attraction-tools">
+          <label className="region-search-box" aria-label="搜索当前城市景区">
+            <Search size={18} aria-hidden="true" />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} placeholder={`搜索${activeCity?.name || '当前城市'}景区`} />
+            {query && (
+              <button type="button" onClick={() => setQuery('')} aria-label="清空景区搜索">
+                <X size={15} aria-hidden="true" />
+              </button>
+            )}
+          </label>
+          <RegionSelect
+            value={levelFilter}
+            options={[
+              { value: 'all', label: '全部等级' },
+              { value: '5A', label: '5A' },
+              { value: '4A', label: '4A' },
+            ]}
+            onChange={setLevelFilter}
+            ariaLabel="景区等级"
+          />
+          <RegionSelect
+            value={categoryFilter}
+            options={[
+              { value: 'all', label: '全部分类' },
+              ...categoryOptions.map((category) => ({ value: category, label: category })),
+            ]}
+            onChange={setCategoryFilter}
+            ariaLabel="景区分类"
+          />
+        </div>}
       </section>
 
       <section className="recall-current-attractions" aria-busy={loading} aria-live="polite">
@@ -515,15 +514,22 @@ export default function RecallConfirmPage() {
               <p className="recall-modal-note">其中 {selectedLitAgainCount} 个已点亮景区，本次会记录为新的访问。</p>
             )}
 
-            <div className="recall-unified-time-intro">
+            <button
+              type="button"
+              className={`recall-time-toggle${timeOptionsOpen ? ' open' : ''}`}
+              aria-expanded={timeOptionsOpen}
+              onClick={() => setTimeOptionsOpen((value) => !value)}
+            >
               <Clock3 size={18} aria-hidden="true" />
               <div>
-                <strong>统一记录时间</strong>
-                <span>本次选择的 {selectedAttractionIds.length} 个景区会使用同一个时间。</span>
+                <strong>{precision === 'unknown' ? '补充统一时间（可选）' : `统一时间：${timePreview.display_time_text}`}</strong>
+                <span>{precision === 'unknown' ? '暂时不记得也可以直接点亮' : `${selectedAttractionIds.length} 个景区将使用同一时间`}</span>
               </div>
-            </div>
+              <ChevronDown size={18} aria-hidden="true" />
+            </button>
 
-            <label className="recall-field recall-time-precision-field">
+            {timeOptionsOpen && <div className="recall-time-options">
+              <label className="recall-field recall-time-precision-field">
               <span>选择时间精度</span>
               <select
                 value={precision}
@@ -541,7 +547,7 @@ export default function RecallConfirmPage() {
                 <option value="season">季节</option>
                 <option value="unknown">暂时不记得</option>
               </select>
-            </label>
+              </label>
 
             {precision === 'exact' && (
               <label className="recall-field">
@@ -612,10 +618,11 @@ export default function RecallConfirmPage() {
               </div>
             )}
 
-            <div className="recall-batch-tip">
-              <CircleAlert size={17} aria-hidden="true" />
-              <span>如果这些景区不是同一次旅行，建议返回后分批点亮，以便分别记录时间。</span>
-            </div>
+              {precision !== 'unknown' && <div className="recall-batch-tip">
+                <CircleAlert size={17} aria-hidden="true" />
+                <span>如果这些景区不是同一次旅行，建议返回后分批点亮，以便分别记录时间。</span>
+              </div>}
+            </div>}
 
             {submitError && <div className="recall-error">{submitError}</div>}
 

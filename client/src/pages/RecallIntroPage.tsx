@@ -48,23 +48,23 @@ export default function RecallIntroPage() {
       <header className="recall-hero recall-intro-hero">
         <img className="recall-intro-brand" src="/images/shijie-logo-mark.png" alt="" aria-hidden="true" />
         <p className="recall-intro-brand-name">识界 <span>Light your life</span></p>
-        <h1><span>把走过的地方</span><span>慢慢找回来</span></h1>
-        <p>从一座熟悉的城市开始，点亮记忆里的旅程。</p>
+        <h1><span>把去过的地方</span><span>一站站点亮</span></h1>
+        <p>从一座熟悉的城市开始，点亮你记忆里的旅程。</p>
       </header>
 
       <section className="recall-intro-content">
         <ol className="recall-intro-steps" aria-label="找回足迹步骤">
           <li>
             <span className="recall-intro-step-icon"><MapPinned size={18} aria-hidden="true" /></span>
-            <span><strong>选择城市</strong></span>
+            <span><strong>选城市</strong><small>从最熟悉的一座城市开始</small></span>
           </li>
           <li>
             <span className="recall-intro-step-icon"><Compass size={18} aria-hidden="true" /></span>
-            <span><strong>确认景区</strong></span>
+            <span><strong>找景区</strong><small>勾选那些真正去过的地方</small></span>
           </li>
           <li>
             <span className="recall-intro-step-icon"><Sparkles size={18} aria-hidden="true" /></span>
-            <span><strong>点亮地图</strong></span>
+            <span><strong>点亮地图</strong><small>足迹会同步写入地图与旅程</small></span>
           </li>
         </ol>
 
@@ -80,6 +80,7 @@ export default function RecallIntroPage() {
 
       </section>
 
+      <p className="recall-intro-note">不用一次补完所有足迹，先从最熟悉的地方开始。</p>
       <div className="recall-intro-actions">
         <button
           type="button"
@@ -87,7 +88,7 @@ export default function RecallIntroPage() {
           disabled={!!submittingAction}
           onClick={startRecall}
         >
-          <span>{submittingAction === 'start' ? '正在进入...' : '开始找回足迹'}</span>
+          <span>{submittingAction === 'start' ? '正在进入...' : '开始点亮足迹'}</span>
           <ArrowRight size={18} aria-hidden="true" />
         </button>
 

@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import { getDb } from '../db.js';
-import { generateToken } from '../middleware/auth.js';
+import { authMiddleware, generateToken } from '../middleware/auth.js';
 import type { AuthRequest } from '../middleware/auth.js';
 
 const router = Router();
@@ -32,8 +32,8 @@ router.post('/register', (req, res) => {
   const hash = bcrypt.hashSync(password, 10);
   const result = db.prepare("INSERT INTO users (username, password_hash, role) VALUES (?, ?, 'user')").run(username, hash);
 
-  const token = generateToken(Number(result.lastInsertRowid), username, 'user');
-  res.json({ token, user: { id: result.lastInsertRowid, username, role: 'user' } });
+  const token = generateToken(Number(result.lastInsertRowid), username, 'user', 0);
+  res.json({ token, user: { id: result.lastInsertRowid, username, role: 'user', forcePasswordChange: false } });
 });
 
 // 登录
@@ -46,31 +46,32 @@ router.post('/login', (req, res) => {
 
   const db = getDb();
   const user = db.prepare('SELECT * FROM users WHERE username = ?').get(username) as
-    | { id: number; username: string; password_hash: string; role: string }
+    | { id: number; username: string; password_hash: string; role: string; status: string; token_version: number; force_password_change: number }
     | undefined;
 
-  if (!user || !bcrypt.compareSync(password, user.password_hash)) {
+  if (!user || user.status !== 'normal' || !bcrypt.compareSync(password, user.password_hash)) {
     res.status(401).json({ error: '用户名或密码错误' });
     return;
   }
 
-  const token = generateToken(user.id, user.username, user.role);
-  res.json({ token, user: { id: user.id, username: user.username, role: user.role } });
+  getDb().prepare('UPDATE users SET last_login_at=CURRENT_TIMESTAMP WHERE id=?').run(user.id);
+  const token = generateToken(user.id, user.username, user.role, user.token_version);
+  res.json({ token, user: { id: user.id, username: user.username, role: user.role, forcePasswordChange: !!user.force_password_change } });
 });
 
 // 获取当前用户
-router.get('/me', (req: AuthRequest, res) => {
+router.get('/me', authMiddleware, (req: AuthRequest, res) => {
   if (!req.user) {
     res.status(401).json({ error: '未登录' });
     return;
   }
   const db = getDb();
-  const user = db.prepare('SELECT id, username, role, created_at FROM users WHERE id = ?').get(req.user.id);
+  const user = db.prepare('SELECT id, username, role, created_at, force_password_change AS forcePasswordChange FROM users WHERE id = ?').get(req.user.id);
   res.json(user);
 });
 
 // 修改密码
-router.put('/password', (req: AuthRequest, res) => {
+router.put('/password', authMiddleware, (req: AuthRequest, res) => {
   if (!req.user) {
     res.status(401).json({ error: '未登录' });
     return;
@@ -91,8 +92,9 @@ router.put('/password', (req: AuthRequest, res) => {
   }
 
   const hash = bcrypt.hashSync(newPassword, 10);
-  db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(hash, req.user.id);
-  res.json({ success: true });
+  db.prepare('UPDATE users SET password_hash = ?, force_password_change=0, token_version=token_version+1 WHERE id = ?').run(hash, req.user.id);
+  const updated = db.prepare('SELECT token_version FROM users WHERE id=?').get(req.user.id) as { token_version:number };
+  res.json({ success: true, token: generateToken(req.user.id, req.user.username, req.user.role, updated.token_version) });
 });
 
 export default router;

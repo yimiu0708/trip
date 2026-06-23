@@ -1,8 +1,30 @@
 import { Router } from 'express';
 import { getDb } from '../db.js';
 import { authMiddleware, type AuthRequest } from '../middleware/auth.js';
+import { getLightingRecommendations, getNextGoal } from '../utils/progressRecommendations.js';
+import { getRegionProgress, getV04AchievementStats } from '../utils/v04Achievements.js';
 
 const router = Router();
+
+router.get('/next-goal', authMiddleware, (req: AuthRequest, res) => {
+  res.json(getNextGoal(req.user!.id));
+});
+
+router.get('/lighting-recommendations', authMiddleware, (req: AuthRequest, res) => {
+  const sourceCityIds = String(req.query.cityIds || '').split(',').map(Number).filter(Number.isFinite);
+  const limit = Number(req.query.limit || 3);
+  res.json({ items: getLightingRecommendations(req.user!.id, sourceCityIds, limit) });
+});
+
+router.get('/region-progress', authMiddleware, (req: AuthRequest, res) => {
+  const items = getRegionProgress(req.user!.id);
+  const stats = getV04AchievementStats(req.user!.id);
+  res.json({
+    touchedRegions: stats.touchedRegions,
+    totalRegions: stats.totalRegions,
+    items,
+  });
+});
 
 // 用户统计与进度
 router.get('/progress', authMiddleware, (req: AuthRequest, res) => {

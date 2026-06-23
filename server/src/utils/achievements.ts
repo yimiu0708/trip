@@ -3,10 +3,14 @@ import {
   ATTRACTION_ACHIEVEMENTS,
   CATEGORY_LEVEL_TITLES,
   COLLECTOR_ACHIEVEMENTS,
+  FAVORITE_ACHIEVEMENTS,
+  REGION_ACHIEVEMENTS,
+  SEASON_ACHIEVEMENTS,
   getAchievementCatalog,
   getCategoryThreshold,
   type AchievementDefinition,
 } from './achievementCatalog.js';
+import { getV04AchievementStats } from './v04Achievements.js';
 
 interface UnlockSnapshot {
   lit?: number;
@@ -113,9 +117,46 @@ export function checkAchievements(userId: number): { id: number; name: string }[
 
   unlockCategoryAchievements(userId, unlockedIds, unlock);
   unlockSpecialAchievements(userId, catalog, unlockedIds, unlock);
+  unlockV04Achievements(userId, unlockedIds, unlock);
   unlockCollectorAchievements(userId, catalog, unlockedIds, unlock);
 
   return newAchievements;
+}
+
+function unlockV04Achievements(
+  userId: number,
+  unlockedIds: Set<number>,
+  unlock: (achievement: AchievementDefinition, snapshot?: UnlockSnapshot) => void,
+) {
+  const stats = getV04AchievementStats(userId);
+  for (const achievement of SEASON_ACHIEVEMENTS) {
+    if (unlockedIds.has(achievement.id)) continue;
+    const current = achievement.condition_desc === 'all_seasons'
+      ? stats.seasonsCovered
+      : stats.seasons[achievement.condition_desc as keyof typeof stats.seasons] || 0;
+    if (current >= Number(achievement.condition_value || 0)) {
+      unlock(achievement, { lit: current, total: Number(achievement.condition_value || 0) });
+    }
+  }
+
+  for (const achievement of REGION_ACHIEVEMENTS) {
+    if (unlockedIds.has(achievement.id)) continue;
+    const target = achievement.level === 4 ? stats.totalRegions : Number(achievement.condition_value || 0);
+    if (stats.touchedRegions >= target) unlock(achievement, { lit: stats.touchedRegions, total: stats.totalRegions });
+  }
+
+  const favoriteProgress: Record<string, number> = {
+    active_or_history: stats.favoriteHistory,
+    active_unlit: stats.activeUnlitFavorites,
+    converted: stats.convertedFavorites,
+  };
+  for (const achievement of FAVORITE_ACHIEVEMENTS) {
+    if (unlockedIds.has(achievement.id)) continue;
+    const current = favoriteProgress[achievement.condition_desc] || 0;
+    if (current >= Number(achievement.condition_value || 0)) {
+      unlock(achievement, { lit: current, total: Number(achievement.condition_value || 0) });
+    }
+  }
 }
 
 function unlockCategoryAchievements(
@@ -183,9 +224,13 @@ function unlockCollectorAchievements(
   unlock: (achievement: AchievementDefinition, snapshot?: UnlockSnapshot) => void,
 ) {
   const unlockedBadgeCount = catalog.filter((achievement) => (
-    unlockedIds.has(achievement.id) && achievement.type !== 'collector'
+    unlockedIds.has(achievement.id)
+    && achievement.type !== 'collector'
+    && !achievement.badge_style.includes('personality')
   )).length;
-  const publishedBadgeCount = catalog.filter((achievement) => achievement.type !== 'collector').length;
+  const publishedBadgeCount = catalog.filter((achievement) => (
+    achievement.type !== 'collector' && !achievement.badge_style.includes('personality')
+  )).length;
 
   for (const ach of COLLECTOR_ACHIEVEMENTS) {
     if (unlockedIds.has(ach.id)) continue;

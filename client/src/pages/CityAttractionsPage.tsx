@@ -1,8 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { CalendarDays, Check, ChevronRight, Diamond, MapPin, Search, Star } from 'lucide-react';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import { CalendarDays, Check, ChevronRight, Diamond, MapPin, Search } from 'lucide-react';
 import { api } from '../api/client';
 import RegionSelect from '../components/RegionSelect';
+import AchievementUnlockModal, { type UnlockedAchievement } from '../components/achievement/AchievementUnlockModal';
+import FavoriteButton, { type FavoriteState } from '../components/favorite/FavoriteButton';
+import FavoriteToast, { type FavoriteToastState } from '../components/favorite/FavoriteToast';
 import {
   buildVisitMap,
   getLightingStatus,
@@ -19,6 +22,7 @@ export default function CityAttractionsPage() {
   const { id, cityId = '' } = useParams<{ id: string; cityId: string }>();
   const provinceId = Number(id);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [detail, setDetail] = useState<ProvinceDetail | null>(null);
   const [visits, setVisits] = useState<VisitMap>({});
   const [loading, setLoading] = useState(true);
@@ -30,14 +34,22 @@ export default function CityAttractionsPage() {
   const [litDate, setLitDate] = useState(() => new Date().toISOString().slice(0, 10));
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState('');
+  const [unlockedAchievements, setUnlockedAchievements] = useState<UnlockedAchievement[]>([]);
+  const [favorites, setFavorites] = useState<Record<string, FavoriteState>>({});
+  const [favoriteToast, setFavoriteToast] = useState<FavoriteToastState | null>(null);
+  const showFavoriteToast = (text: string, undo?: () => void) => { setFavoriteToast({ text, undo }); window.setTimeout(() => setFavoriteToast(null), 6000); };
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const provinceDetail = await api.provinces.detail(provinceId) as ProvinceDetail;
-      const list = await api.user.litList();
+      const [provinceDetail, list, favoriteKeys] = await Promise.all([
+        api.provinces.detail(provinceId) as Promise<ProvinceDetail>,
+        api.user.litList(),
+        api.favorites.keys().catch(() => []),
+      ]);
       setDetail(provinceDetail);
       setVisits(buildVisitMap(list, provinceDetail.province.name));
+      setFavorites(Object.fromEntries(favoriteKeys.map((item: any) => [`${item.targetType}:${item.targetId}`, { id: item.id, active: true }])));
     } finally {
       setLoading(false);
     }
@@ -49,6 +61,11 @@ export default function CityAttractionsPage() {
     window.scrollTo({ top: 0, left: 0 });
     document.querySelector<HTMLElement>('.app-main')?.scrollTo({ top: 0, left: 0 });
   }, [cityId, provinceId]);
+
+  useEffect(() => {
+    const highlighted = Number(searchParams.get('highlight'));
+    if (!loading && Number.isInteger(highlighted)) window.setTimeout(() => document.getElementById(`attraction-${highlighted}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' }), 120);
+  }, [loading, searchParams]);
 
   const scopedAttractions = useMemo(() => {
     if (!detail) return [];
@@ -82,12 +99,6 @@ export default function CityAttractionsPage() {
     .flatMap((item) => (visits[item.id] || []).map((visit) => ({ ...visit, attraction: item })))
     .sort((a, b) => b.lit_at.localeCompare(a.lit_at))[0];
 
-  const recommended = useMemo(() => [...filtered]
-    .sort((a, b) => Number(Boolean(visits[a.id]?.length)) - Number(Boolean(visits[b.id]?.length))
-      || (b.level === '5A' ? 2 : b.level === '4A' ? 1 : 0) - (a.level === '5A' ? 2 : a.level === '4A' ? 1 : 0)
-      || (a.pinyin || a.name).localeCompare(b.pinyin || b.name))
-    .slice(0, 3), [filtered, visits]);
-
   const groups = useMemo(() => [
     { key: 'fiveA', title: '5A 景区', items: filtered.filter((item) => item.level === '5A') },
     { key: 'fourA', title: '4A 景区', items: filtered.filter((item) => item.level === '4A') },
@@ -106,9 +117,12 @@ export default function CityAttractionsPage() {
     setSubmitting(true);
     try {
       const result = await api.attractions.batchLit(Array.from(selected), new Date(`${litDate}T12:00:00`).toISOString());
-      const achievementText = result.newAchievements?.length
-        ? `，恭喜解锁：${result.newAchievements.map((item: any) => item.name).join('、')}` : '';
-      setMessage(`点亮成功，新增 ${result.litIds?.length || selected.size} 条记录${achievementText}`);
+      setMessage(`点亮成功，新增 ${result.litIds?.length || selected.size} 条记录`);
+      if (result.newAchievements?.length) {
+        const details = await api.achievements.mine().catch(() => []);
+        const detailMap = new Map((Array.isArray(details) ? details : []).map((item: any) => [item.id, item]));
+        setUnlockedAchievements(result.newAchievements.map((item: any) => ({ ...item, ...(detailMap.get(item.id) || {}) })));
+      }
       setSelected(new Set());
       await fetchData();
       window.setTimeout(() => setMessage(''), 3200);
@@ -130,6 +144,7 @@ export default function CityAttractionsPage() {
       <section className="region-hero" style={{ backgroundImage: `url(${getRegionHero(detail.province.id)})` }}>
         <button className="region-back" type="button" onClick={() => navigate(SPECIAL_PROVINCE_IDS.has(provinceId) ? '/map' : `/province/${provinceId}`)} aria-label={SPECIAL_PROVINCE_IDS.has(provinceId) ? '返回地图' : '返回省份'}><ChevronRight size={32} /></button>
         <div className="region-hero-copy"><h1>{cityName}</h1><p><MapPin size={18} /> {detail.province.name} · {areaLabel}</p><span className={`region-status-chip ${statusMeta.key}`}><i />{statusMeta.key === 'unlit' ? '城市未点亮' : statusMeta.key === 'completed' ? '城市已全亮' : '城市已点亮中'}</span></div>
+        {city && <div className="region-hero-favorite"><FavoriteButton targetType="city" targetId={city.id} source="city_page" initial={favorites[`city:${city.id}`]} onChange={(state) => setFavorites((current) => ({ ...current, [`city:${city.id}`]: state }))} onMessage={showFavoriteToast} /></div>}
       </section>
 
       <section className="region-stat-grid" aria-label="城市点亮概览">
@@ -159,8 +174,7 @@ export default function CityAttractionsPage() {
         </div>
 
         {filtered.length > 0 ? <div className="attraction-groups">
-          <AttractionGroup title="推荐优先点亮" icon={<Star size={19} fill="currentColor" />} items={recommended} selected={selected} visits={visits} onToggle={toggle} alwaysOpen />
-          {groups.map((group) => <AttractionGroup key={group.key} title={group.title} icon={<Diamond size={18} />} items={group.items} selected={selected} visits={visits} onToggle={toggle} expanded={expanded.has(group.key)} onExpand={() => setExpanded((current) => {
+          {groups.map((group) => <AttractionGroup key={group.key} title={group.title} icon={<Diamond size={18} />} items={group.items} selected={selected} visits={visits} favorites={favorites} onFavoriteChange={(id, state) => setFavorites((current) => ({ ...current, [`attraction:${id}`]: state }))} onMessage={showFavoriteToast} onToggle={toggle} expanded={expanded.has(group.key)} onExpand={() => setExpanded((current) => {
             const next = new Set(current);
             if (next.has(group.key)) next.delete(group.key);
             else next.add(group.key);
@@ -170,23 +184,34 @@ export default function CityAttractionsPage() {
       </main>
 
       {message && <div className="region-toast">{message}</div>}
+      <FavoriteToast toast={favoriteToast} onClose={() => setFavoriteToast(null)} />
+      {unlockedAchievements.length > 0 && (
+        <AchievementUnlockModal
+          achievements={unlockedAchievements}
+          source="city"
+          continueLabel="继续点亮"
+          onClose={() => setUnlockedAchievements([])}
+          onViewAchievements={() => navigate('/achievements')}
+          onContinue={() => setUnlockedAchievements([])}
+        />
+      )}
       <footer className="lighting-action-bar">
         <button type="button" className="clear-selection" onClick={() => setSelected(new Set())}>取消选择</button>
         <button type="button" className="confirm-lighting" disabled={!selected.size || submitting} onClick={handleConfirm}>{submitting ? '正在点亮...' : `确认点亮（${selected.size}）`}</button>
-        <label className="lighting-date"><span>点亮日期</span><input type="date" value={litDate} max={new Date().toISOString().slice(0, 10)} onChange={(event) => setLitDate(event.target.value)} /><CalendarDays size={21} /></label>
+        <label className="lighting-date" onClick={(event) => event.currentTarget.querySelector('input')?.showPicker?.()}><span>点亮日期</span><input type="date" value={litDate} max={new Date().toISOString().slice(0, 10)} onChange={(event) => setLitDate(event.target.value)} /><CalendarDays size={21} /></label>
       </footer>
     </div>
   );
 }
 
-function AttractionGroup({ title, icon, items, selected, visits, onToggle, expanded = false, onExpand, alwaysOpen = false }: {
-  title: string; icon: React.ReactNode; items: ProvinceAttraction[]; selected: Set<number>; visits: VisitMap; onToggle: (id: number) => void; expanded?: boolean; onExpand?: () => void; alwaysOpen?: boolean;
+function AttractionGroup({ title, icon, items, selected, visits, favorites, onFavoriteChange, onMessage, onToggle, expanded = false, onExpand, alwaysOpen = false }: {
+  title: string; icon: React.ReactNode; items: ProvinceAttraction[]; selected: Set<number>; visits: VisitMap; favorites: Record<string, FavoriteState>; onFavoriteChange: (id: number, state: FavoriteState) => void; onMessage: (message: string, undo?: () => void) => void; onToggle: (id: number) => void; expanded?: boolean; onExpand?: () => void; alwaysOpen?: boolean;
 }) {
   const visible = alwaysOpen || expanded ? items : items.slice(0, 3);
   const hiddenCount = Math.max(0, items.length - 3);
-  return <section className="attraction-group"><header><h3>{icon}{title}</h3>{hiddenCount > 0 && onExpand && <button type="button" onClick={onExpand}>{expanded ? '收起' : '查看全部'} <ChevronRight size={16} /></button>}</header><div>{visible.map((item) => <AttractionRow key={item.id} attraction={item} selected={selected.has(item.id)} visits={visits[item.id]?.length || 0} onToggle={() => onToggle(item.id)} />)}</div>{hiddenCount > 0 && onExpand && <button className="group-more" type="button" onClick={onExpand}>{expanded ? '收起景区' : `查看更多 ${hiddenCount} 个景区`} <ChevronRight size={16} /></button>}</section>;
+  return <section className="attraction-group"><header><h3>{icon}{title}</h3>{hiddenCount > 0 && onExpand && <button type="button" onClick={onExpand}>{expanded ? '收起' : '查看全部'} <ChevronRight size={16} /></button>}</header><div>{visible.map((item) => <AttractionRow key={item.id} attraction={item} selected={selected.has(item.id)} visits={visits[item.id]?.length || 0} favorite={favorites[`attraction:${item.id}`]} onFavoriteChange={(state) => onFavoriteChange(item.id, state)} onMessage={onMessage} onToggle={() => onToggle(item.id)} />)}</div>{hiddenCount > 0 && onExpand && <button className="group-more" type="button" onClick={onExpand}>{expanded ? '收起景区' : `查看更多 ${hiddenCount} 个景区`} <ChevronRight size={16} /></button>}</section>;
 }
 
-function AttractionRow({ attraction, selected, visits, onToggle }: { attraction: ProvinceAttraction; selected: boolean; visits: number; onToggle: () => void }) {
-  return <label className={`attraction-row ${selected ? 'selected' : ''}`}><input type="checkbox" checked={selected} onChange={onToggle} /><span className="attraction-check">{selected && <Check size={17} />}</span><span className="attraction-thumb" style={{ backgroundImage: 'url(/images/province-hero-qinghai-v022.png)' }} /><strong>{attraction.name}</strong>{attraction.level && <em className={`level-${attraction.level.toLowerCase()}`}>{attraction.level}</em>}<span className="attraction-tags">{(attraction.tags || []).slice(0, 2).map((tag) => <i key={tag.id}>{tag.name}</i>)}</span>{visits > 0 && <small>已点亮 {visits} 次</small>}</label>;
+function AttractionRow({ attraction, selected, visits, favorite, onFavoriteChange, onMessage, onToggle }: { attraction: ProvinceAttraction; selected: boolean; visits: number; favorite?: FavoriteState; onFavoriteChange: (state: FavoriteState) => void; onMessage: (message: string, undo?: () => void) => void; onToggle: () => void }) {
+  return <div id={`attraction-${attraction.id}`} className={`attraction-row ${selected ? 'selected' : ''} ${location.search.includes(`highlight=${attraction.id}`) ? 'highlighted' : ''}`}><label className="attraction-row-select"><input type="checkbox" checked={selected} onChange={onToggle} /><span className="attraction-check">{selected && <Check size={17} />}</span><span className="attraction-thumb" style={{ backgroundImage: 'url(/images/province-hero-qinghai-v022.png)' }} /><strong>{attraction.name}</strong>{attraction.level && <em className={`level-${attraction.level.toLowerCase()}`}>{attraction.level}</em>}<span className="attraction-tags">{(attraction.tags || []).slice(0, 2).map((tag) => <i key={tag.id}>{tag.name}</i>)}</span>{visits > 0 && <small>已点亮 {visits} 次</small>}</label><FavoriteButton targetType="attraction" targetId={attraction.id} source="city_page" compact initial={favorite} onChange={onFavoriteChange} onMessage={onMessage} /></div>;
 }

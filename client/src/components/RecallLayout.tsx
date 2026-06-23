@@ -13,32 +13,30 @@ interface RecallStep {
 
 const recallSteps: Record<string, RecallStep> = {
   '/recall': {
-    title: '找回我的足迹',
-    progressLabel: '第 1 站，共 4 站',
+    title: '选择城市',
+    progressLabel: '第 1 步，共 3 步',
     progress: 0,
     index: 0,
   },
   '/recall/cities': {
     title: '选择城市',
-    progressLabel: '第 2 站，共 4 站',
-    progress: 33,
-    index: 1,
-    backTo: '/recall',
-    backLabel: '返回引导页',
+    progressLabel: '第 1 步，共 3 步',
+    progress: 0,
+    index: 0,
   },
   '/recall/confirm': {
     title: '确认景区',
-    progressLabel: '第 3 站，共 4 站',
-    progress: 66,
-    index: 2,
-    backTo: '/recall/cities',
+    progressLabel: '第 2 步，共 3 步',
+    progress: 50,
+    index: 1,
+    backTo: '/recall',
     backLabel: '返回城市选择页',
   },
   '/recall/result': {
     title: '点亮完成',
-    progressLabel: '第 4 站，共 4 站',
+    progressLabel: '第 3 步，共 3 步',
     progress: 100,
-    index: 3,
+    index: 2,
   },
 };
 
@@ -49,15 +47,14 @@ export default function RecallLayout() {
   const step = recallSteps[location.pathname] || recallSteps['/recall'];
 
   const routeNodes = [
-    { label: '开始', detail: '准备找回' },
     { label: '城市', detail: selectedCities.length > 0 ? `${selectedCities.length} 个` : '待选择' },
     { label: '景区', detail: selectedAttractionIds.length > 0 ? `${selectedAttractionIds.length} 个` : '待确认' },
-    { label: '完成', detail: step.index === 3 ? '已点亮' : '等待点亮' },
+    { label: '完成', detail: step.index === 2 ? '已点亮' : '等待点亮' },
   ];
 
   return (
     <div className="recall-layout">
-      <header className={`recall-flow-header${step.backTo ? '' : ' no-back'}${step.index === 0 ? ' intro' : ''}`}>
+      <header className={`recall-flow-header recall-flow-header-v4${step.backTo ? '' : ' no-back'}`}>
         {step.backTo && (
           <button
             type="button"

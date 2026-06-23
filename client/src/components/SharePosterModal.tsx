@@ -25,6 +25,8 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
   const [achievements, setAchievements] = useState<any[]>([]);
   const [posterUrl, setPosterUrl] = useState<string>('');
   const [generating, setGenerating] = useState(false);
+  const [generationError, setGenerationError] = useState('');
+  const [generationAttempt, setGenerationAttempt] = useState(0);
 
   const appUrl = typeof window !== 'undefined' ? `${window.location.origin}/download` : 'https://shijie.app/download';
 
@@ -32,11 +34,12 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
     if (!isOpen) return;
     setGenerating(true);
     setPosterUrl('');
+    setGenerationError('');
     Promise.all([
       api.user.progress().catch(() => null),
       api.achievements.mine().catch(() => []),
     ]).then(([p, a]) => {
-      setProgress(p as ProgressData | null);
+      setProgress((p || {}) as ProgressData);
       setAchievements(Array.isArray(a) ? a : []);
     });
   }, [isOpen]);
@@ -45,10 +48,11 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
     if (!isOpen || !posterRef.current || !progress) return;
     const node = posterRef.current;
 
-    const capture = () => {
+    const capture = async () => {
+      await waitForPosterAssets(node);
       toPng(node, { pixelRatio: 3, cacheBust: true })
         .then((url) => setPosterUrl(url))
-        .catch(() => setPosterUrl(''))
+        .catch(() => { setPosterUrl(''); setGenerationError('海报生成失败，请重试'); })
         .finally(() => setGenerating(false));
     };
 
@@ -58,7 +62,7 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
       return () => clearTimeout(timer);
     });
     return () => cancelAnimationFrame(raf);
-  }, [isOpen, progress, achievements]);
+  }, [isOpen, progress, achievements, generationAttempt]);
 
   const litProvinces = progress?.provinceStats?.lit_provinces ?? 0;
   const totalProvinces = progress?.provinceStats?.total_provinces ?? 34;
@@ -155,6 +159,7 @@ export default function SharePosterModal({ isOpen, onClose }: SharePosterModalPr
                   生成高清图…
                 </div>
               )}
+              {!generating && generationError && <button className="poster-retry" type="button" onClick={() => { setGenerating(true); setGenerationError(''); setGenerationAttempt((value) => value + 1); }}>{generationError}</button>}
             </>
           )}
         </div>
@@ -316,3 +321,8 @@ const PosterArtwork = forwardRef<HTMLDivElement, PosterArtworkProps>(function Po
   </div>
   );
 });
+
+async function waitForPosterAssets(node: HTMLElement) {
+  await document.fonts?.ready;
+  await Promise.all(Array.from(node.querySelectorAll('img')).map((image) => image.complete ? image.decode?.().catch(() => undefined) : new Promise<void>((resolve) => { image.addEventListener('load', () => resolve(), { once: true }); image.addEventListener('error', () => resolve(), { once: true }); })));
+}

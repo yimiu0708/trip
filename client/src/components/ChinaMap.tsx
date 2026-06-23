@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import maplibregl, { type GeoJSONSource, type Map as MapLibreMap, type MapLayerMouseEvent, type Marker } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -52,6 +52,33 @@ function fitChina(map: MapLibreMap, animate = false) {
   });
 }
 
+function getFeatureBounds(feature: any): [[number, number], [number, number]] | null {
+  const points: [number, number][] = [];
+  const collect = (value: unknown) => {
+    if (!Array.isArray(value)) return;
+    if (value.length >= 2 && typeof value[0] === 'number' && typeof value[1] === 'number') {
+      points.push([value[0], value[1]]);
+      return;
+    }
+    value.forEach(collect);
+  };
+  collect(feature?.geometry?.coordinates);
+  if (!points.length) return null;
+  const longitudes = points.map(([longitude]) => longitude);
+  const latitudes = points.map(([, latitude]) => latitude);
+  return [
+    [Math.min(...longitudes), Math.min(...latitudes)],
+    [Math.max(...longitudes), Math.max(...latitudes)],
+  ];
+}
+
+function getBoundsCenter(bounds: [[number, number], [number, number]]) {
+  return [
+    (bounds[0][0] + bounds[1][0]) / 2,
+    (bounds[0][1] + bounds[1][1]) / 2,
+  ] as [number, number];
+}
+
 export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlightProvinceId }: Props) {
   const mapNodeRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<MapLibreMap | null>(null);
@@ -60,6 +87,7 @@ export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlig
   const highlightIdRef = useRef(highlightProvinceId);
   const selectedLabelRef = useRef<Marker | null>(null);
   const callbacksRef = useRef({ onClickProvince, onClickEmpty });
+  const [mapReady, setMapReady] = useState(false);
 
   const highlightedStat = useMemo(
     () => stats.find((stat) => stat.id === highlightProvinceId) || null,
@@ -284,6 +312,7 @@ export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlig
         });
 
         fitChina(map);
+        setMapReady(true);
       });
 
       const pickStat = (event: MapLayerMouseEvent) => {
@@ -326,6 +355,7 @@ export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlig
       selectedLabelRef.current = null;
       mapRef.current?.remove();
       mapRef.current = null;
+      setMapReady(false);
     };
   }, []);
 
@@ -340,7 +370,7 @@ export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlig
 
   useEffect(() => {
     const map = mapRef.current;
-    if (!map || !map.isStyleLoaded()) return;
+    if (!map || !mapReady || !map.isStyleLoaded()) return;
 
     const filter = ['==', ['get', 'stat_id'], highlightProvinceId || -1] as any;
     if (map.getLayer('china-highlight-glow')) map.setFilter('china-highlight-glow', filter);
@@ -352,8 +382,9 @@ export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlig
       selectedLabelRef.current?.remove();
       selectedLabelRef.current = null;
       const feature = geoJsonRef.current.features?.find((item: any) => item.properties?.name === highlightedStat.name);
-      const center = feature?.properties?.center;
-      if (center) {
+      const bounds = getFeatureBounds(feature);
+      if (bounds) {
+        const center = getBoundsCenter(bounds);
         const label = document.createElement('div');
         label.className = 'province-selected-map-label';
         label.textContent = highlightedStat.name;
@@ -364,15 +395,19 @@ export default function ChinaMap({ stats, onClickProvince, onClickEmpty, highlig
         })
           .setLngLat(center)
           .addTo(map);
-        // 单击省份：缓慢放大，营造聚焦感
-        map.flyTo({ center, zoom: 4.55, duration: 1200, essential: true, curve: 1.2 });
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        map.fitBounds(bounds, {
+          padding: window.innerWidth <= 520 ? 84 : 120,
+          maxZoom: 4.55,
+          duration: reduceMotion ? 0 : 900,
+        });
       }
     } else {
       selectedLabelRef.current?.remove();
       selectedLabelRef.current = null;
       fitChina(map, true);
     }
-  }, [highlightProvinceId, highlightedStat]);
+  }, [highlightProvinceId, highlightedStat, mapReady]);
 
   return <div className="china-map-canvas" ref={mapNodeRef} />;
 }

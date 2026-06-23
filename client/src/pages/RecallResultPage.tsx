@@ -1,13 +1,23 @@
 import type { ReactNode } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { CheckCircle2, Footprints, Map, MapPinned, RotateCcw, Sparkles, Trophy } from 'lucide-react';
 import { useRecall } from '../context/RecallContext';
 import { trackRecallEvent } from '../lib/analytics';
+import { api } from '../api/client';
+import NextGoalCard, { type NextGoalData } from '../components/goal/NextGoalCard';
+import NextTripRecommendations, { type NextTripItem } from '../components/recommendation/NextTripRecommendations';
+import FavoriteToast, { type FavoriteToastState } from '../components/favorite/FavoriteToast';
+import AchievementUnlockModal, { type UnlockedAchievement } from '../components/achievement/AchievementUnlockModal';
 
 export default function RecallResultPage() {
   const navigate = useNavigate();
-  const { lastResult, resetRecall } = useRecall();
+  const { lastResult, resetRecall, selectedCities } = useRecall();
+  const [nextGoal, setNextGoal] = useState<NextGoalData | null>(null);
+  const [recommendations, setRecommendations] = useState<NextTripItem[]>([]);
+  const [favoriteToast, setFavoriteToast] = useState<FavoriteToastState | null>(null);
+  const [unlockModalOpen, setUnlockModalOpen] = useState(true);
+  const [unlockedAchievements, setUnlockedAchievements] = useState<UnlockedAchievement[]>([]);
 
   const delta = lastResult?.delta || {
     provinces: 0,
@@ -32,6 +42,22 @@ export default function RecallResultPage() {
       achievement_count: achievementCount,
     });
   }, [achievementCount, delta.attractions, delta.cities, delta.provinces, delta.visits, lastResult]);
+
+  useEffect(() => {
+    if (!lastResult) return;
+    Promise.all([
+      api.user.nextGoal().catch(() => null),
+      api.recommendations.nextTrip({ source: 'completion', limit: 3, cityIds: selectedCities.map((city) => city.id) }).catch(() => ({ items: [] })),
+    ]).then(([goal, recommendationResult]) => {
+      setNextGoal(goal);
+      setRecommendations(recommendationResult.items || []);
+    }).catch(() => undefined);
+
+    api.achievements.mine().then((achievements) => {
+      const details = new globalThis.Map((Array.isArray(achievements) ? achievements : []).map((item: any) => [item.id, item]));
+      setUnlockedAchievements(lastResult.newAchievements.map((item) => ({ ...item, ...(details.get(item.id) || {}) })));
+    }).catch(() => setUnlockedAchievements(lastResult.newAchievements));
+  }, [lastResult, selectedCities]);
 
   if (!lastResult) {
     return (
@@ -75,11 +101,10 @@ export default function RecallResultPage() {
       </section>
 
       <ResultSection title="本次新增" icon={<Sparkles size={18} aria-hidden="true" />} compact>
-        <div className="recall-result-grid four">
+          <div className="recall-result-grid three">
           <ResultMetric label="省份" value={delta.provinces} />
           <ResultMetric label="城市" value={delta.cities} />
           <ResultMetric label="景区" value={delta.attractions} />
-          <ResultMetric label="访问记录" value={delta.visits} />
         </div>
       </ResultSection>
 
@@ -91,7 +116,7 @@ export default function RecallResultPage() {
         </div>
       </ResultSection>
 
-      <ResultSection title="新解锁成就" icon={<Trophy size={18} aria-hidden="true" />}>
+      <ResultSection title={achievementCount > 0 ? '新解锁成就' : '成就进度'} icon={<Trophy size={18} aria-hidden="true" />}>
         {achievementCount > 0 ? (
           <div className="recall-achievement-list">
             {lastResult.newAchievements.map((achievement) => (
@@ -103,11 +128,25 @@ export default function RecallResultPage() {
         )}
       </ResultSection>
 
+      {nextGoal && <NextGoalCard goal={nextGoal} onAction={(route) => navigate(route)} />}
+      {recommendations.length > 0 && <NextTripRecommendations items={recommendations} title="也可以收藏为下一次出行" onAction={(route) => navigate(route)} onMessage={(text, undo) => { setFavoriteToast({ text, undo }); window.setTimeout(() => setFavoriteToast(null), 6000); }} />}
+      <FavoriteToast toast={favoriteToast} onClose={() => setFavoriteToast(null)} />
+
       <section className="recall-next-actions" aria-label="下一步操作">
         <ResultAction label="查看我的地图" onAction={viewMap} variant="primary" icon={<Map size={18} aria-hidden="true" />} />
         <ResultAction label="继续补录城市" onAction={recallAgain} variant="secondary" icon={<RotateCcw size={18} aria-hidden="true" />} />
         <ResultAction label="查看旅程记录" onAction={() => navigate('/journeys')} variant="text" icon={<Footprints size={17} aria-hidden="true" />} />
       </section>
+      {unlockModalOpen && unlockedAchievements.length > 0 && (
+        <AchievementUnlockModal
+          achievements={unlockedAchievements}
+          source="recall"
+          continueLabel="返回点亮结果"
+          onClose={() => setUnlockModalOpen(false)}
+          onViewAchievements={() => navigate('/achievements')}
+          onContinue={() => setUnlockModalOpen(false)}
+        />
+      )}
     </div>
   );
 }

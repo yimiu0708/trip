@@ -1,57 +1,40 @@
-interface Achievement {
+export interface Achievement {
   id: number;
   name: string;
   display_name?: string;
   display_desc?: string;
   type: string;
   level: number | null;
+  condition_value?: number | null;
   condition_desc: string;
-  icon: string;
+  artwork_path?: string;
   badge_style: string;
   unlocked_at: string | null;
-  unlock_count?: number;
-  snapshot_lit?: number | null;
-  snapshot_total?: number | null;
-  snapshot_percent?: number | null;
+  is_equipped?: number;
   is_current_max?: number | null;
 }
 
-interface Props {
+export default function AchievementBadge({ a, special, variant = 'default', onClick }: {
   a: Achievement;
   special?: boolean;
-  variant?: 'default' | 'glory' | 'compact';
-}
-
-export default function AchievementBadge({ a, special, variant = 'default' }: Props) {
+  variant?: 'default' | 'glory' | 'compact' | 'series';
+  onClick?: () => void;
+}) {
   const unlocked = !!a.unlocked_at;
-  const name = a.display_name || a.name;
-  const desc = a.display_desc || a.condition_desc;
-
+  const hiddenSpecial = special && !unlocked;
   return (
-    <div
-      className={`badge badge-${variant} ${unlocked ? 'unlocked' : 'locked'} ${a.badge_style || ''} ${special ? 'special' : ''} ${a.is_current_max ? 'current-max' : ''}`}
-      title={desc}
+    <button
+      type="button"
+      className={`badge badge-${variant} ${unlocked ? 'unlocked' : 'locked'} ${a.badge_style || ''} ${special ? 'special' : ''} ${hiddenSpecial ? 'secret' : ''} ${a.is_equipped ? 'equipped' : ''}`}
+      onClick={onClick}
+      aria-label={hiddenSpecial ? '未解锁的彩蛋成就' : `查看${a.display_name || a.name}`}
     >
-      <div className="badge-icon" aria-hidden="true">
-        {a.icon || '🏅'}
-      </div>
-      <div className="badge-name">{name}</div>
-      {a.level !== null && a.level > 0 && (
-        <div className="badge-level">Lv.{a.level}</div>
-      )}
-      {unlocked && !!a.unlock_count && a.unlock_count > 1 && (
-        <div className="badge-count">x{a.unlock_count}</div>
-      )}
-      {unlocked && a.is_current_max ? (
-        <div className="badge-corner">当前最高</div>
-      ) : null}
-      {unlocked && a.snapshot_total ? (
-        <div className="badge-snapshot">
-          {a.snapshot_percent !== null && a.snapshot_percent !== undefined
-            ? `${a.snapshot_percent}%`
-            : `${a.snapshot_lit || 0}/${a.snapshot_total}`}
-        </div>
-      ) : null}
-    </div>
+      <span className="badge-icon" aria-hidden="true">
+        {a.artwork_path ? <img src={a.artwork_path} alt="" /> : <span className="badge-art-fallback" />}
+      </span>
+      <span className="badge-name">{hiddenSpecial ? '???' : (a.display_name || a.name)}</span>
+      {a.level ? <span className="badge-level">Lv.{a.level}</span> : null}
+      {a.is_equipped ? <span className="badge-equipped-mark">佩戴中</span> : null}
+    </button>
   );
 }

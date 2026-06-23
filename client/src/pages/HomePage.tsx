@@ -1,10 +1,11 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useCallback, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { X, Flame, Lightbulb, Globe2, Footprints, Target, MapPin, Landmark, Flag, Sparkles, Trophy, Maximize2, ArrowRight, MapPinned } from 'lucide-react';
+import { X, Flame, Lightbulb, Globe2, Footprints, MapPin, Landmark, Flag, Sparkles, Trophy, Maximize2, MapPinned, Compass, ChevronUp } from 'lucide-react';
 import ChinaMap from '../components/ChinaMap';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
-import { archiveGoal, clearCurrentGoal, isSameGoal, readCurrentGoal, writeCurrentGoal, type TravelGoal } from '../lib/goals';
+import NextTripRecommendations, { type NextTripItem } from '../components/recommendation/NextTripRecommendations';
+import FavoriteToast, { type FavoriteToastState } from '../components/favorite/FavoriteToast';
 
 interface ProvinceStat {
   id: number;
@@ -23,30 +24,6 @@ interface RecallGuideState {
 
 const TOTAL_CITY_NODES = 347;
 const EMPTY_ACHIEVEMENT_STATS = { unlocked: 0, total: 0 };
-const GOAL_ACHIEVED_NOTICE_PREFIX = 'trip_goal_achieved_notice_';
-
-function formatDateInputValue(date: Date) {
-  const year = date.getFullYear();
-  const month = String(date.getMonth() + 1).padStart(2, '0');
-  const day = String(date.getDate()).padStart(2, '0');
-  return `${year}-${month}-${day}`;
-}
-
-function getOneYearLaterDateValue() {
-  const target = new Date();
-  target.setFullYear(target.getFullYear() + 1);
-  return formatDateInputValue(target);
-}
-
-function normalizeTargetProgress(value: number) {
-  const rounded = Math.round(value / 5) * 5;
-  return Math.min(100, Math.max(0, rounded));
-}
-
-function getGoalNoticeKey(goal: TravelGoal) {
-  return `${GOAL_ACHIEVED_NOTICE_PREFIX}${goal.provinceId}-${goal.targetProgress}-${goal.targetDate || 'unlimited'}`;
-}
-
 export default function HomePage() {
   const navigate = useNavigate();
   const [stats, setStats] = useState<ProvinceStat[]>([]);
@@ -55,20 +32,31 @@ export default function HomePage() {
   const [loading, setLoading] = useState(true);
   const [selectedProvinceId, setSelectedProvinceId] = useState<number | null>(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [targetOpen, setTargetOpen] = useState(false);
   const [worldNoticeOpen, setWorldNoticeOpen] = useState(false);
   const [mapCleanMode, setMapCleanMode] = useState(false);
-  const [goalMessage, setGoalMessage] = useState('');
-  const [goalError, setGoalError] = useState('');
   const [hasUserLitRecord, setHasUserLitRecord] = useState(true);
   const [recallGuide, setRecallGuide] = useState<RecallGuideState | null>(null);
-  const [goal, setGoal] = useState<TravelGoal | null>(() => readCurrentGoal());
-  const [draftGoal, setDraftGoal] = useState<TravelGoal>(() => ({
-    provinceId: 1,
-    targetProgress: 80,
-    targetDate: '',
-  }));
+  const [nextTrips, setNextTrips] = useState<NextTripItem[]>([]);
+  const [nextTripOpen, setNextTripOpen] = useState(false);
+  const [favoriteToast, setFavoriteToast] = useState<FavoriteToastState | null>(null);
+  const nextTripCloseRef = useRef<HTMLButtonElement>(null);
   const { user } = useAuth();
+
+  useEffect(() => {
+    api.recommendations.nextTrip({ source: 'home', limit: 2 })
+      .then((result) => setNextTrips(result.items || []))
+      .catch(() => setNextTrips([]));
+  }, [user]);
+
+  useEffect(() => {
+    if (!nextTripOpen) return;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setNextTripOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    nextTripCloseRef.current?.focus();
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [nextTripOpen]);
 
   const fetchStats = useCallback(async () => {
     try {
@@ -151,37 +139,10 @@ export default function HomePage() {
     return stats.find((s) => s.id === selectedProvinceId) || null;
   }, [stats, selectedProvinceId]);
 
-  const goalStat = useMemo(() => {
-    if (!goal) return null;
-    return stats.find((s) => s.id === goal.provinceId) || null;
-  }, [goal, stats]);
-
-  const draftGoalStat = useMemo(() => {
-    return stats.find((s) => s.id === draftGoal.provinceId) || null;
-  }, [draftGoal.provinceId, stats]);
-
-  const goalProgress = goalStat && goalStat.total_count > 0
-    ? Math.round((goalStat.lit_count / goalStat.total_count) * 100)
-    : 0;
-
-  const draftGoalProgress = draftGoalStat && draftGoalStat.total_count > 0
-    ? Math.round((draftGoalStat.lit_count / draftGoalStat.total_count) * 100)
-    : 0;
-
-  const draftGoalGap = Math.max(0, draftGoal.targetProgress - draftGoalProgress);
-
-  const goalCountdown = useMemo(() => {
-    if (!goal?.targetDate) return '';
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    const target = new Date(goal.targetDate);
-    if (Number.isNaN(target.getTime())) return '';
-    target.setHours(0, 0, 0, 0);
-    return `${Math.max(0, Math.ceil((target.getTime() - today.getTime()) / 86400000))} days`;
-  }, [goal]);
 
   const handleClickProvince = useCallback((id: number) => {
     setMapCleanMode(false);
+    setNextTripOpen(false);
     setSelectedProvinceId((prev) => (prev === id ? null : id));
     setSidebarOpen(false);
     setWorldNoticeOpen(false);
@@ -190,59 +151,6 @@ export default function HomePage() {
   const handleDoubleClickProvince = useCallback((id: number) => {
     navigate(`/province/${id}`);
   }, [navigate]);
-
-  const openGoalModal = () => {
-    setGoalError('');
-    setDraftGoal(goal || {
-      provinceId: stats[0]?.id || 1,
-      targetProgress: 80,
-      targetDate: '',
-    });
-    setTargetOpen(true);
-  };
-
-  useEffect(() => {
-    if (!user || !goal || !goalStat || goalStat.total_count <= 0) return;
-    if (goalProgress < goal.targetProgress) return;
-    const noticeKey = getGoalNoticeKey(goal);
-    if (localStorage.getItem(noticeKey)) return;
-
-    localStorage.setItem(noticeKey, new Date().toISOString());
-    archiveGoal(goal, goalProgress);
-    clearCurrentGoal();
-    setGoal(null);
-    setTargetOpen(false);
-    setGoalMessage(`恭喜达成目标：${goalStat.name} 已点亮 ${goalProgress}%`);
-    const timer = window.setTimeout(() => setGoalMessage(''), 3600);
-    return () => window.clearTimeout(timer);
-  }, [goal, goalProgress, goalStat, user]);
-
-  const cancelCurrentGoal = () => {
-    clearCurrentGoal();
-    setGoal(null);
-    setTargetOpen(false);
-    setGoalError('');
-    setGoalMessage('已取消当前目标');
-    window.setTimeout(() => setGoalMessage(''), 2000);
-  };
-
-  const saveGoal = () => {
-    if (draftGoal.targetProgress < draftGoalProgress) {
-      setGoalError(`目标不能低于当前实际进度 ${draftGoalProgress}%`);
-      return;
-    }
-    const normalized = {
-      ...draftGoal,
-      targetProgress: normalizeTargetProgress(draftGoal.targetProgress),
-      targetDate: draftGoal.targetDate || undefined,
-    };
-    if (goal && !isSameGoal(goal, normalized) && goalProgress >= goal.targetProgress) {
-      archiveGoal(goal, goalProgress);
-    }
-    setGoal(normalized);
-    writeCurrentGoal(normalized);
-    setTargetOpen(false);
-  };
 
   return (
     <div className={`home-page ${mapCleanMode ? 'map-clean' : ''}`}>
@@ -257,6 +165,50 @@ export default function HomePage() {
           </div>
         </div>
       )}
+      {!mapCleanMode && selectedProvinceId === null && nextTrips.length > 0 && (
+        <>
+          <button
+            type="button"
+            className="home-next-trip-trigger"
+            aria-haspopup="dialog"
+            aria-expanded={nextTripOpen}
+            onClick={() => setNextTripOpen(true)}
+          >
+            <span className="home-next-trip-trigger-icon"><Compass size={18} aria-hidden="true" /></span>
+            <span className="home-next-trip-trigger-copy">
+              <small>下一站推荐</small>
+              <strong>{nextTrips[0].title}</strong>
+            </span>
+            <span className="home-next-trip-trigger-count">{nextTrips.length} 个建议</span>
+            <ChevronUp size={17} aria-hidden="true" />
+          </button>
+          {nextTripOpen && (
+            <div className="home-next-trip-overlay" onMouseDown={() => setNextTripOpen(false)}>
+              <section
+                className="home-next-trip-sheet"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="home-next-trip-title"
+                onMouseDown={(event) => event.stopPropagation()}
+              >
+                <header>
+                  <div>
+                    <span><Compass size={18} aria-hidden="true" /></span>
+                    <div><h2 id="home-next-trip-title">下一站推荐</h2><p>把心动的地方，留给下一次出发</p></div>
+                  </div>
+                  <button ref={nextTripCloseRef} type="button" onClick={() => setNextTripOpen(false)} aria-label="关闭下一站推荐"><X size={18} /></button>
+                </header>
+                <NextTripRecommendations
+                  items={nextTrips}
+                  onAction={(route) => { setNextTripOpen(false); navigate(route); }}
+                  onMessage={(text, undo) => { setFavoriteToast({ text, undo }); window.setTimeout(() => setFavoriteToast(null), 6000); }}
+                />
+              </section>
+            </div>
+          )}
+        </>
+      )}
+      <FavoriteToast toast={favoriteToast} onClose={() => setFavoriteToast(null)} />
 
       {user ? (
         <div className="map-hero-panel">
@@ -301,19 +253,6 @@ export default function HomePage() {
               <MapPinned size={18} aria-hidden="true" />
               <span>找回</span>
             </button>
-            <button
-              type="button"
-              className="map-action-pill"
-              onClick={(event) => {
-                event.stopPropagation();
-                setSidebarOpen(false);
-                setWorldNoticeOpen(false);
-                openGoalModal();
-              }}
-            >
-              <Target size={18} aria-hidden="true" />
-              <span>目标</span>
-            </button>
           </div>
         </div>
       ) : (
@@ -333,6 +272,7 @@ export default function HomePage() {
               onClickProvince={handleClickProvince}
               onClickEmpty={() => {
                 setMapCleanMode((prev) => !prev);
+                setNextTripOpen(false);
                 setSelectedProvinceId(null);
                 setSidebarOpen(false);
                 setWorldNoticeOpen(false);
@@ -464,12 +404,6 @@ export default function HomePage() {
           <span>世界地图正在积极探索中<br />请玩家耐心等待……</span>
         </div>
       )}
-      {goalMessage && (
-        <div className="home-goal-toast" role="status" aria-live="polite">
-          <Trophy size={20} aria-hidden="true" />
-          <span>{goalMessage}</span>
-        </div>
-      )}
       {!mapCleanMode && selectedProvinceId === null && user && (
         <div className="home-insight-dock">
           <div className="home-insight-card">
@@ -494,27 +428,6 @@ export default function HomePage() {
           </div>
         </div>
       )}
-      {!mapCleanMode && selectedProvinceId === null && user && goal && goalStat && (
-        <button className="home-goal-strip" type="button" onClick={openGoalModal} aria-label="修改目标">
-          <span>
-            下一目标：点亮 {goalStat.name} 至 <mark>{goal.targetProgress}%</mark>
-            {goalCountdown ? `，倒计时 ${goalCountdown}` : ''}
-          </span>
-          <div className="home-goal-progress" aria-hidden="true">
-            <div style={{ width: `${Math.min(goalProgress, 100)}%` }} />
-            <strong>{goalProgress}%</strong>
-          </div>
-        </button>
-      )}
-      {!mapCleanMode && selectedProvinceId === null && user && (
-        <button className="home-recall-strip" type="button" onClick={() => navigate('/recall/cities')} aria-label="继续补录足迹">
-          <span>
-            继续补录足迹
-            <small>从记得的城市开始，找回去过的景区</small>
-          </span>
-          <ArrowRight size={20} aria-hidden="true" />
-        </button>
-      )}
       {!user && (
         <div className="guest-tip">
           <Sparkles size={18} aria-hidden="true" />
@@ -537,98 +450,6 @@ export default function HomePage() {
           <Maximize2 size={18} aria-hidden="true" />
           <span>显示面板</span>
         </button>
-      )}
-      {targetOpen && (
-        <div className="modal-overlay goal-modal-overlay" onClick={() => setTargetOpen(false)}>
-          <div className="modal-content goal-modal" onClick={(e) => e.stopPropagation()}>
-            <div className="goal-modal-hero">
-              <div className="goal-modal-orbit" aria-hidden="true">
-                <span />
-                <span />
-                <span />
-              </div>
-              <div className="goal-modal-title">
-                <Target size={22} aria-hidden="true" />
-                <div>
-                  <span>下一段旅程</span>
-                  <h3>设置点亮目标</h3>
-                </div>
-              </div>
-              <div className="goal-modal-summary goal-modal-summary-control">
-                <label className="goal-province-picker">
-                  <span>目标省份</span>
-                  <select
-                    value={draftGoal.provinceId}
-                    onChange={(e) => {
-                      setGoalError('');
-                      setDraftGoal((prev) => ({ ...prev, provinceId: Number(e.target.value) }));
-                    }}
-                  >
-                    {stats.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-                  </select>
-                </label>
-                <div className="goal-modal-target-value">
-                  <span>目标</span>
-                  <strong>{draftGoal.targetProgress}%</strong>
-                </div>
-              </div>
-              <div className="goal-modal-progress">
-                <span style={{ width: `${Math.min(100, draftGoalProgress)}%` }} />
-                <span className="target" style={{ left: `${Math.min(100, draftGoal.targetProgress)}%` }} />
-              </div>
-              <label className="goal-modal-range" aria-label="目标进度">
-                <input
-                  type="range"
-                  min="0"
-                  max="100"
-                  step="5"
-                  value={draftGoal.targetProgress}
-                  onChange={(e) => {
-                    setGoalError('');
-                    setDraftGoal((prev) => ({ ...prev, targetProgress: Number(e.target.value) }));
-                  }}
-                />
-              </label>
-              <p>
-                {goalError ||
-                (draftGoalGap > 0
-                  ? `还差 ${draftGoalGap}% 就到达这段旅程的目标。`
-                  : `当前已点亮 ${draftGoalProgress}%，目标不能低于这个进度。`)}
-              </p>
-            </div>
-
-            <div className="goal-time-panel">
-              <div className="goal-time-head">
-                <span>完成时间</span>
-                <label className="goal-unlimited-row">
-                  <input
-                    type="checkbox"
-                    checked={!draftGoal.targetDate}
-                    onChange={(e) => {
-                      if (e.target.checked) {
-                        setDraftGoal((prev) => ({ ...prev, targetDate: '' }));
-                      } else {
-                        setDraftGoal((prev) => ({ ...prev, targetDate: prev.targetDate || getOneYearLaterDateValue() }));
-                      }
-                    }}
-                  />
-                  <span>不限时挑战</span>
-                </label>
-              </div>
-              <input
-                type="date"
-                value={draftGoal.targetDate || ''}
-                disabled={!draftGoal.targetDate}
-                onChange={(e) => setDraftGoal((prev) => ({ ...prev, targetDate: e.target.value }))}
-              />
-            </div>
-            <div className={`goal-modal-actions ${goal ? 'with-danger' : ''}`}>
-              <button type="button" className="btn-small" onClick={() => setTargetOpen(false)}>关闭</button>
-              {goal && <button type="button" className="btn-danger-soft" onClick={cancelCurrentGoal}>取消目标</button>}
-              <button type="button" className="btn-primary" onClick={saveGoal}>保存目标</button>
-            </div>
-          </div>
-        </div>
       )}
     </div>
   );

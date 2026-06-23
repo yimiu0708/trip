@@ -7,27 +7,24 @@ import {
   Edit3,
   Save,
   ChevronRight,
-  HelpCircle,
-  History,
-  MapPinned,
-  Settings,
-  Star,
-  Map,
+  Heart,
   MapPin,
-  Target,
+  Sparkles,
+  LogOut,
+  Lock,
+  Info,
+  Trophy,
   User,
-  X,
 } from 'lucide-react';
 import { api } from '../api/client';
 import { useAuth } from '../context/AuthContext';
 import AchievementBadge from '../components/AchievementBadge';
-import { archiveGoal, clearCurrentGoal, readCurrentGoal, readGoalHistory, type GoalHistoryEntry } from '../lib/goals';
+import type { PersonalityResult } from '../lib/personality';
 
 interface CommunityProfile {
   displayName: string;
   signature: string;
   location: string;
-  travelStyle: string;
   avatarDataUrl: string;
 }
 
@@ -65,6 +62,7 @@ interface Achievement {
   level: number | null;
   condition_desc: string;
   icon: string;
+  artwork_path?: string;
   badge_style: string;
   unlocked_at: string | null;
   unlock_count?: number;
@@ -72,6 +70,7 @@ interface Achievement {
   snapshot_total?: number | null;
   snapshot_percent?: number | null;
   is_current_max?: number | null;
+  is_equipped?: number;
 }
 
 const DEFAULT_SIGNATURE = '记录走过的地方，也记录想去的远方。';
@@ -79,18 +78,17 @@ const PROFILE_STORAGE_PREFIX = 'trip_community_profile_';
 
 export default function ProfilePage() {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
   const [editingProfile, setEditingProfile] = useState(false);
-  const [goalReviewOpen, setGoalReviewOpen] = useState(false);
   const [profileMessage, setProfileMessage] = useState('');
   const [progress, setProgress] = useState<ProfileProgress | null>(null);
   const [achievements, setAchievements] = useState<Achievement[]>([]);
-  const [goalHistory, setGoalHistory] = useState<GoalHistoryEntry[]>(() => readGoalHistory());
+  const [personality, setPersonality] = useState<PersonalityResult | null>(null);
+  const [profileNow] = useState(() => Date.now());
   const [communityProfile, setCommunityProfile] = useState<CommunityProfile>(() => ({
     displayName: '',
     signature: DEFAULT_SIGNATURE,
     location: '',
-    travelStyle: '山海探索者',
     avatarDataUrl: '',
   }));
   const [profileDraft, setProfileDraft] = useState<CommunityProfile>(communityProfile);
@@ -103,7 +101,6 @@ export default function ProfilePage() {
       displayName: user.username,
       signature: DEFAULT_SIGNATURE,
       location: '',
-      travelStyle: '山海探索者',
       avatarDataUrl: '',
     };
     const raw = localStorage.getItem(`${PROFILE_STORAGE_PREFIX}${user.id}`);
@@ -128,23 +125,13 @@ export default function ProfilePage() {
     Promise.all([
       api.user.progress(),
       api.achievements.mine().catch(() => []),
+      api.personality.mine().catch(() => ({ hasResult: false })),
     ])
-      .then(([profileProgress, achievements]) => {
+      .then(([profileProgress, achievements, personalityResult]) => {
         if (ignore) return;
-        const activeGoal = readCurrentGoal();
-        if (activeGoal) {
-          const provinceProgress = (profileProgress.provinceBreakdown || []).find((item: ProvinceProgress) => item.id === activeGoal.provinceId);
-          const goalProgress = provinceProgress && provinceProgress.total_count > 0
-            ? Math.round((provinceProgress.lit_count / provinceProgress.total_count) * 100)
-            : 0;
-          if (goalProgress >= activeGoal.targetProgress) {
-            archiveGoal(activeGoal, goalProgress);
-            clearCurrentGoal();
-          }
-        }
         setProgress(profileProgress);
         setAchievements(Array.isArray(achievements) ? achievements : []);
-        setGoalHistory(readGoalHistory());
+        setPersonality(personalityResult.hasResult ? personalityResult : null);
       })
       .catch(() => {
         if (!ignore) setProgress(null);
@@ -159,19 +146,17 @@ export default function ProfilePage() {
   const passportNo = String(user?.id || 0).padStart(4, '0');
   const profileSignature = communityProfile.signature.trim() || DEFAULT_SIGNATURE;
   const profileLocation = communityProfile.location.trim() || '待盖章';
-  const profileStyle = communityProfile.travelStyle.trim() || '山海探索者';
   const litAttractions = progress?.attractionStats?.lit_attractions || 0;
   const totalAttractions = progress?.attractionStats?.total_attractions || 0;
   const attractionRate = totalAttractions > 0 ? Math.round((litAttractions / totalAttractions) * 100) : 0;
-  const provinceProgress = progress?.provinceBreakdown || [];
   const recentBadges = [...achievements]
     .filter((achievement) => achievement.unlocked_at)
     .sort((a, b) => String(b.unlocked_at).localeCompare(String(a.unlocked_at)))
-    .slice(0, 4);
-  const goalHistoryViews = goalHistory
-    .filter((goal) => goal.achievedAt)
-    .slice(0, 8)
-    .map((goal) => buildGoalView(goal, provinceProgress));
+    .slice(0, 3);
+  const equippedBadge = achievements.find((achievement) => achievement.is_equipped);
+  const joinedDays = user?.created_at
+    ? Math.max(1, Math.floor((profileNow - new Date(user.created_at).getTime()) / 86400000) + 1)
+    : 1;
 
   const handleAvatarChange = (file?: File) => {
     if (!file) return;
@@ -198,7 +183,6 @@ export default function ProfilePage() {
       displayName: profileDraft.displayName.trim() || user?.username || '旅行者',
       signature: profileDraft.signature.trim() || DEFAULT_SIGNATURE,
       location: profileDraft.location.trim(),
-      travelStyle: profileDraft.travelStyle.trim() || '山海探索者',
     };
     setCommunityProfile(normalized);
     setProfileDraft(normalized);
@@ -217,11 +201,6 @@ export default function ProfilePage() {
   const showComingSoon = (text: string) => {
     setProfileMessage(text);
     setTimeout(() => setProfileMessage(''), 1800);
-  };
-
-  const openGoalReview = () => {
-    setGoalHistory(readGoalHistory());
-    setGoalReviewOpen(true);
   };
 
   return (
@@ -270,12 +249,14 @@ export default function ProfilePage() {
               </button>
             </div>
             <p>{profileSignature}</p>
+            <small>加入识界第 {joinedDays} 天</small>
           </div>
         </div>
 
-        <div className="profile-v3-chips" aria-label="个人旅行标签">
+        <div className="profile-v3-chips" aria-label="个人信息">
           <span><MapPin size={13} aria-hidden="true" />{profileLocation}</span>
-          <span><Compass size={13} aria-hidden="true" />{profileStyle}</span>
+          <span className="profile-personality-chip"><Compass size={13} aria-hidden="true" />旅行人格：{personality ? `${personality.typeCode} ${personality.typeName}` : '待发现'}</span>
+          {equippedBadge?.artwork_path && <span className="profile-equipped-badge" title={`已佩戴：${equippedBadge.display_name || equippedBadge.name}`}><img src={equippedBadge.artwork_path} alt="" />已佩戴</span>}
         </div>
 
         <div className="profile-v3-progress">
@@ -289,30 +270,10 @@ export default function ProfilePage() {
         </div>
       </section>
 
-      <section className="profile-v3-goal-panel" aria-label="目标回顾">
-        <button type="button" className="profile-v3-goal-entry" onClick={openGoalReview}>
-          <span className="profile-v3-goal-icon"><Target size={22} aria-hidden="true" /></span>
-          <span className="profile-v3-goal-copy">
-            <strong>目标回顾</strong>
-            <em>
-              {goalHistoryViews[0]
-                ? `最近达成：${goalHistoryViews[0].provinceName} ${goalHistoryViews[0].targetProgress}%`
-                : '查看已达成目标记录'}
-            </em>
-          </span>
-          <ChevronRight size={19} aria-hidden="true" />
-        </button>
-      </section>
-
-      <section className="profile-v3-recall-panel" aria-label="继续补录足迹">
-        <button type="button" className="profile-v3-goal-entry profile-v3-recall-entry" onClick={() => navigate('/recall/cities')}>
-          <span className="profile-v3-goal-icon"><MapPinned size={22} aria-hidden="true" /></span>
-          <span className="profile-v3-goal-copy">
-            <strong>继续补录足迹</strong>
-            <em>从记得的城市开始，补回去过的景区</em>
-          </span>
-          <ChevronRight size={19} aria-hidden="true" />
-        </button>
+      <section className="profile-v3-core-actions" aria-label="旅行功能">
+        <button type="button" onClick={() => navigate('/achievements')}><span><Trophy size={21} /></span><strong>成就中心</strong></button>
+        <button type="button" className="personality" onClick={() => navigate(personality ? '/personality/result' : '/personality/test')}><span><Sparkles size={21} /></span><strong>旅行人格</strong><em>{personality ? personality.typeCode : '待发现'}</em></button>
+        <button type="button" className="favorites" onClick={() => navigate('/favorites')}><span><Heart size={21} /></span><strong>我的收藏</strong></button>
       </section>
 
       <section className="profile-v3-recent-badges" aria-label="最近获得的徽章">
@@ -332,73 +293,29 @@ export default function ProfilePage() {
             ))}
           </div>
         ) : (
-          <div className="profile-v3-empty-panel">点亮景点后，最近获得的徽章会出现在这里</div>
+          <div className="profile-v3-empty-panel"><strong>还没有解锁成就</strong><span>去点亮第一个足迹，开启你的识界旅程</span></div>
         )}
       </section>
 
       <section className="profile-v3-menu" aria-label="我的功能">
-        <button type="button" className="profile-v3-menu-item" onClick={() => showComingSoon('收藏功能开发中')}>
-          <span><Star size={20} aria-hidden="true" /></span>
-          <strong>我的收藏</strong>
+        <button type="button" className="profile-v3-menu-item" onClick={() => showComingSoon('修改密码功能即将开放')}>
+          <span><Lock size={20} aria-hidden="true" /></span>
+          <strong>修改密码</strong>
           <ChevronRight size={18} aria-hidden="true" />
         </button>
-        <button type="button" className="profile-v3-menu-item" onClick={() => showComingSoon('离线地图开发中')}>
-          <span><Map size={20} aria-hidden="true" /></span>
-          <strong>离线地图</strong>
+        <button type="button" className="profile-v3-menu-item" onClick={() => showComingSoon('识界 V0.3 · 用足迹认识世界，也认识自己')}>
+          <span><Info size={20} aria-hidden="true" /></span>
+          <strong>关于识界</strong>
           <ChevronRight size={18} aria-hidden="true" />
         </button>
-        <button type="button" className="profile-v3-menu-item" onClick={() => showComingSoon('设置功能开发中')}>
-          <span><Settings size={20} aria-hidden="true" /></span>
-          <strong>设置</strong>
-          <ChevronRight size={18} aria-hidden="true" />
-        </button>
-        <button type="button" className="profile-v3-menu-item" onClick={() => showComingSoon('帮助与反馈开发中')}>
-          <span><HelpCircle size={20} aria-hidden="true" /></span>
-          <strong>帮助与反馈</strong>
+        <button type="button" className="profile-v3-menu-item danger" onClick={() => { logout(); navigate('/login'); }}>
+          <span><LogOut size={20} aria-hidden="true" /></span>
+          <strong>退出登录</strong>
           <ChevronRight size={18} aria-hidden="true" />
         </button>
       </section>
 
       {!editingProfile && profileMessage && <div className="toast">{profileMessage}</div>}
-
-      {goalReviewOpen && (
-        <div className="modal-overlay profile-goal-review-overlay" onClick={() => setGoalReviewOpen(false)}>
-          <div className="modal-content profile-goal-review" onClick={(event) => event.stopPropagation()}>
-            <div className="profile-goal-review-head">
-              <div>
-                <span><History size={15} aria-hidden="true" />目标历史</span>
-                <h2>达成情况</h2>
-              </div>
-              <button
-                type="button"
-                className="profile-v3-icon-btn"
-                onClick={() => setGoalReviewOpen(false)}
-                aria-label="关闭目标回顾"
-                title="关闭"
-              >
-                <X size={16} aria-hidden="true" />
-              </button>
-            </div>
-
-            <div className="profile-goal-history-head">
-              <span>已达成目标</span>
-              <em>{goalHistoryViews.length} 条</em>
-            </div>
-            {goalHistoryViews.length ? (
-              <div className="profile-goal-history-list">
-                {goalHistoryViews.map((goal) => (
-                  <GoalReviewCard key={goal.id} goal={goal} />
-                ))}
-              </div>
-            ) : (
-              <div className="profile-goal-empty">
-                <Target size={22} aria-hidden="true" />
-                <span>达成目标后，会自动记录在这里</span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
 
       {/* 编辑资料弹窗 */}
       {editingProfile && (
@@ -443,7 +360,7 @@ export default function ProfilePage() {
                     placeholder="写一句你想被记住的话"
                   />
                 </label>
-                <div className="profile-form-row">
+                <div className="profile-form-row single">
                   <label>
                     所在地
                     <input
@@ -451,15 +368,6 @@ export default function ProfilePage() {
                       maxLength={24}
                       onChange={(event) => setProfileDraft((prev) => ({ ...prev, location: event.target.value }))}
                       placeholder="例如：上海"
-                    />
-                  </label>
-                  <label>
-                    旅行标签
-                    <input
-                      value={profileDraft.travelStyle}
-                      maxLength={24}
-                      onChange={(event) => setProfileDraft((prev) => ({ ...prev, travelStyle: event.target.value }))}
-                      placeholder="例如：古镇收藏家"
                     />
                   </label>
                 </div>
@@ -478,66 +386,4 @@ export default function ProfilePage() {
       )}
     </div>
   );
-}
-
-interface GoalView {
-  id: string;
-  provinceName: string;
-  targetProgress: number;
-  progress: number;
-  targetDate?: string;
-  archivedAt?: string;
-  status: 'achieved' | 'active' | 'missed';
-  statusLabel: string;
-}
-
-function GoalReviewCard({ goal, featured = false }: { goal: GoalView; featured?: boolean }) {
-  return (
-    <article className={`profile-goal-card ${featured ? 'featured' : ''} ${goal.status}`}>
-      <div className="profile-goal-card-top">
-        <div>
-          <span>{featured ? '当前目标' : formatShortDate(goal.archivedAt || '')}</span>
-          <strong>{goal.provinceName}</strong>
-        </div>
-        <em>{goal.statusLabel}</em>
-      </div>
-      <div className="profile-goal-bar" aria-hidden="true">
-        <span style={{ width: `${Math.min(100, goal.progress)}%` }} />
-        <i style={{ left: `${Math.min(100, goal.targetProgress)}%` }} />
-      </div>
-      <div className="profile-goal-card-foot">
-        <span>{goal.progress}% / {goal.targetProgress}%</span>
-        <span>{goal.targetDate ? `截止 ${formatShortDate(goal.targetDate)}` : '不限时间'}</span>
-      </div>
-    </article>
-  );
-}
-
-function buildGoalView(goal: GoalHistoryEntry, provinceProgress: ProvinceProgress[]): GoalView {
-  const province = provinceProgress.find((item) => item.id === goal.provinceId);
-  const currentProgress = province && province.total_count > 0
-    ? Math.round((province.lit_count / province.total_count) * 100)
-    : 0;
-  const progress = goal.progressAtArchive !== undefined
-    ? goal.progressAtArchive
-    : currentProgress;
-  const achieved = progress >= goal.targetProgress;
-
-  return {
-    id: goal.id,
-    provinceName: province?.name || `省份 #${goal.provinceId}`,
-    targetProgress: goal.targetProgress,
-    targetDate: goal.targetDate,
-    archivedAt: goal.achievedAt || goal.archivedAt,
-    progress,
-    status: achieved ? 'achieved' : 'active',
-    statusLabel: achieved ? '已达成' : '已记录',
-  };
-}
-
-function formatShortDate(value: string) {
-  if (!value) return '';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return value;
-  return `${date.getFullYear()}.${String(date.getMonth() + 1).padStart(2, '0')}.${String(date.getDate()).padStart(2, '0')}`;
 }

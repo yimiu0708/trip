@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useState } from 'react';
 import { Map, Backpack, Medal, User, Share2, Search } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
@@ -7,9 +7,8 @@ import SharePosterModal from './SharePosterModal';
 import AttractionSearchModal from './AttractionSearchModal';
 
 export default function Navbar() {
-  const { user, isAdmin, logout } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [showPwdForm, setShowPwdForm] = useState(false);
   const [oldPwd, setOldPwd] = useState('');
@@ -89,7 +88,6 @@ export default function Navbar() {
                       <button onClick={handleChangePassword}>保存</button>
                     </div>
                   )}
-                  {isAdmin && <button onClick={() => { setMenuOpen(false); navigate('/admin'); }}>后台管理</button>}
                   <button onClick={() => { setMenuOpen(false); logout(); }}>退出登录</button>
                 </div>
               )}

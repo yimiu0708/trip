@@ -19,6 +19,19 @@ async function request(path: string, options: RequestInit = {}) {
   return data;
 }
 
+function tracked<T>(promise: Promise<T>, eventName: string, properties: Record<string, unknown> = {}) {
+  return promise.then((result) => {
+    void request('/events/track', { method: 'POST', body: JSON.stringify({ eventName, page: window.location.pathname, source: 'app', clientType: 'web', eventTime: new Date().toISOString(), properties }) }).catch(() => undefined);
+    const unlocked = (result as any)?.newAchievements;
+    if (Array.isArray(unlocked)) {
+      unlocked.forEach((achievement: any) => {
+        void request('/events/track', { method: 'POST', body: JSON.stringify({ eventName: 'achievement_unlock', page: window.location.pathname, source: 'app', clientType: 'web', eventTime: new Date().toISOString(), properties: { achievementId: achievement.id, achievementName: achievement.name } }) }).catch(() => undefined);
+      });
+    }
+    return result;
+  });
+}
+
 export const api = {
   auth: {
     register: (username: string, password: string) =>
@@ -27,7 +40,10 @@ export const api = {
       request('/auth/login', { method: 'POST', body: JSON.stringify({ username, password }) }),
     me: () => request('/auth/me'),
     changePassword: (oldPassword: string, newPassword: string) =>
-      request('/auth/password', { method: 'PUT', body: JSON.stringify({ oldPassword, newPassword }) }),
+      request('/auth/password', { method: 'PUT', body: JSON.stringify({ oldPassword, newPassword }) }).then((data) => {
+        if (data.token) localStorage.setItem('trip_token', data.token);
+        return data;
+      }),
   },
   provinces: {
     list: () => request('/provinces'),
@@ -42,11 +58,15 @@ export const api = {
       if (params?.q) qs.set('q', params.q);
       return request(`/attractions?${qs.toString()}`);
     },
-    lit: (id: number, lit_at?: string) =>
+    lit: (id: number, lit_at?: string) => tracked(
       request(`/attractions/${id}/lit`, { method: 'POST', body: JSON.stringify({ lit_at }) }),
+      'lighting_submit', { attractionId: id, mode: 'single' },
+    ),
     unlit: (id: number) => request(`/attractions/${id}/lit`, { method: 'DELETE' }),
-    batchLit: (ids: number[], lit_at?: string) =>
+    batchLit: (ids: number[], lit_at?: string) => tracked(
       request('/attractions/batch/lit', { method: 'POST', body: JSON.stringify({ ids, lit_at }) }),
+      'lighting_submit', { count: ids.length, mode: 'batch' },
+    ),
   },
   categories: {
     list: () => request('/categories'),
@@ -54,6 +74,32 @@ export const api = {
   achievements: {
     list: () => request('/achievements'),
     mine: () => request('/achievements/mine'),
+    equip: (achievementId: number) => request('/achievements/equipped', { method: 'PUT', body: JSON.stringify({ achievementId }) }),
+    unequip: () => request('/achievements/equipped', { method: 'DELETE' }),
+  },
+  favorites: {
+    list: (params?: { targetType?: string; status?: string; sort?: string }) => {
+      const qs = new URLSearchParams();
+      if (params?.targetType) qs.set('targetType', params.targetType);
+      if (params?.status) qs.set('status', params.status);
+      if (params?.sort) qs.set('sort', params.sort);
+      return request(`/favorites?${qs.toString()}`);
+    },
+    keys: () => request('/favorites/keys'),
+    add: (targetType: 'city' | 'attraction', targetId: number, source = 'manual') => tracked(
+      request('/favorites', { method: 'POST', body: JSON.stringify({ targetType, targetId, source }) }),
+      'favorite_add', { targetType, targetId, source },
+    ),
+    remove: (id: number) => tracked(request(`/favorites/${id}`, { method: 'DELETE' }), 'favorite_remove', { favoriteId: id }),
+  },
+  recommendations: {
+    nextTrip: (params?: { source?: string; limit?: number; cityIds?: number[] }) => {
+      const qs = new URLSearchParams();
+      if (params?.source) qs.set('source', params.source);
+      if (params?.limit) qs.set('limit', String(params.limit));
+      if (params?.cityIds?.length) qs.set('cityIds', params.cityIds.join(','));
+      return request(`/recommendations/next-trip?${qs.toString()}`);
+    },
   },
   recall: {
     hotCities: (limit?: number) => {
@@ -99,14 +145,26 @@ export const api = {
   user: {
     progress: () => request('/user/progress'),
     litList: () => request('/user/lit-list'),
+    nextGoal: () => request('/user/next-goal'),
+    lightingRecommendations: (params?: { source?: string; limit?: number; cityIds?: number[] }) => {
+      const qs = new URLSearchParams();
+      if (params?.source) qs.set('source', params.source);
+      if (params?.limit) qs.set('limit', String(params.limit));
+      if (params?.cityIds?.length) qs.set('cityIds', params.cityIds.join(','));
+      return request(`/user/lighting-recommendations?${qs.toString()}`);
+    },
+    regionProgress: () => request('/user/region-progress'),
   },
-  admin: {
-    users: () => request('/admin/users'),
-    updatePassword: (userId: number, newPassword: string) =>
-      request(`/admin/users/${userId}/password`, { method: 'PUT', body: JSON.stringify({ newPassword }) }),
-    deleteUser: (userId: number) => request(`/admin/users/${userId}`, { method: 'DELETE' }),
-    settings: () => request('/admin/settings'),
-    updateSettings: (settings: Record<string, string>) =>
-      request('/admin/settings', { method: 'PUT', body: JSON.stringify(settings) }),
+  personality: {
+    mine: () => request('/personality/mine'),
+    submit: (answers: Array<{ questionId: string; value: string }>) => tracked(
+      request('/personality/submit', { method: 'POST', body: JSON.stringify({ answers }) }),
+      'personality_test_submit',
+    ),
+    shareCard: () => tracked(request('/personality/share-card'), 'share_poster_generate', { shareType: 'personality_poster' }),
+  },
+  events: {
+    track: (eventName: string, properties: Record<string, unknown> = {}) =>
+      request('/events/track', { method: 'POST', body: JSON.stringify({ eventName, page: window.location.pathname, source: 'app', clientType: 'web', eventTime: new Date().toISOString(), properties }) }),
   },
 };

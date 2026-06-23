@@ -2,9 +2,10 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { getAchievementCatalog } from './utils/achievementCatalog.js';
+import { PERSONALITY_CATALOG } from './utils/personalityCatalog.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const dbPath = path.join(__dirname, '../data/database.sqlite');
+const dbPath = process.env.DATABASE_PATH || path.join(__dirname, '../data/database.sqlite');
 
 let db: Database.Database | null = null;
 
@@ -98,6 +99,37 @@ export function initDb() {
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 
+    CREATE TABLE IF NOT EXISTS user_favorites (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL,
+      target_type TEXT NOT NULL CHECK(target_type IN ('city', 'attraction')),
+      target_id INTEGER NOT NULL,
+      source TEXT NOT NULL DEFAULT 'manual',
+      first_favorited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      last_favorited_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      first_unlit_favorited_at TIMESTAMP,
+      deleted_at TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      UNIQUE(user_id, target_type, target_id)
+    );
+
+    CREATE TABLE IF NOT EXISTS travel_personality_results (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      user_id INTEGER NOT NULL UNIQUE,
+      type_code TEXT NOT NULL,
+      type_name TEXT NOT NULL,
+      dimension_decision TEXT NOT NULL,
+      dimension_pace TEXT NOT NULL,
+      dimension_interest TEXT NOT NULL,
+      dimension_social TEXT NOT NULL,
+      answers_json TEXT NOT NULL,
+      retest_count INTEGER DEFAULT 0,
+      share_count INTEGER DEFAULT 0,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    );
+
     CREATE TABLE IF NOT EXISTS achievements (
       id INTEGER PRIMARY KEY,
       name TEXT NOT NULL,
@@ -106,6 +138,7 @@ export function initDb() {
       condition_value INTEGER,
       condition_desc TEXT NOT NULL,
       icon TEXT,
+      artwork_path TEXT,
       badge_style TEXT
     );
 
@@ -127,8 +160,25 @@ export function initDb() {
     CREATE INDEX IF NOT EXISTS idx_attraction_tags_category ON attraction_tags(category_id);
     CREATE INDEX IF NOT EXISTS idx_cities_province ON cities(province_id);
     CREATE INDEX IF NOT EXISTS idx_user_attractions_user ON user_attractions(user_id);
+    CREATE INDEX IF NOT EXISTS idx_user_favorites_user_active ON user_favorites(user_id, deleted_at);
     CREATE INDEX IF NOT EXISTS idx_user_achievements_user ON user_achievements(user_id);
+    CREATE UNIQUE INDEX IF NOT EXISTS idx_travel_personality_user_id ON travel_personality_results(user_id);
   `);
+
+  for (const column of [
+    { name: 'retest_count', type: 'INTEGER DEFAULT 0' },
+    { name: 'share_count', type: 'INTEGER DEFAULT 0' },
+  ]) {
+    const exists = database.prepare("SELECT name FROM pragma_table_info('travel_personality_results') WHERE name = ?").get(column.name);
+    if (!exists) database.exec(`ALTER TABLE travel_personality_results ADD COLUMN ${column.name} ${column.type}`);
+  }
+  const syncPersonalityName = database.prepare(`
+    UPDATE travel_personality_results SET type_name = ? WHERE type_code = ? AND type_name <> ?
+  `);
+  const syncPersonalityTransaction = database.transaction(() => {
+    PERSONALITY_CATALOG.forEach((item) => syncPersonalityName.run(item.name, item.code, item.name));
+  });
+  syncPersonalityTransaction();
 
   // Migration: relax achievements.type CHECK constraint for V2 achievement lines.
   const achievementsSql = database.prepare(`
@@ -187,6 +237,10 @@ export function initDb() {
     }
   }
   database.exec('CREATE INDEX IF NOT EXISTS idx_user_achievements_achievement ON user_achievements(achievement_id)');
+  const hasArtworkPath = database.prepare("SELECT name FROM pragma_table_info('achievements') WHERE name = 'artwork_path'").get();
+  if (!hasArtworkPath) database.exec('ALTER TABLE achievements ADD COLUMN artwork_path TEXT');
+  const hasEquippedAchievement = database.prepare("SELECT name FROM pragma_table_info('users') WHERE name = 'equipped_achievement_id'").get();
+  if (!hasEquippedAchievement) database.exec('ALTER TABLE users ADD COLUMN equipped_achievement_id INTEGER');
   syncAchievementCatalog(database);
 
   // Migration: add role column if not exists
@@ -463,8 +517,8 @@ function makeAttractionCityIdRequired(database: Database.Database) {
 function syncAchievementCatalog(database: Database.Database) {
   const catalog = getAchievementCatalog();
   const upsertAchievement = database.prepare(`
-    INSERT INTO achievements (id, name, type, level, condition_value, condition_desc, icon, badge_style)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    INSERT INTO achievements (id, name, type, level, condition_value, condition_desc, icon, artwork_path, badge_style)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
     ON CONFLICT(id) DO UPDATE SET
       name = excluded.name,
       type = excluded.type,
@@ -472,6 +526,7 @@ function syncAchievementCatalog(database: Database.Database) {
       condition_value = excluded.condition_value,
       condition_desc = excluded.condition_desc,
       icon = excluded.icon,
+      artwork_path = excluded.artwork_path,
       badge_style = excluded.badge_style
   `);
 
@@ -485,6 +540,7 @@ function syncAchievementCatalog(database: Database.Database) {
         achievement.condition_value,
         achievement.condition_desc,
         achievement.icon,
+        achievement.artwork_path,
         achievement.badge_style,
       );
     }

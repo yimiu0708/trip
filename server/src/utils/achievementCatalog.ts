@@ -1,11 +1,12 @@
 export interface AchievementDefinition {
   id: number;
   name: string;
-  type: 'province' | 'city' | 'attraction' | 'category' | 'collector' | 'special';
+  type: 'province' | 'city' | 'attraction' | 'category' | 'collector' | 'special' | 'season' | 'region' | 'favorite';
   level: number | null;
   condition_value: number | null;
   condition_desc: string;
   icon: string;
+  artwork_path?: string;
   badge_style: string;
 }
 
@@ -94,6 +95,27 @@ export const COLLECTOR_ACHIEVEMENTS: AchievementDefinition[] = [
   { id: 504, name: '全图鉴收藏家', type: 'collector', level: 5, condition_value: null, condition_desc: '累计拥有全部已发布徽章', icon: '📜', badge_style: 'mythic' },
 ];
 
+export const SEASON_ACHIEVEMENTS: AchievementDefinition[] = [
+  { id: 600, name: '春日漫游家', type: 'season', level: null, condition_value: 3, condition_desc: 'spring', icon: '花', artwork_path: '/images/achievements/season-spring.webp', badge_style: 'special season spring' },
+  { id: 601, name: '盛夏追光者', type: 'season', level: null, condition_value: 3, condition_desc: 'summer', icon: '光', artwork_path: '/images/achievements/season-summer.webp', badge_style: 'special season summer' },
+  { id: 602, name: '秋色收藏家', type: 'season', level: null, condition_value: 3, condition_desc: 'autumn', icon: '叶', artwork_path: '/images/achievements/season-autumn.webp', badge_style: 'special season autumn' },
+  { id: 603, name: '冬日远行者', type: 'season', level: null, condition_value: 3, condition_desc: 'winter', icon: '雪', artwork_path: '/images/achievements/season-winter.webp', badge_style: 'special season winter' },
+  { id: 604, name: '四季旅人', type: 'season', level: null, condition_value: 4, condition_desc: 'all_seasons', icon: '季', artwork_path: '/images/achievements/season-all.webp', badge_style: 'special season all-seasons' },
+];
+
+export const REGION_ACHIEVEMENTS: AchievementDefinition[] = [
+  { id: 610, name: '初识八方', type: 'region', level: 1, condition_value: 1, condition_desc: '点亮1个片区', icon: '巡', artwork_path: '/images/achievements/region-explorer.webp', badge_style: 'bronze region' },
+  { id: 611, name: '跨区行者', type: 'region', level: 2, condition_value: 3, condition_desc: '点亮3个片区', icon: '巡', artwork_path: '/images/achievements/region-explorer.webp', badge_style: 'silver region' },
+  { id: 612, name: '山河纵览', type: 'region', level: 3, condition_value: 5, condition_desc: '点亮5个片区', icon: '巡', artwork_path: '/images/achievements/region-explorer.webp', badge_style: 'gold region' },
+  { id: 613, name: '八方点亮', type: 'region', level: 4, condition_value: 8, condition_desc: '点亮全部片区', icon: '巡', artwork_path: '/images/achievements/region-explorer.webp', badge_style: 'mythic region' },
+];
+
+export const FAVORITE_ACHIEVEMENTS: AchievementDefinition[] = [
+  { id: 620, name: '愿望清单', type: 'favorite', level: null, condition_value: 1, condition_desc: 'active_or_history', icon: '心', artwork_path: '/images/achievements/favorite-wishlist.webp', badge_style: 'special favorite' },
+  { id: 621, name: '出发前收藏家', type: 'favorite', level: null, condition_value: 5, condition_desc: 'active_unlit', icon: '藏', artwork_path: '/images/achievements/favorite-planner.webp', badge_style: 'special favorite' },
+  { id: 622, name: '从收藏到点亮', type: 'favorite', level: null, condition_value: 1, condition_desc: 'converted', icon: '亮', artwork_path: '/images/achievements/favorite-to-lit.webp', badge_style: 'special favorite' },
+];
+
 export const SPECIAL_ACHIEVEMENTS: AchievementDefinition[] = [
   { id: 101, name: '旅途起点', type: 'special', level: null, condition_value: null, condition_desc: 'first_lit', icon: '🔥', badge_style: 'special' },
   { id: 102, name: '七日新星', type: 'special', level: null, condition_value: null, condition_desc: '7days_10lit', icon: '☄️', badge_style: 'special' },
@@ -105,7 +127,31 @@ export const SPECIAL_ACHIEVEMENTS: AchievementDefinition[] = [
   { id: 109, name: '城市漫游者', type: 'special', level: null, condition_value: null, condition_desc: 'first_city', icon: '🏙️', badge_style: 'special' },
   { id: 110, name: '分类初探', type: 'special', level: null, condition_value: null, condition_desc: 'first_category', icon: '🔖', badge_style: 'special' },
   { id: 111, name: '上传先锋', type: 'special', level: null, condition_value: null, condition_desc: 'first_upload_approved', icon: '⬆️', badge_style: 'special' },
+  { id: 120, name: '发现另一个自己', type: 'special', level: null, condition_value: null, condition_desc: '完成首次旅行人格测试', icon: '🪞', badge_style: 'special personality' },
+  { id: 121, name: '人格名片', type: 'special', level: null, condition_value: null, condition_desc: '生成一次旅行人格分享海报', icon: '✨', badge_style: 'special personality' },
+  { id: 122, name: '重新认识自己', type: 'special', level: null, condition_value: null, condition_desc: '完成一次重新测试', icon: '🔄', badge_style: 'special personality' },
+  { id: 123, name: '山海本命', type: 'special', level: null, condition_value: null, condition_desc: '测试结果包含自然山海型', icon: '🌊', badge_style: 'special personality' },
+  { id: 124, name: '城市读者', type: 'special', level: null, condition_value: null, condition_desc: '测试结果包含人文城市型', icon: '📖', badge_style: 'special personality' },
+  { id: 125, name: '独行信号', type: 'special', level: null, condition_value: null, condition_desc: '测试结果包含独行自洽型', icon: '🧭', badge_style: 'special personality' },
+  { id: 126, name: '同行记忆', type: 'special', level: null, condition_value: null, condition_desc: '测试结果包含社交同行型', icon: '🤝', badge_style: 'special personality' },
 ];
+
+export const SPECIAL_CONDITION_DESCRIPTIONS: Record<string, string> = {
+  first_lit: '点亮任意1个景区',
+  '7days_10lit': '注册后7天内点亮10个景区',
+  night_7days: '连续7天在20:00后点亮景区',
+  full_category: '点亮任意一个分类下的全部景区',
+  full_province: '点亮任意一个省份的全部景区',
+  '1year_10lit': '加入识界满1年且点亮10个景区',
+  '30days_streak': '连续30天点亮景区',
+  first_city: '点亮任意1座城市中的景区',
+  first_category: '点亮任意1个分类景区',
+  first_upload_approved: '首次上传并通过审核1个景区',
+};
+
+export function getSpecialConditionDescription(condition: string): string {
+  return SPECIAL_CONDITION_DESCRIPTIONS[condition] || '完成对应彩蛋条件';
+}
 
 export function getAchievementCatalog(): AchievementDefinition[] {
   return [
@@ -114,8 +160,27 @@ export function getAchievementCatalog(): AchievementDefinition[] {
     ...ATTRACTION_ACHIEVEMENTS,
     ...buildCategoryAchievements(),
     ...COLLECTOR_ACHIEVEMENTS,
+    ...SEASON_ACHIEVEMENTS,
+    ...REGION_ACHIEVEMENTS,
+    ...FAVORITE_ACHIEVEMENTS,
     ...SPECIAL_ACHIEVEMENTS,
-  ];
+  ].map((achievement) => ({ ...achievement, artwork_path: achievement.artwork_path || getAchievementArtworkPath(achievement) }));
+}
+
+export function getAchievementArtworkPath(achievement: Pick<AchievementDefinition, 'id' | 'type' | 'condition_value'>): string {
+  const base = '/images/achievements/';
+  if (achievement.type === 'special') return `${base}special-${achievement.id}.webp`;
+  if (achievement.type === 'season') return `${base}season-all.webp`;
+  if (achievement.type === 'region') return `${base}region-explorer.webp`;
+  if (achievement.type === 'favorite') return `${base}favorite-wishlist.webp`;
+  if (achievement.type === 'category') {
+    const names: Record<number, string> = {
+      1: 'humanities', 2: 'water', 3: 'mountain', 4: 'geology', 5: 'forest', 6: 'urban',
+      7: 'pilgrimage', 8: 'play', 9: 'ancient-town', 10: 'heritage', 11: 'museum',
+    };
+    return `${base}skill-${names[Number(achievement.condition_value)] || 'humanities'}.webp`;
+  }
+  return `${base}series-${achievement.type}.webp`;
 }
 
 export function getCategoryThreshold(total: number, level: number): number {
@@ -140,4 +205,15 @@ export function getAchievementFamily(achievement: Pick<AchievementDefinition, 'i
   if (achievement.type === 'category') return `category:${achievement.condition_value}`;
   if (achievement.type === 'special') return `special:${achievement.id}`;
   return achievement.type;
+}
+
+export function getAchievementGrouping(achievement: Pick<AchievementDefinition, 'type' | 'badge_style'>) {
+  if (['province', 'city', 'attraction', 'region'].includes(achievement.type)) {
+    return { group_key: 'footprintMap', subgroup_key: achievement.type };
+  }
+  if (achievement.type === 'category') return { group_key: 'skillTree', subgroup_key: 'skills' };
+  if (achievement.type === 'season') return { group_key: 'easterEggHunter', subgroup_key: 'fourSeasonTraveler' };
+  if (achievement.type === 'collector' || achievement.type === 'favorite') return { group_key: 'easterEggHunter', subgroup_key: 'collector' };
+  if (achievement.badge_style.includes('personality')) return { group_key: 'easterEggHunter', subgroup_key: 'personality' };
+  return { group_key: 'easterEggHunter', subgroup_key: 'special' };
 }

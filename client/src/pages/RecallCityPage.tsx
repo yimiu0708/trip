@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Check, ChevronRight, Search, X } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Check, ChevronRight, Map as MapIcon, Search, Sparkles, X } from 'lucide-react';
 import { api } from '../api/client';
 import { useRecall, type RecallCity } from '../context/RecallContext';
 import { trackRecallEvent } from '../lib/analytics';
@@ -17,6 +17,7 @@ type CityBrowseMode = 'hot' | 'province';
 
 export default function RecallCityPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { selectedCities, toggleCity, removeCity } = useRecall();
   const [query, setQuery] = useState('');
   const [browseMode, setBrowseMode] = useState<CityBrowseMode>('hot');
@@ -33,6 +34,11 @@ export default function RecallCityPage() {
 
   const trimmedQuery = useMemo(() => query.trim(), [query]);
   const selectedCityIds = useMemo(() => new Set(selectedCities.map((city) => city.id)), [selectedCities]);
+
+  useEffect(() => {
+    trackRecallEvent('recall_city_view', { source: location.pathname === '/recall' ? 'onboarding' : 'return' });
+    void api.recall.updateGuide('seen').catch(() => undefined);
+  }, [location.pathname]);
 
   useEffect(() => {
     let ignore = false;
@@ -129,15 +135,33 @@ export default function RecallCityPage() {
     trackRecallEvent('recall_city_next_click', {
       selected_city_count: selectedCities.length,
     });
-    navigate('/recall/confirm');
+    navigate(`/recall/confirm${location.search}`);
+  };
+
+  const skipToMap = async () => {
+    trackRecallEvent('recall_city_exit_click', { selected_city_count: selectedCities.length });
+    try {
+      await api.recall.updateGuide('skipped');
+    } catch {
+      // 引导状态不影响用户先查看地图。
+    }
+    navigate('/map', { replace: true });
   };
 
   return (
     <div className="recall-page recall-city-page">
+      <section className="recall-city-welcome" aria-label="首次点亮引导">
+        <span className="recall-city-welcome-icon"><Sparkles size={19} aria-hidden="true" /></span>
+        <div>
+          <strong>先从 1-3 座熟悉的城市开始</strong>
+          <p>不用一次补完。选好城市后，再勾选真正去过的景区。</p>
+        </div>
+        <button type="button" onClick={skipToMap}><MapIcon size={16} aria-hidden="true" />先看地图</button>
+      </section>
       <section className="recall-city-tools" aria-label="查找城市">
         <div className="recall-city-search-head">
           <h2>从哪座城市开始？</h2>
-          <span>{trimmedQuery ? `${searchResults.length} 个结果` : '最多选择 20 个'}</span>
+          <span>{trimmedQuery ? `${searchResults.length} 个结果` : '可多选，最多 20 个'}</span>
         </div>
         <label className="recall-search" aria-label="搜索城市">
           <Search size={18} aria-hidden="true" />
@@ -257,7 +281,7 @@ export default function RecallCityPage() {
           disabled={selectedCities.length === 0}
           onClick={goNext}
         >
-          下一步 · 确认景区
+          继续选择景区
           <ChevronRight size={18} aria-hidden="true" />
         </button>
       </div>

@@ -1,3 +1,5 @@
+import { api } from '../api/client';
+
 type AnalyticsPayload = Record<string, string | number | boolean | null | undefined>;
 
 const ANALYTICS_STORAGE_KEY = 'trip_analytics_events';
@@ -24,6 +26,8 @@ export function trackEvent(name: string, payload: AnalyticsPayload = {}) {
   if (import.meta.env.DEV) {
     console.info('[analytics]', name, payload);
   }
+
+  void api.events.track(name, payload).catch(() => undefined);
 }
 
 export function trackRecallEvent(name: string, payload: AnalyticsPayload = {}) {
